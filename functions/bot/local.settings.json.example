@@ -1,0 +1,20 @@
+{
+  "IsEncrypted": false,
+  "Values": {
+    "AzureWebJobsStorage": "UseDevelopmentStorage=true",
+    "FUNCTIONS_WORKER_RUNTIME": "python",
+    "BOT_NAME": "momentum_gemini",
+    "BOT_STRATEGY_PROMPT": "You are a momentum (trend-following) trader...",
+    "BOT_STRATEGY_KEY": "momentum",
+    "BOT_TICKERS": "AAPL,MSFT,NVDA",
+    "BOT_STARTING_CASH": "100000",
+    "BOT_LLM_PROVIDER": "gemini",
+    "BOT_LLM_MODEL": "gemini-2.0-flash",
+    "FINNHUB_API_KEY": "your-finnhub-key-here",
+    "GEMINI_API_KEY": "your-gemini-key-here",
+    "GROQ_API_KEY": "your-groq-key-here",
+    "COSMOS_ENDPOINT": "https://your-cosmos-account.documents.azure.com:443/",
+    "COSMOS_KEY": "your-cosmos-key-here",
+    "WEBPUBSUB_CONNECTION_STRING": "Endpoint=https://your-wps.webpubsub.azure.com;AccessKey=your-key;Version=1.0;"
+  }
+}

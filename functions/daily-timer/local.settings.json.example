@@ -1,0 +1,9 @@
+{
+  "IsEncrypted": false,
+  "Values": {
+    "AzureWebJobsStorage": "UseDevelopmentStorage=true",
+    "FUNCTIONS_WORKER_RUNTIME": "python",
+    "EVENTGRID_TOPIC_ENDPOINT": "https://your-topic.region-1.eventgrid.azure.net/api/events",
+    "EVENTGRID_TOPIC_KEY": "your-topic-key-here"
+  }
+}

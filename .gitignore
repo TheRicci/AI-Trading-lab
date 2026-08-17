@@ -1,0 +1,22 @@
+# Terraform
+**/.terraform/*
+*.tfstate
+*.tfstate.*
+*.tfvars
+!*.tfvars.example
+.terraform.lock.hcl
+crash.log
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+venv/
+
+# Azure Functions
+local.settings.json
+bin/
+obj/
+
+# OS
+.DS_Store
