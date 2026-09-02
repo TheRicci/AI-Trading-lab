@@ -164,3 +164,53 @@ body {
   padding-left: 20px;
   margin-left:  2px;
 }
+
+/* ── Distinct bot identities + refined chart surface ─────────────────────── */
+body {
+  background:
+    radial-gradient(circle at 82% -10%, rgba(139,141,255,0.10), transparent 28rem),
+    radial-gradient(circle at 2% 20%, rgba(45,212,191,0.055), transparent 24rem),
+    #0a0a0d;
+}
+.card { box-shadow: 0 12px 32px rgba(0,0,0,0.12); }
+.bot-card { border-left: 3px solid #38384a; }
+.chart-shell { background: linear-gradient(145deg, rgba(24,24,31,0.96), rgba(17,17,22,0.98)); }
+.chart-legend-item { display:flex; align-items:center; gap:5px; font-family:var(--font-mono); font-size:9px; color:#9898a8; text-transform:uppercase; }
+.chart-legend-item strong { font-weight:500; }
+.chart-legend-dot { width:6px; height:6px; border-radius:999px; box-shadow:0 0 10px currentColor; }
+
+/* ── Analysis archive ───────────────────────────────────────────────────── */
+.analysis-hero { display:flex; align-items:flex-end; justify-content:space-between; gap:2rem; padding:1.25rem 0 1.6rem; border-bottom:1px solid #252530; }
+.analysis-title { font-size:clamp(1.65rem, 3vw, 2.3rem); line-height:1.05; letter-spacing:-0.045em; font-weight:600; color:#f0f0f2; }
+.analysis-date-mark { min-width:168px; border-left:2px solid #8b8dff; padding:0.1rem 0 0.1rem 0.8rem; font-family:var(--font-mono); text-transform:uppercase; }
+.analysis-date-mark span { display:block; font-size:9px; letter-spacing:0.12em; color:#4e4e5e; }
+.analysis-date-mark strong { display:block; margin-top:4px; color:#dadae5; font-size:11px; letter-spacing:0.03em; font-weight:500; }
+.report-archive { display:flex; align-items:center; gap:1rem; padding:0.7rem 0.85rem; border:1px solid #252530; border-radius:10px; background:rgba(17,17,22,0.76); overflow:hidden; }
+.report-archive-label { flex:0 0 auto; font-family:var(--font-mono); font-size:9px; letter-spacing:0.12em; color:#4e4e5e; text-transform:uppercase; }
+.report-date-list { display:flex; align-items:center; gap:0.35rem; overflow-x:auto; padding-bottom:1px; scrollbar-width:none; }
+.report-date-list::-webkit-scrollbar { display:none; }
+.report-date { display:flex; align-items:center; gap:0.42rem; padding:0.44rem 0.58rem; white-space:nowrap; border:1px solid transparent; border-radius:6px; font-family:var(--font-mono); font-size:10px; color:#9898a8; transition:all 150ms ease; }
+.report-date:hover { color:#f0f0f2; background:#18181f; }
+.report-date small { color:#4e4e5e; font-size:9px; }
+.report-date-active { color:#e8e8f1; border-color:rgba(139,141,255,0.42); background:rgba(139,141,255,0.11); }
+.report-date-active small { color:#b9baff; }
+.report-summary { background:linear-gradient(115deg, rgba(23,23,30,0.98), rgba(17,17,22,0.98)); }
+.outcome-panel { margin-top:1rem; padding:0.75rem 0.8rem 0.65rem; border:1px solid rgba(56,56,74,0.8); border-radius:7px; background:rgba(10,10,13,0.5); }
+.outcome-kicker { font-family:var(--font-mono); font-size:9px; color:#4e4e5e; letter-spacing:0.1em; text-transform:uppercase; }
+.outcome-return { margin-top:2px; font-family:var(--font-mono); font-size:18px; font-weight:600; line-height:1; }
+.outcome-verdict { padding:0.26rem 0.4rem; border-radius:4px; background:rgba(45,212,191,0.10); color:#66e2ce; font-family:var(--font-mono); font-size:9px; letter-spacing:0.05em; text-transform:uppercase; }
+.outcome-verdict-wrong { background:rgba(240,82,82,0.10); color:#f57b7b; }
+.outcome-tooltip { border:1px solid #38384a; border-radius:4px; background:#17171d; padding:0.25rem 0.4rem; color:#d7d7e0; font-family:var(--font-mono); font-size:9px; }
+.outcome-progress { height:1px; width:100%; margin-top:20px; opacity:0.8; }
+.outcome-empty { margin-top:1rem; padding:0.65rem 0; border-top:1px solid #252530; font-family:var(--font-mono); font-size:9px; color:#4e4e5e; }
+@media (max-width: 640px) { .analysis-hero { align-items:flex-start; flex-direction:column; gap:1rem; } .report-archive { align-items:flex-start; flex-direction:column; gap:0.4rem; } .report-date-list { width:100%; } }
+
+/* Lightweight Charts comparison controls */
+.chart-style-switch { display:flex; gap:3px; max-width:100%; overflow-x:auto; padding:3px; border:1px solid #292936; border-radius:8px; background:#0d0d12; scrollbar-width:none; }
+.chart-style-switch::-webkit-scrollbar { display:none; }
+.chart-style-button { flex:0 0 auto; padding:0.38rem 0.55rem; border:1px solid transparent; border-radius:5px; text-align:left; font-family:var(--font-mono); color:#737383; transition:background 150ms ease, color 150ms ease, border-color 150ms ease; }
+.chart-style-button span { display:block; font-size:9px; letter-spacing:0.04em; }
+.chart-style-button small { display:block; margin-top:2px; font-size:8px; color:#4e4e5e; }
+.chart-style-button:hover { background:#18181f; color:#c7c7d2; }
+.chart-style-active { border-color:rgba(139,141,255,0.40); background:rgba(139,141,255,0.11); color:#e0e0fb; }
+.chart-style-active small { color:#aaaaf0; }

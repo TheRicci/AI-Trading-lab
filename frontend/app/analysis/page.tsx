@@ -1,125 +1,53 @@
-import { getAnalysis } from "@/lib/api";
+import Link from "next/link";
+import { getAnalysis, getAnalysisDates, getAnalysisOutcomes } from "@/lib/api";
 import { IdeaCard } from "@/components/IdeaCard";
 
 export const dynamic = "force-dynamic";
 
-export default async function AnalysisPage() {
-  let report;
+const formatDate = (date: string, year = false) => new Date(`${date}T12:00:00`).toLocaleDateString(undefined, year ? { month: "short", day: "numeric", year: "numeric" } : { month: "short", day: "numeric" });
 
+export default async function AnalysisPage({ searchParams }: { searchParams: Promise<{ date?: string, model?: string }> }) {
+  const { date: requestedDate, model: requestedModel } = await searchParams;
   try {
-    report = await getAnalysis();
-  } catch (err) {
-    return (
-      <div className="card p-8">
-        <div className="section-head mb-4"><span className="overline">Daily Analysis</span></div>
-        <p className="font-mono text-[11px] text-dim">
-          {err instanceof Error ? err.message : "Couldn't load today's analysis."}
-        </p>
-      </div>
-    );
-  }
+    const dates = await getAnalysisDates();
+    if (!dates.length) return <div className="card p-8"><p className="font-mono text-[11px] text-dim">No analysis generated yet — check back after the morning run.</p></div>;
+    const selectedDate = requestedDate && dates.includes(requestedDate) ? requestedDate : dates[0];
+    const [reportsDict, outcomes] = await Promise.all([getAnalysis(selectedDate), getAnalysisOutcomes(selectedDate)]);
+    
+    // Determine available models for this date
+    const availableProviders = Object.keys(reportsDict);
+    if (!availableProviders.length) return <div className="card p-8"><p className="font-mono text-[11px] text-dim">No reports found for this date.</p></div>;
 
-  if (report.notFound || !report.ideas?.length) {
-    return (
-      <div className="card p-8">
-        <div className="section-head mb-4"><span className="overline">Daily Analysis</span></div>
-        <p className="font-mono text-[11px] text-dim italic">
-          No analysis generated yet — check back after the morning run.
-        </p>
-      </div>
-    );
-  }
+    const selectedProvider = requestedModel && availableProviders.includes(requestedModel) ? requestedModel : availableProviders[0];
+    const report = reportsDict[selectedProvider];
+    
+    const outcomeByTicker = new Map(outcomes.map((outcome) => [outcome.ticker_or_asset.toUpperCase(), outcome]));
+    const counts = report.ideas.reduce<Record<string, number>>((all, idea) => { const direction = idea.suggested_direction?.toLowerCase() ?? "other"; all[direction] = (all[direction] ?? 0) + 1; return all; }, {});
 
-  // Count directions
-  const counts = report.ideas.reduce<Record<string, number>>((acc, idea) => {
-    const d = idea.suggested_direction?.toLowerCase() ?? "other";
-    acc[d] = (acc[d] ?? 0) + 1;
-    return acc;
-  }, {});
-
-  return (
-    <div>
-
-      {/* ── Report header ──────────────────────────────────────────────────── */}
-      <div className="card mb-8 p-5">
-        <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4">
-
-          {/* Left: description + meta */}
-          <div>
-            <div className="section-head mb-2">
-              <span className="overline">Daily Analysis</span>
-            </div>
-            <p className="text-[13px] text-dim max-w-[520px] leading-relaxed mb-3">
-              Scanning any market, worldwide, for{" "}
-              <strong className="text-secondary font-medium">asymmetries</strong>{" "}
-              — situations where the market&rsquo;s reaction to news appears disproportionate
-              to its actual significance, creating mispricings on either side.
-            </p>
-            <div className="flex flex-wrap items-center gap-x-5 gap-y-1 font-mono text-[10px] text-dim">
-              <span>Date: <span className="text-secondary">{report.reportDate}</span></span>
-              {report.generatedAt && (
-                <span>
-                  Generated:{" "}
-                  <span className="text-secondary">
-                    {new Date(report.generatedAt).toLocaleTimeString(undefined, { hour: "2-digit", minute: "2-digit" })}
-                  </span>
-                </span>
-              )}
-              <span>Ideas: <span className="text-secondary">{report.ideas.length}</span></span>
-            </div>
-          </div>
-
-          {/* Right: direction tally */}
-          <div className="flex gap-4 font-mono text-[10px] flex-shrink-0">
-            {[
-              { key: "long",  label: "Long",  color: "text-up"    },
-              { key: "short", label: "Short", color: "text-down"  },
-              { key: "watch", label: "Watch", color: "text-amber" },
-              { key: "avoid", label: "Avoid", color: "text-dim"   },
-            ].map(({ key, label, color }) =>
-              counts[key] ? (
-                <div key={key} className="text-center">
-                  <div className={`num text-[18px] font-semibold ${color}`}>{counts[key]}</div>
-                  <div className="text-dim uppercase tracking-widest">{label}</div>
-                </div>
-              ) : null
-            )}
-          </div>
-        </div>
-      </div>
-
-      {/* ── Market overview ────────────────────────────────────────────────── */}
-      <div className="mb-8">
-        <div className="section-head mb-4">
-          <span className="overline">Market Overview</span>
-        </div>
-        <div className="overview-block">
-          <p className="text-[14px] text-secondary leading-relaxed max-w-[780px]">
-            {report.overview}
-          </p>
-        </div>
-      </div>
-
-      {/* ── Ideas ─────────────────────────────────────────────────────────── */}
-      <div>
-        <div className="section-head mb-4">
-          <span className="overline">Asymmetries identified · {report.ideas.length}</span>
-        </div>
-
-        <div className="grid grid-cols-1 xl:grid-cols-2 gap-0 xl:gap-4">
-          {report.ideas.map((idea, i) => (
-            <IdeaCard key={`${idea.ticker_or_asset}-${i}`} idea={idea} />
+    return <div>
+      <section className="analysis-hero mb-7">
+        <div><div className="overline mb-2">Research archive</div><h1 className="analysis-title">Daily pick of the day</h1><p className="mt-2 max-w-[620px] text-[13px] leading-relaxed text-secondary">Each day the model picks the single most important setup across markets, writes a deep report on it, then the scorecard follows that asset afterwards — so you can judge the call against the market, not the narrative.</p></div>
+        <div className="analysis-date-mark"><span>Viewing report</span><strong>{formatDate(selectedDate, true)}</strong></div>
+      </section>
+      
+      <nav className="report-archive mb-4" aria-label="Analysis report archive"><div className="report-archive-label">Browse reports</div><div className="report-date-list">{dates.map((date, index) => <Link key={date} href={`/analysis?date=${date}&model=${selectedProvider}`} className={`report-date ${date === selectedDate ? "report-date-active" : ""}`}><span>{index === 0 ? "Latest · " : ""}{formatDate(date)}</span><small>{new Date(`${date}T12:00:00`).getFullYear()}</small></Link>)}</div></nav>
+      
+      {availableProviders.length > 1 && (
+        <div className="mb-8 flex gap-2 border-b border-border pb-1">
+          {availableProviders.map(provider => (
+            <Link key={provider} href={`/analysis?date=${selectedDate}&model=${provider}`} className={`px-4 py-2 text-sm font-medium border-b-2 ${provider === selectedProvider ? "border-indigo-400 text-indigo-400" : "border-transparent text-secondary hover:text-white"}`}>
+              {provider === "gemini" ? "Gemini 3.6 Flash" : provider === "groq" ? "GPT-OSS 120B" : provider}
+            </Link>
           ))}
         </div>
-      </div>
+      )}
 
-      {/* ── Disclaimer ────────────────────────────────────────────────────── */}
-      <div className="mt-8 pt-6 border-t border-border">
-        <p className="font-mono text-[10px] text-dim leading-relaxed max-w-[640px]">
-          AI-generated hypotheses for a sandbox project. Not financial advice. Ideas are
-          speculative and should not be the basis for actual investment decisions.
-        </p>
-      </div>
-    </div>
-  );
+      <div className="card report-summary mb-8 p-5"><div className="flex flex-col gap-5 sm:flex-row sm:items-center sm:justify-between"><div><div className="section-head mb-2"><span className="overline">Today's market overview</span></div><p className="max-w-[720px] text-[14px] leading-relaxed text-secondary">{report.overview}</p><div className="mt-3 font-mono text-[10px] text-dim">Published <span className="text-secondary">{formatDate(report.reportDate, true)}</span></div></div><div className="flex gap-4 font-mono text-[10px]">{[["long", "Long", "text-up"], ["short", "Short", "text-down"], ["watch", "Watch", "text-amber"], ["avoid", "Avoid", "text-dim"]].map(([key, label, color]) => counts[key] ? <div key={key} className="text-center"><div className={`num text-[18px] font-semibold ${color}`}>{counts[key]}</div><div className="text-dim uppercase tracking-widest">{label}</div></div> : null)}</div></div></div>
+      <div className="mb-4 flex items-end justify-between gap-4"><div className="section-head mb-0"><span className="overline">Pick of the day — deep dive</span></div><span className="font-mono text-[10px] text-dim">{report.ideas.length === 1 ? "1 pick" : `${report.ideas.length} picks`}</span></div>
+      <div className="grid grid-cols-1 gap-4 xl:grid-cols-2">{report.ideas.map((idea, index) => <IdeaCard key={`${idea.ticker_or_asset}-${index}`} idea={idea} outcome={outcomeByTicker.get(idea.ticker_or_asset.toUpperCase())} />)}</div>
+      <div className="mt-8 border-t border-border pt-6"><p className="max-w-[680px] font-mono text-[10px] leading-relaxed text-dim">AI-generated hypotheses for a sandbox project. Outcome tracking shows market movement, not a complete measure of an idea’s validity. Not financial advice.</p></div>
+    </div>;
+  } catch (err) {
+    return <div className="card p-8"><p className="font-mono text-[11px] text-dim">{err instanceof Error ? err.message : "Couldn't load the report archive."}</p></div>;
+  }
 }

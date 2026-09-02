@@ -2,8 +2,9 @@ import { PROVIDER_LABELS } from "@/lib/types";
 import type { LlmProvider } from "@/lib/types";
 
 const STYLE: Record<string, { text: string; dot: string }> = {
-  gemini: { text: "text-gemini", dot: "bg-gemini" },
-  groq:   { text: "text-groq",   dot: "bg-groq"   },
+  gemini:      { text: "text-gemini",      dot: "bg-gemini"      },
+  groq:        { text: "text-groq",        dot: "bg-groq"        },
+  groq_tavily: { text: "text-groq-tavily", dot: "bg-groq-tavily" },
 };
 
 export function ProviderBadge({ provider }: { provider: LlmProvider }) {

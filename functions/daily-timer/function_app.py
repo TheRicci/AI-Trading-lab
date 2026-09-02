@@ -34,7 +34,7 @@ def publish_session_event(session: str) -> None:
         "id": str(uuid.uuid4()),
         "eventType": "Trading.SessionReview",
         "subject": f"session/{session}",
-        "eventTime": datetime.datetime.utcnow().isoformat() + "Z",
+        "eventTime": datetime.datetime.now(datetime.timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"),
         "data": {"session": session},
         "dataVersion": "1.0",
     }]

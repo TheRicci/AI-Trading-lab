@@ -1,6 +1,5 @@
 # Serves the frontend. Deliberately exposes Analyses (public by
-# design) but NOT Digests or NewsItems (bot-facing only, per the
-# project's own design -- see the README).
+# design) and keeps the rest of the bot internals private.
 resource "azurerm_linux_function_app" "api" {
   name                       = "func-api-${random_string.suffix.result}"
   resource_group_name        = azurerm_resource_group.main.name

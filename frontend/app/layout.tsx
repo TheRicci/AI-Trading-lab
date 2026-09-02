@@ -4,7 +4,7 @@ import "./globals.css";
 
 export const metadata: Metadata = {
   title: "Trading Floor — AI Bot Arena",
-  description: "Six AI bots, three strategies, two LLM providers. Real money rules, none of it real.",
+  description: "Three AI trading agents on Gemini and Groq. Simulated portfolio decisions only.",
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
@@ -36,11 +36,11 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
 
               {/* Right: thin meta info */}
               <div className="hidden sm:flex items-center gap-4 font-mono text-[10px] text-dim tracking-widest">
-                <span>3 STRATEGIES</span>
+                <span>3 MODELS</span>
                 <span className="text-border">|</span>
                 <span>2 PROVIDERS</span>
                 <span className="text-border">|</span>
-                <span>6 BOTS</span>
+                <span>3 BOTS</span>
               </div>
             </div>
 

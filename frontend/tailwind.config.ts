@@ -25,10 +25,12 @@ const config: Config = {
         down:        "#ef4444",
         "down-dim":  "rgba(239,68,68,0.10)",
         // Provider tints
-        gemini:      "#7ba7f5",
-        "gemini-dim":"rgba(123,167,245,0.10)",
-        groq:        "#f5945a",
-        "groq-dim":  "rgba(245,148,90,0.10)",
+        gemini:             "#7ba7f5",
+        "gemini-dim":       "rgba(123,167,245,0.10)",
+        groq:               "#f5945a",
+        "groq-dim":         "rgba(245,148,90,0.10)",
+        "groq-tavily":      "#38bdf8",
+        "groq-tavily-dim":  "rgba(56,189,248,0.10)",
       },
       fontFamily: {
         mono: ["'JetBrains Mono'", "monospace"],

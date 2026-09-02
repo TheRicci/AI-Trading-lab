@@ -1,7 +1,8 @@
 "use client";
 
 import { useState } from "react";
-import type { AnalysisIdea } from "@/lib/types";
+import { OutcomeTrend } from "@/components/OutcomeTrend";
+import type { AnalysisIdea, AnalysisOutcome } from "@/lib/types";
 
 const DIR: Record<string, {
   strip: string; badge: string; icon: string; label: string;
@@ -13,7 +14,7 @@ const DIR: Record<string, {
 };
 const FALLBACK = { strip: "idea-avoid", badge: "text-dim bg-surface-hi", icon: "•", label: "NEUTRAL" };
 
-export function IdeaCard({ idea }: { idea: AnalysisIdea }) {
+export function IdeaCard({ idea, outcome }: { idea: AnalysisIdea; outcome?: AnalysisOutcome }) {
   const [expanded, setExpanded] = useState(false);
   const dir = (idea.suggested_direction ?? "").toLowerCase();
   const d   = DIR[dir] ?? FALLBACK;
@@ -21,18 +22,26 @@ export function IdeaCard({ idea }: { idea: AnalysisIdea }) {
 
   return (
     <div className={`card mb-3 pl-5 pr-5 py-4 ${d.strip} transition-colors duration-150`}>
-      {/* Header: ticker + direction badge */}
+      {/* Header: PICK OF THE DAY badge + ticker + direction */}
       <div className="flex items-center gap-3 mb-3">
-        <span className="num text-[16px] font-semibold text-ink">{idea.ticker_or_asset}</span>
+        <span className="inline-flex items-center gap-1 font-mono text-[9px] tracking-[0.12em] uppercase px-2 py-0.5 rounded bg-indigo-400/10 text-indigo-300">
+          ◆ Pick of the day
+        </span>
+        <span className="num text-[18px] font-semibold text-ink">{idea.ticker_or_asset}</span>
         <span className={`inline-flex items-center gap-1 font-mono text-[9px] tracking-[0.1em] uppercase px-2 py-0.5 rounded ${d.badge}`}>
           <span>{d.icon}</span>{d.label}
         </span>
       </div>
 
+      {/* Asset name */}
+      {idea.company_or_asset_name && idea.company_or_asset_name !== idea.ticker_or_asset && (
+        <div className="font-mono text-[10px] text-dim uppercase tracking-widest mb-2">{idea.company_or_asset_name}</div>
+      )}
+
       {/* Executive thesis */}
       <p className="text-[13px] text-secondary leading-relaxed mb-3">{idea.thesis}</p>
 
-      {/* Detailed report — expand/collapse */}
+      {/* Detailed report — expand/collapse (the centerpiece of the deep dive) */}
       {hasReport && (
         <>
           {expanded && (
@@ -79,6 +88,8 @@ export function IdeaCard({ idea }: { idea: AnalysisIdea }) {
           {idea.price_context}
         </div>
       )}
+
+      <OutcomeTrend idea={idea} outcome={outcome} />
     </div>
   );
 }

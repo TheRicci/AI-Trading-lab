@@ -10,14 +10,15 @@ export function Leaderboard({ bots }: { bots: Bot[] }) {
     );
   }
 
-  const sorted = [...bots].sort(
+  const sorted  = [...bots].sort(
     (a, b) => (b.totalValue ?? b.cash) - (a.totalValue ?? a.cash)
   );
+  const allNavs = sorted.map((b) => b.totalValue ?? b.cash);
 
   return (
     <div>
       {sorted.map((bot, i) => (
-        <BotCard key={bot.botName} bot={bot} rank={i + 1} />
+        <BotCard key={bot.botName} bot={bot} rank={i + 1} allNavs={allNavs} />
       ))}
     </div>
   );

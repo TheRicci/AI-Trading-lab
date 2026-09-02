@@ -1,0 +1,35 @@
+[
+  {
+    "botName": "open_gemini",
+    "cash": 0, "availableMargin": 0, "marginUsed": 88242.00,
+    "positions": {
+      "NVDA": { "direction": "long",  "shares": 180,  "entryPrice": 489.90, "leverage": 2.0, "notional": 88182.00, "marginUsed": 44091.00, "currentPrice": 496.23, "unrealizedPnl": 1139.40, "unrealizedPct": 1.14 },
+      "TLT":  { "direction": "short", "shares": -90,  "entryPrice": 91.15,  "leverage": 1.0, "notional": 8203.50,  "marginUsed": 8203.50,  "currentPrice": 90.80,  "unrealizedPnl": 31.50,   "unrealizedPct": 0.03 }
+    },
+    "totalValue": 106482.30, "startingCash": 100000,
+    "strategyPrompt": "Autonomous trading agent with web search.",
+    "llmProvider": "gemini", "llmModel": "gemini-2.5-flash"
+  },
+  {
+    "botName": "open_gptoss",
+    "cash": 0, "availableMargin": 0, "marginUsed": 103915.48,
+    "positions": {
+      "MSFT": { "direction": "long", "shares": 260, "entryPrice": 298.12, "leverage": 2.0, "notional": 77511.20, "marginUsed": 38755.60, "currentPrice": 301.45, "unrealizedPnl": 865.80, "unrealizedPct": 0.87 },
+      "XLE":  { "direction": "long", "shares": 140, "entryPrice": 91.36,  "leverage": 1.5, "notional": 12790.40, "marginUsed": 8526.93,  "currentPrice": 93.10,  "unrealizedPnl": 243.60, "unrealizedPct": 0.24 }
+    },
+    "totalValue": 103915.48, "startingCash": 100000,
+    "strategyPrompt": "Autonomous trading agent with web search.",
+    "llmProvider": "groq_tavily", "llmModel": "openai/gpt-oss-120b"
+  },
+  {
+    "botName": "open_qwen",
+    "cash": 41120.50, "availableMargin": 41120.50, "marginUsed": 0,
+    "positions": {
+      "GLD": { "direction": "long",  "shares": 190,  "entryPrice": 305.20, "leverage": 1.0, "notional": 57988.00, "marginUsed": 57988.00, "currentPrice": 308.75, "unrealizedPnl": 674.50, "unrealizedPct": 0.67 },
+      "AMD": { "direction": "short", "shares": -120, "entryPrice": 164.80, "leverage": 1.0, "notional": 19776.00, "marginUsed": 19776.00, "currentPrice": 160.30, "unrealizedPnl": 540.00, "unrealizedPct": 0.54 }
+    },
+    "totalValue": 98674.62, "startingCash": 100000,
+    "strategyPrompt": "Autonomous trading agent with web search.",
+    "llmProvider": "groq_tavily", "llmModel": "qwen/qwen3.6-27b"
+  }
+]

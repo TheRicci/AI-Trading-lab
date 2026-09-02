@@ -6,6 +6,8 @@
 !*.tfvars.example
 .terraform.lock.hcl
 crash.log
+# Bootstrap local state is kept on disk but not committed
+terraform/bootstrap/.terraform/
 
 # Python
 __pycache__/
@@ -20,3 +22,11 @@ obj/
 
 # OS
 .DS_Store
+
+# Local Backtest State
+scripts/backtest_state/
+
+terraform/recover_state.ps1
+scripts/backtest.py
+scripts/backfill_price_history.py
+scripts/backfill_price_history.py

@@ -11,7 +11,7 @@ import {
   XAxis,
   YAxis,
 } from "recharts";
-import { PROVIDER_HEX } from "@/lib/types";
+import { MODEL_HEX } from "@/lib/types";
 import type { Bot, PortfolioHistoryByBot } from "@/lib/types";
 
 interface ChartRow {
@@ -56,7 +56,7 @@ export function ComparisonChart({ history, bots }: { history: PortfolioHistoryBy
 
   const colorFor = (name: string) => {
     const bot = bots.find((b) => b.botName === name);
-    return (bot && PROVIDER_HEX[bot.llmProvider]) || "#948d80";
+    return (bot && MODEL_HEX[bot.llmModel]) || "#948d80";
   };
 
   return (

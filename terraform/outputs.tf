@@ -10,14 +10,6 @@ output "daily_timer_function_name" {
   value = azurerm_linux_function_app.daily_timer.name
 }
 
-output "news_watcher_function_name" {
-  value = azurerm_linux_function_app.news_watcher.name
-}
-
-output "synthesizer_function_name" {
-  value = azurerm_linux_function_app.synthesizer.name
-}
-
 output "analysis_report_function_name" {
   value = azurerm_linux_function_app.analysis_report.name
 }

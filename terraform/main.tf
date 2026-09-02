@@ -1,4 +1,10 @@
 terraform {
+  cloud {
+    organization = "ai-trading-lab"
+    workspaces {
+      name = "ai-trading-bots"
+    }
+  }
   required_version = ">= 1.5.0"
   required_providers {
     azurerm = {

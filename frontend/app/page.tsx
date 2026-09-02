@@ -48,7 +48,7 @@ export default function TradingFloorPage() {
   // Derived stats
   const totalCapital = bots.reduce((s, b) => s + (b.totalValue ?? b.cash), 0);
   const leader       = [...bots].sort((a, b) => (b.totalValue ?? b.cash) - (a.totalValue ?? a.cash))[0];
-  const leaderPnl    = leader ? ((leader.totalValue ?? leader.cash) - 100_000) / 100_000 * 100 : 0;
+  const leaderPnl    = leader ? ((leader.totalValue ?? leader.cash) - (leader.startingCash ?? 100_000)) / (leader.startingCash ?? 100_000) * 100 : 0;
 
   if (loadError && !bots.length) {
     return (
@@ -109,7 +109,7 @@ export default function TradingFloorPage() {
             <div className="section-head mb-4">
               <span className="overline">Portfolio Performance</span>
             </div>
-            <PortfolioChart history={history} bots={bots} />
+            <PortfolioChart history={history} />
           </div>
 
           <div>

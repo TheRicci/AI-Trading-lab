@@ -1,140 +1,76 @@
 "use client";
 
-import { useMemo } from "react";
-import {
-  Area, AreaChart, CartesianGrid, Legend,
-  ResponsiveContainer, Tooltip, XAxis, YAxis,
-} from "recharts";
-import { PROVIDER_HEX } from "@/lib/types";
-import type { Bot, PortfolioHistoryByBot } from "@/lib/types";
+import { useEffect, useMemo, useRef } from "react";
+import { ColorType, createChart, LineSeries, type UTCTimestamp } from "lightweight-charts";
+import { botColorFor } from "@/lib/types";
+import type { PortfolioHistoryByBot } from "@/lib/types";
 
-// Provider hex overrides to match new palette
-const HEX: Record<string, string> = {
-  gemini: "#7ba7f5",
-  groq:   "#f5945a",
-};
+type Point = { time: UTCTimestamp; value: number };
 
-interface ChartRow { timestamp: number; [k: string]: number; }
-
-function merge(history: PortfolioHistoryByBot): ChartRow[] {
-  const names = Object.keys(history);
-  const allTs = Array.from(
-    new Set(names.flatMap((n) => history[n].map((p) => p.timestamp)))
-  ).sort();
-  const last: Record<string, number> = {};
-  return allTs.map((ts) => {
-    const row: ChartRow = { timestamp: new Date(ts).getTime() };
-    for (const name of names) {
-      const pt = history[name].find((p) => p.timestamp === ts);
-      if (pt) last[name] = pt.totalValue;
-      if (last[name] !== undefined) row[name] = last[name];
+function seriesFor(history: PortfolioHistoryByBot) {
+  return Object.entries(history).map(([name, points]) => {
+    // deduplicate by exact second timestamp (lightweight-charts requires strictly ascending time)
+    const uniquePoints = new Map<number, number>();
+    for (const point of points) {
+      const t = Math.floor(new Date(point.timestamp).getTime() / 1000);
+      uniquePoints.set(t, point.totalValue);
     }
-    return row;
+    const sortedTimes = Array.from(uniquePoints.keys()).sort((a, b) => a - b);
+    return {
+      name,
+      points: sortedTimes.map((t) => ({ time: t as UTCTimestamp, value: uniquePoints.get(t)! })),
+    };
   });
 }
 
-function Tip({ active, payload, label }: {
-  active?: boolean;
-  payload?: { name: string; value: number; color: string }[];
-  label?: number;
-}) {
-  if (!active || !payload?.length) return null;
-  return (
-    <div className="card px-4 py-3 min-w-[200px] shadow-md">
-      <div className="overline mb-2">
-        {new Date(label ?? 0).toLocaleDateString(undefined, { month: "short", day: "numeric" })}
-      </div>
-      {[...payload].sort((a, b) => b.value - a.value).map((p) => (
-        <div key={p.name} className="flex items-center justify-between gap-4 py-[3px]">
-          <div className="flex items-center gap-1.5">
-            <span className="w-1.5 h-1.5 rounded-full flex-shrink-0" style={{ background: p.color }} />
-            <span className="font-mono text-[10px] text-secondary truncate max-w-[100px]">{p.name}</span>
-          </div>
-          <span className="num text-[11px] text-ink font-medium">
-            ${p.value.toLocaleString("en-US", { maximumFractionDigits: 0 })}
-          </span>
-        </div>
-      ))}
-    </div>
-  );
+function LineChart({ history }: { history: PortfolioHistoryByBot }) {
+  const host = useRef<HTMLDivElement>(null);
+  const series = useMemo(() => seriesFor(history), [history]);
+
+  useEffect(() => {
+    const element = host.current;
+    if (!element || !series.length) return;
+
+    const chart = createChart(element, {
+      width: element.clientWidth,
+      height: 282,
+      layout: { background: { type: ColorType.Solid, color: "transparent" }, textColor: "#737383", fontFamily: "JetBrains Mono, monospace", fontSize: 10 },
+      grid: { vertLines: { color: "rgba(255,255,255,0.025)" }, horzLines: { color: "rgba(255,255,255,0.055)" } },
+      rightPriceScale: { borderColor: "#252530", scaleMargins: { top: 0.13, bottom: 0.10 } },
+      timeScale: { borderColor: "#252530", timeVisible: true, ticksVisible: true },
+      crosshair: { vertLine: { color: "rgba(139,141,255,0.38)", labelBackgroundColor: "#353655" }, horzLine: { color: "rgba(139,141,255,0.30)", labelBackgroundColor: "#353655" } },
+      localization: { priceFormatter: (price: number) => `$${(price / 1000).toFixed(1)}k` },
+    });
+
+    series.forEach(({ name, points }) => {
+      const color = botColorFor(name);
+      // Remove lineType: 2 (curved) to prevent extreme bezier overshoot with sparse data
+      const chartSeries = chart.addSeries(LineSeries, { color, lineWidth: 2, lastValueVisible: false, priceLineVisible: false, crosshairMarkerRadius: 4, crosshairMarkerBorderColor: "#111116", crosshairMarkerBackgroundColor: color });
+      try {
+        chartSeries.setData(points);
+      } catch (e) {
+        console.error("Failed to set data for", name, e);
+      }
+    });
+
+    chart.timeScale().fitContent();
+    const observer = new ResizeObserver(() => chart.applyOptions({ width: element.clientWidth }));
+    observer.observe(element);
+    return () => { observer.disconnect(); chart.remove(); };
+  }, [series]);
+
+  return <div ref={host} className="h-[282px] w-full" />;
 }
 
-export function PortfolioChart({ history, bots }: { history: PortfolioHistoryByBot; bots: Bot[] }) {
-  const data  = useMemo(() => merge(history), [history]);
+export function PortfolioChart({ history }: { history: PortfolioHistoryByBot }) {
   const names = Object.keys(history);
+  const latest = Object.fromEntries(Object.entries(history).map(([name, points]) => [name, points.at(-1)?.totalValue ?? 100000]));
 
-  if (!names.length || !data.length) {
-    return (
-      <div className="card flex h-[280px] items-center justify-center">
-        <p className="font-mono text-[11px] text-dim italic">No history yet — check back after the next bell.</p>
-      </div>
-    );
-  }
+  if (!names.length) return <div className="card flex h-[280px] items-center justify-center"><p className="font-mono text-[11px] text-dim italic">No history yet — check back after the next bell.</p></div>;
 
-  const colorFor = (name: string) => {
-    const bot = bots.find((b) => b.botName === name);
-    return (bot && HEX[bot.llmProvider]) ?? PROVIDER_HEX[bot?.llmProvider ?? ""] ?? "#4e4e5e";
-  };
-
-  return (
-    <div className="card p-5 h-[300px]">
-      <ResponsiveContainer width="100%" height="100%">
-        <AreaChart data={data} margin={{ top: 2, right: 2, left: 0, bottom: 0 }}>
-          <defs>
-            {names.map((name) => {
-              const c = colorFor(name);
-              return (
-                <linearGradient key={name} id={`g-${name}`} x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="0%"   stopColor={c} stopOpacity={0.18} />
-                  <stop offset="100%" stopColor={c} stopOpacity={0}    />
-                </linearGradient>
-              );
-            })}
-          </defs>
-
-          <CartesianGrid
-            stroke="rgba(255,255,255,0.04)"
-            strokeDasharray="3 6"
-            horizontal={true}
-            vertical={false}
-          />
-          <XAxis
-            dataKey="timestamp"
-            type="number"
-            domain={["dataMin", "dataMax"]}
-            tickFormatter={(v) =>
-              new Date(v).toLocaleDateString(undefined, { month: "short", day: "numeric" })
-            }
-            tick={{ fill: "#4e4e5e", fontSize: 10, fontFamily: "'JetBrains Mono', monospace" }}
-            tickLine={false}
-            axisLine={{ stroke: "#252530" }}
-          />
-          <YAxis
-            tickFormatter={(v) => `$${(v / 1000).toFixed(0)}k`}
-            tick={{ fill: "#4e4e5e", fontSize: 10, fontFamily: "'JetBrains Mono', monospace" }}
-            tickLine={false}
-            axisLine={false}
-            width={44}
-          />
-          <Tooltip content={<Tip />} cursor={{ stroke: "#252530", strokeWidth: 1 }} />
-          <Legend
-            wrapperStyle={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 10, color: "#4e4e5e", paddingTop: 8 }}
-          />
-          {names.map((name) => (
-            <Area
-              key={name}
-              type="monotone"
-              dataKey={name}
-              stroke={colorFor(name)}
-              strokeWidth={1.5}
-              fill={`url(#g-${name})`}
-              dot={false}
-              connectNulls
-              activeDot={{ r: 3, strokeWidth: 0 }}
-            />
-          ))}
-        </AreaChart>
-      </ResponsiveContainer>
-    </div>
-  );
+  return <div className="card chart-shell p-5">
+    <div className="mb-5"><div className="overline">Portfolio performance</div><div className="mt-1 text-[12px] text-secondary">Portfolio value across every bot.</div></div>
+    <div className="mb-3 flex flex-wrap gap-x-4 gap-y-1">{names.map((name) => { const change = (latest[name] / 100000 - 1) * 100; return <div key={name} className="chart-legend-item"><span className="chart-legend-dot" style={{ backgroundColor: botColorFor(name) }} /><span>{name.replace(/^open_/, "")}</span><strong className={change >= 0 ? "text-up" : "text-down"}>{change >= 0 ? "+" : ""}{change.toFixed(1)}%</strong></div>; })}</div>
+    <LineChart history={history} />
+  </div>;
 }

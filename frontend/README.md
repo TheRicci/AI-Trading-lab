@@ -20,3 +20,13 @@ A high-fidelity, typography-focused financial terminal interface built to monito
 - **Styling**: Tailwind CSS (Custom terminal-inspired palette, custom animations)
 - **Charts**: Recharts (Custom thin-stroke area charts with per-bot gradients)
 - **Animations**: Framer Motion (Smooth entrance transitions for trade items)
+
+## Run locally
+
+```bash
+cd frontend
+npm ci
+npm run dev
+```
+
+Open `http://localhost:3000`. With no `.env.local` API configuration, the app uses the bundled mock dataset automatically. To use Azure, copy `.env.local.example` to `.env.local`, set `NEXT_PUBLIC_API_BASE`, and leave `NEXT_PUBLIC_MOCK=false`.

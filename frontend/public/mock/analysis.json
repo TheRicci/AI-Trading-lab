@@ -1,0 +1,10 @@
+{
+  "reportDate": "2026-08-19",
+  "generatedAt": "2026-08-19T11:10:00Z",
+  "overview": "Equity leadership remains concentrated in AI infrastructure while rates-sensitive assets are reacting sharply to each inflation data point. The most interesting asymmetries are where a durable earnings or supply-side narrative is being priced as a one-day headline.",
+  "ideas": [
+    { "ticker_or_asset": "NVDA", "thesis": "Demand signals across AI infrastructure remain firm, but expectations are already elevated and make the next earnings update unusually consequential.", "detailed_report": "The opportunity is not simply an AI long. It is a volatility-aware position around whether hyperscaler capital spending and supply availability continue to justify the premium multiple. Search for the most recent supplier commentary, earnings revisions, and options-implied move before sizing.", "suggested_direction": "watch", "price_context": "Near recent highs after a strong multi-week advance" },
+    { "ticker_or_asset": "TLT", "thesis": "Long-duration bonds are highly sensitive to inflation surprises, creating an asymmetric response when the market reprices the expected path of real rates.", "detailed_report": "The key question is whether the latest move in yields reflects a durable change in inflation expectations or a crowded short-term repositioning. Compare the inflation release, Treasury auction demand, and the dollar before taking directional risk.", "suggested_direction": "short", "price_context": "Volatile as yields test recent highs" },
+    { "ticker_or_asset": "GLD", "thesis": "Gold can benefit if real-rate volatility and policy uncertainty persist, even when headline equity risk appetite remains firm.", "detailed_report": "This is a hedge candidate rather than a standalone macro forecast. Monitor real yields, the dollar, central-bank demand, and geopolitical headlines for confirmation that the diversification case is strengthening.", "suggested_direction": "long", "price_context": "Holding near the upper end of its recent range" }
+  ]
+}
