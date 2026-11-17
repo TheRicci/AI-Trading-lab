@@ -1,0 +1,4451 @@
+[
+    {
+        "id": "e2ef9764-5937-436d-b2fb-20b0dda89a93",
+        "botName": "open_gptoss",
+        "cash": 45203.93,
+        "positions": {
+            "PANW": {
+                "direction": "long",
+                "shares": 106,
+                "entryPrice": 374.46,
+                "leverage": 2,
+                "notional": 39692.76,
+                "marginUsed": 19846.38
+            },
+            "NIO/USD": {
+                "direction": "long",
+                "shares": 1659184.2,
+                "entryPrice": 0.0271,
+                "leverage": 3,
+                "notional": 45000,
+                "marginUsed": 15000
+            },
+            "TLT": {
+                "direction": "short",
+                "shares": -244,
+                "entryPrice": 81.895,
+                "leverage": 2,
+                "notional": 19982.38,
+                "marginUsed": 9991.19
+            },
+            "GLD": {
+                "direction": "long",
+                "shares": 25,
+                "entryPrice": 398.34,
+                "leverage": 1,
+                "notional": 9958.5,
+                "marginUsed": 9958.5
+            }
+        },
+        "totalValue": 100036.14,
+        "startingCash": 100000,
+        "strategyPrompt": "You are an autonomous trading agent. You can choose whatever style fits today's conditions best, including trend-following, mean reversion, catalyst/event-driven, valuation, volatility breakout, sentiment, or staying out entirely. Use web search whenever it helps you gather live market context, recent news, filings, earnings, macro events, technical levels, or other relevant metrics.",
+        "llmProvider": "groq_tavily",
+        "llmModel": "openai/gpt-oss-120b",
+        "timestamp": "2026-09-01T13:30:17Z",
+        "sessionId": "open-2026-09-01",
+        "_rid": "FN8OAOpdBMkVAAAAAAAAAA==",
+        "_self": "dbs/FN8OAA==/colls/FN8OAOpdBMk=/docs/FN8OAOpdBMkVAAAAAAAAAA==/",
+        "_etag": "\"e503debe-0000-0200-0000-6a96d36a0000\"",
+        "_attachments": "attachments/",
+        "_ts": 1788269418
+    },
+    {
+        "id": "7f417d46-bef9-48a7-beca-85d62bca5133",
+        "botName": "open_qwen",
+        "cash": 30279.13,
+        "positions": {
+            "BTC/USD": {
+                "direction": "long",
+                "shares": 1.02762,
+                "entryPrice": 77849.775,
+                "leverage": 2,
+                "notional": 79999.99,
+                "marginUsed": 39999.99
+            },
+            "QQQ": {
+                "direction": "short",
+                "shares": -84,
+                "entryPrice": 707.64,
+                "leverage": 2,
+                "notional": 59441.76,
+                "marginUsed": 29720.88
+            }
+        },
+        "totalValue": 100000,
+        "startingCash": 100000,
+        "strategyPrompt": "You are an autonomous trading agent. You can choose whatever style fits today's conditions best, including trend-following, mean reversion, catalyst/event-driven, valuation, volatility breakout, sentiment, or staying out entirely. Use web search whenever it helps you gather live market context, recent news, filings, earnings, macro events, technical levels, or other relevant metrics.",
+        "llmProvider": "groq_tavily",
+        "llmModel": "qwen/qwen3.6-27b",
+        "timestamp": "2026-09-01T13:30:56Z",
+        "sessionId": "open-2026-09-01",
+        "_rid": "FN8OAOpdBMkWAAAAAAAAAA==",
+        "_self": "dbs/FN8OAA==/colls/FN8OAOpdBMk=/docs/FN8OAOpdBMkWAAAAAAAAAA==/",
+        "_etag": "\"e5030acf-0000-0200-0000-6a96d3900000\"",
+        "_attachments": "attachments/",
+        "_ts": 1788269456
+    },
+    {
+        "id": "2acc80c3-8e0e-4a54-bea2-d202b968efcc",
+        "botName": "open_gemini",
+        "cash": 431.32,
+        "positions": {
+            "NVDA": {
+                "direction": "long",
+                "shares": 115,
+                "entryPrice": 216.94,
+                "leverage": 1,
+                "notional": 24948.1,
+                "marginUsed": 24948.1
+            },
+            "QQQ": {
+                "direction": "long",
+                "shares": 35,
+                "entryPrice": 707.07,
+                "leverage": 1,
+                "notional": 24747.45,
+                "marginUsed": 24747.45
+            },
+            "GLD": {
+                "direction": "long",
+                "shares": 50,
+                "entryPrice": 398.65,
+                "leverage": 1,
+                "notional": 19932.5,
+                "marginUsed": 19932.5
+            },
+            "BTC/USD": {
+                "direction": "long",
+                "shares": 0.192543,
+                "entryPrice": 77904.675,
+                "leverage": 1,
+                "notional": 15000,
+                "marginUsed": 15000
+            },
+            "USO": {
+                "direction": "long",
+                "shares": 109,
+                "entryPrice": 137.07,
+                "leverage": 1,
+                "notional": 14940.63,
+                "marginUsed": 14940.63
+            }
+        },
+        "totalValue": 100000,
+        "startingCash": 100000,
+        "strategyPrompt": "You are an autonomous trading agent. You can choose whatever style fits today's conditions best, including trend-following, mean reversion, catalyst/event-driven, valuation, volatility breakout, sentiment, or staying out entirely. Use web search whenever it helps you gather live market context, recent news, filings, earnings, macro events, technical levels, or other relevant metrics.",
+        "llmProvider": "gemini",
+        "llmModel": "gemini-3.6-flash",
+        "timestamp": "2026-09-01T13:32:06Z",
+        "sessionId": "open-2026-09-01",
+        "_rid": "FN8OAOpdBMkXAAAAAAAAAA==",
+        "_self": "dbs/FN8OAA==/colls/FN8OAOpdBMk=/docs/FN8OAOpdBMkXAAAAAAAAAA==/",
+        "_etag": "\"e503eaec-0000-0200-0000-6a96d3d60000\"",
+        "_attachments": "attachments/",
+        "_ts": 1788269526
+    },
+    {
+        "id": "5394d15e-6492-4279-a1ce-9dbd4b7bf817",
+        "botName": "open_gptoss",
+        "cash": 38984.71,
+        "positions": {
+            "NIO/USD": {
+                "direction": "long",
+                "shares": 1659184.2,
+                "entryPrice": 0.0271,
+                "leverage": 3,
+                "notional": 45000,
+                "marginUsed": 15000
+            },
+            "TLT": {
+                "direction": "short",
+                "shares": -244,
+                "entryPrice": 81.895,
+                "leverage": 2,
+                "notional": 19982.38,
+                "marginUsed": 9991.19
+            },
+            "SPY": {
+                "direction": "long",
+                "shares": 32,
+                "entryPrice": 761.39,
+                "leverage": 1,
+                "notional": 24364.48,
+                "marginUsed": 24364.48,
+                "assetType": "etf"
+            },
+            "BTC/USD": {
+                "direction": "long",
+                "shares": 0.194048,
+                "entryPrice": 77300.375,
+                "leverage": 1.5,
+                "notional": 14999.98,
+                "marginUsed": 9999.99,
+                "assetType": "crypto"
+            }
+        },
+        "totalValue": 98394.04,
+        "startingCash": 100000,
+        "strategyPrompt": "You are an autonomous trading agent. You can choose whatever style fits today's conditions best, including trend-following, mean reversion, catalyst/event-driven, valuation, volatility breakout, sentiment, or staying out entirely. Use web search whenever it helps you gather live market context, recent news, filings, earnings, macro events, technical levels, or other relevant metrics.",
+        "llmProvider": "groq_tavily",
+        "llmModel": "openai/gpt-oss-120b",
+        "timestamp": "2026-09-01T19:30:28Z",
+        "sessionId": "close-2026-09-01",
+        "_rid": "FN8OAOpdBMkYAAAAAAAAAA==",
+        "_self": "dbs/FN8OAA==/colls/FN8OAOpdBMk=/docs/FN8OAOpdBMkYAAAAAAAAAA==/",
+        "_etag": "\"1104fefc-0000-0200-0000-6a9727d40000\"",
+        "_attachments": "attachments/",
+        "_ts": 1788291028
+    },
+    {
+        "id": "008b22bd-a854-4a7b-8dc8-c148643790d6",
+        "botName": "open_gemini",
+        "cash": 431.32,
+        "positions": {
+            "NVDA": {
+                "direction": "long",
+                "shares": 115,
+                "entryPrice": 216.94,
+                "leverage": 1,
+                "notional": 24948.1,
+                "marginUsed": 24948.1
+            },
+            "QQQ": {
+                "direction": "long",
+                "shares": 35,
+                "entryPrice": 707.07,
+                "leverage": 1,
+                "notional": 24747.45,
+                "marginUsed": 24747.45
+            },
+            "GLD": {
+                "direction": "long",
+                "shares": 50,
+                "entryPrice": 398.65,
+                "leverage": 1,
+                "notional": 19932.5,
+                "marginUsed": 19932.5
+            },
+            "BTC/USD": {
+                "direction": "long",
+                "shares": 0.192543,
+                "entryPrice": 77904.675,
+                "leverage": 1,
+                "notional": 15000,
+                "marginUsed": 15000
+            },
+            "USO": {
+                "direction": "long",
+                "shares": 109,
+                "entryPrice": 137.07,
+                "leverage": 1,
+                "notional": 14940.63,
+                "marginUsed": 14940.63
+            }
+        },
+        "totalValue": 100349.25,
+        "startingCash": 100000,
+        "strategyPrompt": "You are an autonomous trading agent. You can choose whatever style fits today's conditions best, including trend-following, mean reversion, catalyst/event-driven, valuation, volatility breakout, sentiment, or staying out entirely. Use web search whenever it helps you gather live market context, recent news, filings, earnings, macro events, technical levels, or other relevant metrics.",
+        "llmProvider": "gemini",
+        "llmModel": "gemini-3.6-flash",
+        "timestamp": "2026-09-01T19:31:10Z",
+        "sessionId": "close-2026-09-01",
+        "_rid": "FN8OAOpdBMkZAAAAAAAAAA==",
+        "_self": "dbs/FN8OAA==/colls/FN8OAOpdBMk=/docs/FN8OAOpdBMkZAAAAAAAAAA==/",
+        "_etag": "\"12043d17-0000-0200-0000-6a9727fe0000\"",
+        "_attachments": "attachments/",
+        "_ts": 1788291070
+    },
+    {
+        "id": "05f8f3fb-dbfc-4af3-bc04-cce91b3b6793",
+        "botName": "open_qwen",
+        "cash": 78912.3,
+        "positions": {
+            "BTC/USD": {
+                "direction": "long",
+                "shares": 0.52087,
+                "entryPrice": 76794.575,
+                "leverage": 2,
+                "notional": 39999.99,
+                "marginUsed": 20000,
+                "assetType": "crypto"
+            }
+        },
+        "totalValue": 98912.3,
+        "startingCash": 100000,
+        "strategyPrompt": "You are an autonomous trading agent. You can choose whatever style fits today's conditions best, including trend-following, mean reversion, catalyst/event-driven, valuation, volatility breakout, sentiment, or staying out entirely. Use web search whenever it helps you gather live market context, recent news, filings, earnings, macro events, technical levels, or other relevant metrics.",
+        "llmProvider": "groq_tavily",
+        "llmModel": "qwen/qwen3.8-27b",
+        "timestamp": "2026-09-02T13:30:23Z",
+        "sessionId": "open-2026-09-02",
+        "_rid": "FN8OAOpdBMkaAAAAAAAAAA==",
+        "_self": "dbs/FN8OAA==/colls/FN8OAOpdBMk=/docs/FN8OAOpdBMkaAAAAAAAAAA==/",
+        "_etag": "\"f700d1f4-0000-0200-0000-6a9824ef0000\"",
+        "_attachments": "attachments/",
+        "_ts": 1788355823
+    },
+    {
+        "id": "a647bf37-8d8e-4cd8-9edc-28829bb4ed3b",
+        "botName": "open_gptoss",
+        "cash": 27366,
+        "positions": {
+            "NIO/USD": {
+                "direction": "long",
+                "shares": 1659184.2,
+                "entryPrice": 0.0271,
+                "leverage": 3,
+                "notional": 45000,
+                "marginUsed": 15000
+            },
+            "SPY": {
+                "direction": "long",
+                "shares": 15,
+                "entryPrice": 762.4,
+                "leverage": 1,
+                "notional": 11436,
+                "marginUsed": 11436,
+                "assetType": "etf"
+            },
+            "TLT": {
+                "direction": "short",
+                "shares": -439,
+                "entryPrice": 81.99,
+                "leverage": 2,
+                "notional": 35993.61,
+                "marginUsed": 17996.81,
+                "assetType": "etf"
+            },
+            "GLD": {
+                "direction": "long",
+                "shares": 37,
+                "entryPrice": 399.71,
+                "leverage": 1,
+                "notional": 14789.27,
+                "marginUsed": 14789.27,
+                "assetType": "etf"
+            },
+            "QQQ": {
+                "direction": "short",
+                "shares": -33,
+                "entryPrice": 706.7,
+                "leverage": 2,
+                "notional": 23321.1,
+                "marginUsed": 11660.55,
+                "assetType": "etf"
+            }
+        },
+        "totalValue": 98377.6,
+        "startingCash": 100000,
+        "strategyPrompt": "You are an autonomous trading agent. You can choose whatever style fits today's conditions best, including trend-following, mean reversion, catalyst/event-driven, valuation, volatility breakout, sentiment, or staying out entirely. Use web search whenever it helps you gather live market context, recent news, filings, earnings, macro events, technical levels, or other relevant metrics.",
+        "llmProvider": "groq_tavily",
+        "llmModel": "openai/gpt-oss-120b",
+        "timestamp": "2026-09-02T13:30:44Z",
+        "sessionId": "open-2026-09-02",
+        "_rid": "FN8OAOpdBMkbAAAAAAAAAA==",
+        "_self": "dbs/FN8OAA==/colls/FN8OAOpdBMk=/docs/FN8OAOpdBMkbAAAAAAAAAA==/",
+        "_etag": "\"f70060f6-0000-0200-0000-6a9825040000\"",
+        "_attachments": "attachments/",
+        "_ts": 1788355844
+    },
+    {
+        "id": "979d95fa-9274-4420-87dc-a4aa14edd7c5",
+        "botName": "open_gemini",
+        "cash": 431.32,
+        "positions": {
+            "NVDA": {
+                "direction": "long",
+                "shares": 115,
+                "entryPrice": 216.94,
+                "leverage": 1,
+                "notional": 24948.1,
+                "marginUsed": 24948.1
+            },
+            "QQQ": {
+                "direction": "long",
+                "shares": 35,
+                "entryPrice": 707.07,
+                "leverage": 1,
+                "notional": 24747.45,
+                "marginUsed": 24747.45
+            },
+            "GLD": {
+                "direction": "long",
+                "shares": 50,
+                "entryPrice": 398.65,
+                "leverage": 1,
+                "notional": 19932.5,
+                "marginUsed": 19932.5
+            },
+            "BTC/USD": {
+                "direction": "long",
+                "shares": 0.192543,
+                "entryPrice": 77904.675,
+                "leverage": 1,
+                "notional": 15000,
+                "marginUsed": 15000
+            },
+            "USO": {
+                "direction": "long",
+                "shares": 109,
+                "entryPrice": 137.07,
+                "leverage": 1,
+                "notional": 14940.63,
+                "marginUsed": 14940.63
+            }
+        },
+        "totalValue": 101129.85,
+        "startingCash": 100000,
+        "strategyPrompt": "You are an autonomous trading agent. You can choose whatever style fits today's conditions best, including trend-following, mean reversion, catalyst/event-driven, valuation, volatility breakout, sentiment, or staying out entirely. Use web search whenever it helps you gather live market context, recent news, filings, earnings, macro events, technical levels, or other relevant metrics.",
+        "llmProvider": "gemini",
+        "llmModel": "gemini-3.6-flash",
+        "timestamp": "2026-09-02T14:24:40Z",
+        "sessionId": "open-2026-09-02",
+        "_rid": "FN8OAOpdBMkcAAAAAAAAAA==",
+        "_self": "dbs/FN8OAA==/colls/FN8OAOpdBMk=/docs/FN8OAOpdBMkcAAAAAAAAAA==/",
+        "_etag": "\"f800f2cf-0000-0200-0000-6a9831a80000\"",
+        "_attachments": "attachments/",
+        "_ts": 1788359080
+    },
+    {
+        "id": "71467e38-e5a5-4926-84f4-ca21745ce1ac",
+        "botName": "open_qwen",
+        "cash": 79093.58,
+        "positions": {
+            "BTC/USD": {
+                "direction": "long",
+                "shares": 0.25926,
+                "entryPrice": 77142.565,
+                "leverage": 1,
+                "notional": 19999.98,
+                "marginUsed": 19999.98,
+                "assetType": "crypto"
+            }
+        },
+        "totalValue": 99093.56,
+        "startingCash": 100000,
+        "strategyPrompt": "You are an autonomous trading agent. You can choose whatever style fits today's conditions best, including trend-following, mean reversion, catalyst/event-driven, valuation, volatility breakout, sentiment, or staying out entirely. Use web search whenever it helps you gather live market context, recent news, filings, earnings, macro events, technical levels, or other relevant metrics.",
+        "llmProvider": "groq_tavily",
+        "llmModel": "qwen/qwen3.8-27b",
+        "timestamp": "2026-09-02T19:30:12Z",
+        "sessionId": "close-2026-09-02",
+        "_rid": "FN8OAOpdBMkdAAAAAAAAAA==",
+        "_self": "dbs/FN8OAA==/colls/FN8OAOpdBMk=/docs/FN8OAOpdBMkdAAAAAAAAAA==/",
+        "_etag": "\"fd0088bc-0000-0200-0000-6a9879440000\"",
+        "_attachments": "attachments/",
+        "_ts": 1788377412
+    },
+    {
+        "id": "b716a428-a6b4-44e1-a637-35c0f2b6b717",
+        "botName": "open_gptoss",
+        "cash": 14400.17,
+        "positions": {
+            "NIO/USD": {
+                "direction": "long",
+                "shares": 1659184.2,
+                "entryPrice": 0.0271,
+                "leverage": 3,
+                "notional": 45000,
+                "marginUsed": 15000
+            },
+            "SPY": {
+                "direction": "long",
+                "shares": 15,
+                "entryPrice": 762.4,
+                "leverage": 1,
+                "notional": 11436,
+                "marginUsed": 11436,
+                "assetType": "etf"
+            },
+            "TLT": {
+                "direction": "short",
+                "shares": -805,
+                "entryPrice": 81.88,
+                "leverage": 2,
+                "notional": 65913.4,
+                "marginUsed": 32956.7,
+                "assetType": "etf"
+            },
+            "GLD": {
+                "direction": "long",
+                "shares": 61,
+                "entryPrice": 401.95,
+                "leverage": 1,
+                "notional": 24518.95,
+                "marginUsed": 24518.95,
+                "assetType": "etf"
+            }
+        },
+        "totalValue": 98487.29,
+        "startingCash": 100000,
+        "strategyPrompt": "You are an autonomous trading agent. You can choose whatever style fits today's conditions best, including trend-following, mean reversion, catalyst/event-driven, valuation, volatility breakout, sentiment, or staying out entirely. Use web search whenever it helps you gather live market context, recent news, filings, earnings, macro events, technical levels, or other relevant metrics.",
+        "llmProvider": "groq_tavily",
+        "llmModel": "openai/gpt-oss-120b",
+        "timestamp": "2026-09-02T19:30:40Z",
+        "sessionId": "close-2026-09-02",
+        "_rid": "FN8OAOpdBMkeAAAAAAAAAA==",
+        "_self": "dbs/FN8OAA==/colls/FN8OAOpdBMk=/docs/FN8OAOpdBMkeAAAAAAAAAA==/",
+        "_etag": "\"fd002cbe-0000-0200-0000-6a9879600000\"",
+        "_attachments": "attachments/",
+        "_ts": 1788377440
+    },
+    {
+        "id": "7d2135c8-4eff-4fcc-b0b9-894dddefe8fe",
+        "botName": "open_gemini",
+        "cash": 15941.84,
+        "positions": {
+            "NVDA": {
+                "direction": "long",
+                "shares": 115,
+                "entryPrice": 216.94,
+                "leverage": 1,
+                "notional": 24948.1,
+                "marginUsed": 24948.1
+            },
+            "GLD": {
+                "direction": "long",
+                "shares": 50,
+                "entryPrice": 398.65,
+                "leverage": 1,
+                "notional": 19932.5,
+                "marginUsed": 19932.5
+            },
+            "BTC/USD": {
+                "direction": "long",
+                "shares": 0.192543,
+                "entryPrice": 77904.675,
+                "leverage": 1,
+                "notional": 15000,
+                "marginUsed": 15000
+            },
+            "USO": {
+                "direction": "long",
+                "shares": 175,
+                "entryPrice": 142.08,
+                "leverage": 1,
+                "notional": 24864,
+                "marginUsed": 24864,
+                "assetType": "etf"
+            }
+        },
+        "totalValue": 102418.44,
+        "startingCash": 100000,
+        "strategyPrompt": "You are an autonomous trading agent. You can choose whatever style fits today's conditions best, including trend-following, mean reversion, catalyst/event-driven, valuation, volatility breakout, sentiment, or staying out entirely. Use web search whenever it helps you gather live market context, recent news, filings, earnings, macro events, technical levels, or other relevant metrics.",
+        "llmProvider": "gemini",
+        "llmModel": "gemini-3.6-flash",
+        "timestamp": "2026-09-03T13:30:55Z",
+        "sessionId": "open-2026-09-03",
+        "_rid": "FN8OAOpdBMkfAAAAAAAAAA==",
+        "_self": "dbs/FN8OAA==/colls/FN8OAOpdBMk=/docs/FN8OAOpdBMkfAAAAAAAAAA==/",
+        "_etag": "\"0d015026-0000-0200-0000-6a99768f0000\"",
+        "_attachments": "attachments/",
+        "_ts": 1788442255
+    },
+    {
+        "id": "134a02d7-355a-4b93-85ac-ec656dda77f2",
+        "botName": "open_gptoss",
+        "cash": 20615.1,
+        "positions": {
+            "NIO/USD": {
+                "direction": "long",
+                "shares": 1659184.2,
+                "entryPrice": 0.0271,
+                "leverage": 3,
+                "notional": 45000,
+                "marginUsed": 15000
+            },
+            "TLT": {
+                "direction": "short",
+                "shares": -1285,
+                "entryPrice": 82.38,
+                "leverage": 2,
+                "notional": 105858.3,
+                "marginUsed": 52929.15,
+                "assetType": "etf"
+            },
+            "SPY": {
+                "direction": "short",
+                "shares": -26,
+                "entryPrice": 767.98,
+                "leverage": 2,
+                "notional": 19967.48,
+                "marginUsed": 9983.74,
+                "assetType": "etf"
+            }
+        },
+        "totalValue": 98687.17,
+        "startingCash": 100000,
+        "strategyPrompt": "You are an autonomous trading agent. You can choose whatever style fits today's conditions best, including trend-following, mean reversion, catalyst/event-driven, valuation, volatility breakout, sentiment, or staying out entirely. Use web search whenever it helps you gather live market context, recent news, filings, earnings, macro events, technical levels, or other relevant metrics.",
+        "llmProvider": "groq_tavily",
+        "llmModel": "openai/gpt-oss-120b",
+        "timestamp": "2026-09-03T13:31:04Z",
+        "sessionId": "open-2026-09-03",
+        "_rid": "FN8OAOpdBMkgAAAAAAAAAA==",
+        "_self": "dbs/FN8OAA==/colls/FN8OAOpdBMk=/docs/FN8OAOpdBMkgAAAAAAAAAA==/",
+        "_etag": "\"0d01ed26-0000-0200-0000-6a9976980000\"",
+        "_attachments": "attachments/",
+        "_ts": 1788442264
+    },
+    {
+        "id": "ec857da6-f91d-4f3f-96e7-106b20e1ee78",
+        "botName": "open_qwen",
+        "cash": 59568.29,
+        "positions": {
+            "MU": {
+                "direction": "long",
+                "shares": 21,
+                "entryPrice": 951.47,
+                "leverage": 1,
+                "notional": 19980.87,
+                "marginUsed": 19980.87,
+                "assetType": "stock"
+            },
+            "QQQ": {
+                "direction": "long",
+                "shares": 28,
+                "entryPrice": 711.62,
+                "leverage": 1,
+                "notional": 19925.36,
+                "marginUsed": 19925.36,
+                "assetType": "etf"
+            }
+        },
+        "totalValue": 99474.52,
+        "startingCash": 100000,
+        "strategyPrompt": "You are an autonomous trading agent. You can choose whatever style fits today's conditions best, including trend-following, mean reversion, catalyst/event-driven, valuation, volatility breakout, sentiment, or staying out entirely. Use web search whenever it helps you gather live market context, recent news, filings, earnings, macro events, technical levels, or other relevant metrics.",
+        "llmProvider": "groq_tavily",
+        "llmModel": "qwen/qwen3.8-27b",
+        "timestamp": "2026-09-03T13:31:39Z",
+        "sessionId": "open-2026-09-03",
+        "_rid": "FN8OAOpdBMkhAAAAAAAAAA==",
+        "_self": "dbs/FN8OAA==/colls/FN8OAOpdBMk=/docs/FN8OAOpdBMkhAAAAAAAAAA==/",
+        "_etag": "\"0d017d29-0000-0200-0000-6a9976bb0000\"",
+        "_attachments": "attachments/",
+        "_ts": 1788442299
+    },
+    {
+        "id": "36d38018-523d-4003-a24e-c4c0a9e20876",
+        "botName": "open_gptoss",
+        "cash": 13674.38,
+        "positions": {
+            "NIO/USD": {
+                "direction": "long",
+                "shares": 1659184.2,
+                "entryPrice": 0.0271,
+                "leverage": 3,
+                "notional": 45000,
+                "marginUsed": 15000
+            },
+            "NIO": {
+                "direction": "long",
+                "shares": 1470495,
+                "entryPrice": 0.0272,
+                "leverage": 2,
+                "notional": 39999.98,
+                "marginUsed": 19999.99,
+                "assetType": "stock"
+            },
+            "TLT": {
+                "direction": "short",
+                "shares": -1217,
+                "entryPrice": 82.16,
+                "leverage": 2,
+                "notional": 99988.72,
+                "marginUsed": 49994.36,
+                "assetType": "etf"
+            }
+        },
+        "totalValue": 98840.13,
+        "startingCash": 100000,
+        "strategyPrompt": "You are an autonomous trading agent. You can choose whatever style fits today's conditions best, including trend-following, mean reversion, catalyst/event-driven, valuation, volatility breakout, sentiment, or staying out entirely. Use web search whenever it helps you gather live market context, recent news, filings, earnings, macro events, technical levels, or other relevant metrics.",
+        "llmProvider": "groq_tavily",
+        "llmModel": "openai/gpt-oss-120b",
+        "timestamp": "2026-09-03T19:30:41Z",
+        "sessionId": "close-2026-09-03",
+        "_rid": "FN8OAOpdBMkiAAAAAAAAAA==",
+        "_self": "dbs/FN8OAA==/colls/FN8OAOpdBMk=/docs/FN8OAOpdBMkiAAAAAAAAAA==/",
+        "_etag": "\"1301737f-0000-0200-0000-6a99cae10000\"",
+        "_attachments": "attachments/",
+        "_ts": 1788463841
+    },
+    {
+        "id": "b5ac4a37-46e5-4dc9-a0a8-e6038946bff8",
+        "botName": "open_qwen",
+        "cash": 99601.85,
+        "positions": {},
+        "totalValue": 99601.85,
+        "startingCash": 100000,
+        "strategyPrompt": "You are an autonomous trading agent. You can choose whatever style fits today's conditions best, including trend-following, mean reversion, catalyst/event-driven, valuation, volatility breakout, sentiment, or staying out entirely. Use web search whenever it helps you gather live market context, recent news, filings, earnings, macro events, technical levels, or other relevant metrics.",
+        "llmProvider": "groq_tavily",
+        "llmModel": "qwen/qwen3.8-27b",
+        "timestamp": "2026-09-03T19:30:56Z",
+        "sessionId": "close-2026-09-03",
+        "_rid": "FN8OAOpdBMkjAAAAAAAAAA==",
+        "_self": "dbs/FN8OAA==/colls/FN8OAOpdBMk=/docs/FN8OAOpdBMkjAAAAAAAAAA==/",
+        "_etag": "\"13017781-0000-0200-0000-6a99caf00000\"",
+        "_attachments": "attachments/",
+        "_ts": 1788463856
+    },
+    {
+        "id": "912e058b-e24a-4303-bd34-c7ac5cb1b95d",
+        "botName": "open_gemini",
+        "cash": 40758.59,
+        "positions": {
+            "NVDA": {
+                "direction": "long",
+                "shares": 115,
+                "entryPrice": 216.94,
+                "leverage": 1,
+                "notional": 24948.1,
+                "marginUsed": 24948.1
+            },
+            "GLD": {
+                "direction": "long",
+                "shares": 50,
+                "entryPrice": 398.65,
+                "leverage": 1,
+                "notional": 19932.5,
+                "marginUsed": 19932.5
+            },
+            "BTC/USD": {
+                "direction": "long",
+                "shares": 0.192543,
+                "entryPrice": 77904.675,
+                "leverage": 1,
+                "notional": 15000,
+                "marginUsed": 15000
+            }
+        },
+        "totalValue": 103362.36,
+        "startingCash": 100000,
+        "strategyPrompt": "You are an autonomous trading agent. You can choose whatever style fits today's conditions best, including trend-following, mean reversion, catalyst/event-driven, valuation, volatility breakout, sentiment, or staying out entirely. Use web search whenever it helps you gather live market context, recent news, filings, earnings, macro events, technical levels, or other relevant metrics.",
+        "llmProvider": "gemini",
+        "llmModel": "gemini-3.6-flash",
+        "timestamp": "2026-09-03T19:31:53Z",
+        "sessionId": "close-2026-09-03",
+        "_rid": "FN8OAOpdBMkkAAAAAAAAAA==",
+        "_self": "dbs/FN8OAA==/colls/FN8OAOpdBMk=/docs/FN8OAOpdBMkkAAAAAAAAAA==/",
+        "_etag": "\"1301a986-0000-0200-0000-6a99cb290000\"",
+        "_attachments": "attachments/",
+        "_ts": 1788463913
+    },
+    {
+        "id": "cd6a5437-16d2-4427-93f9-bb55c0c64432",
+        "botName": "open_gptoss",
+        "cash": 63618.88,
+        "positions": {
+            "NIO": {
+                "direction": "short",
+                "shares": -1656055,
+                "entryPrice": 0.0272,
+                "leverage": 3,
+                "notional": 44999.98,
+                "marginUsed": 14999.99,
+                "assetType": "stock"
+            },
+            "SPY": {
+                "direction": "long",
+                "shares": 31,
+                "entryPrice": 772.07,
+                "leverage": 2,
+                "notional": 23934.17,
+                "marginUsed": 11967.09,
+                "assetType": "etf"
+            },
+            "BTC/USD": {
+                "direction": "long",
+                "shares": 0.201559,
+                "entryPrice": 79381.045,
+                "leverage": 2,
+                "notional": 15999.96,
+                "marginUsed": 7999.98,
+                "assetType": "crypto"
+            }
+        },
+        "totalValue": 98630.61,
+        "startingCash": 100000,
+        "strategyPrompt": "You are an autonomous trading agent. You can choose whatever style fits today's conditions best, including trend-following, mean reversion, catalyst/event-driven, valuation, volatility breakout, sentiment, or staying out entirely. Use web search whenever it helps you gather live market context, recent news, filings, earnings, macro events, technical levels, or other relevant metrics.",
+        "llmProvider": "groq_tavily",
+        "llmModel": "openai/gpt-oss-120b",
+        "timestamp": "2026-09-04T13:30:40Z",
+        "sessionId": "open-2026-09-04",
+        "_rid": "FN8OAOpdBMklAAAAAAAAAA==",
+        "_self": "dbs/FN8OAA==/colls/FN8OAOpdBMk=/docs/FN8OAOpdBMklAAAAAAAAAA==/",
+        "_etag": "\"2401d025-0000-0200-0000-6a9ac8000000\"",
+        "_attachments": "attachments/",
+        "_ts": 1788528640
+    },
+    {
+        "id": "ac1fcde0-7239-4605-955c-3d92b127849c",
+        "botName": "open_qwen",
+        "cash": 45683.99,
+        "positions": {
+            "NVDA": {
+                "direction": "long",
+                "shares": 86,
+                "entryPrice": 230.19,
+                "leverage": 1,
+                "notional": 19796.34,
+                "marginUsed": 19796.34,
+                "assetType": "stock"
+            },
+            "QQQ": {
+                "direction": "long",
+                "shares": 20,
+                "entryPrice": 718.71,
+                "leverage": 1,
+                "notional": 14374.2,
+                "marginUsed": 14374.2,
+                "assetType": "etf"
+            },
+            "GLD": {
+                "direction": "long",
+                "shares": 29,
+                "entryPrice": 405.08,
+                "leverage": 1,
+                "notional": 11747.32,
+                "marginUsed": 11747.32,
+                "assetType": "etf"
+            },
+            "BTC/USD": {
+                "direction": "long",
+                "shares": 0.151118,
+                "entryPrice": 79408.175,
+                "leverage": 1.5,
+                "notional": 12000,
+                "marginUsed": 8000,
+                "assetType": "crypto"
+            }
+        },
+        "totalValue": 99601.85,
+        "startingCash": 100000,
+        "strategyPrompt": "You are an autonomous trading agent. You can choose whatever style fits today's conditions best, including trend-following, mean reversion, catalyst/event-driven, valuation, volatility breakout, sentiment, or staying out entirely. Use web search whenever it helps you gather live market context, recent news, filings, earnings, macro events, technical levels, or other relevant metrics.",
+        "llmProvider": "groq_tavily",
+        "llmModel": "qwen/qwen3.8-27b",
+        "timestamp": "2026-09-04T13:31:50Z",
+        "sessionId": "open-2026-09-04",
+        "_rid": "FN8OAOpdBMkmAAAAAAAAAA==",
+        "_self": "dbs/FN8OAA==/colls/FN8OAOpdBMk=/docs/FN8OAOpdBMkmAAAAAAAAAA==/",
+        "_etag": "\"2401382a-0000-0200-0000-6a9ac8460000\"",
+        "_attachments": "attachments/",
+        "_ts": 1788528710
+    },
+    {
+        "id": "767e4d25-0d54-4d0c-b1fe-b185b8003d72",
+        "botName": "open_gemini",
+        "cash": 40758.59,
+        "positions": {
+            "NVDA": {
+                "direction": "long",
+                "shares": 115,
+                "entryPrice": 216.94,
+                "leverage": 1,
+                "notional": 24948.1,
+                "marginUsed": 24948.1
+            },
+            "GLD": {
+                "direction": "long",
+                "shares": 50,
+                "entryPrice": 398.65,
+                "leverage": 1,
+                "notional": 19932.5,
+                "marginUsed": 19932.5
+            },
+            "BTC/USD": {
+                "direction": "long",
+                "shares": 0.192543,
+                "entryPrice": 77904.675,
+                "leverage": 1,
+                "notional": 15000,
+                "marginUsed": 15000
+            }
+        },
+        "totalValue": 102945.34,
+        "startingCash": 100000,
+        "strategyPrompt": "You are an autonomous trading agent. You can choose whatever style fits today's conditions best, including trend-following, mean reversion, catalyst/event-driven, valuation, volatility breakout, sentiment, or staying out entirely. Use web search whenever it helps you gather live market context, recent news, filings, earnings, macro events, technical levels, or other relevant metrics.",
+        "llmProvider": "gemini",
+        "llmModel": "gemini-3.6-flash",
+        "timestamp": "2026-09-04T13:33:26Z",
+        "sessionId": "open-2026-09-04",
+        "_rid": "FN8OAOpdBMknAAAAAAAAAA==",
+        "_self": "dbs/FN8OAA==/colls/FN8OAOpdBMk=/docs/FN8OAOpdBMknAAAAAAAAAA==/",
+        "_etag": "\"24018630-0000-0200-0000-6a9ac8a60000\"",
+        "_attachments": "attachments/",
+        "_ts": 1788528806
+    },
+    {
+        "id": "732cb341-38d4-4036-b8fb-7517ae0dbbbb",
+        "botName": "open_gemini",
+        "cash": 40758.59,
+        "positions": {
+            "NVDA": {
+                "direction": "long",
+                "shares": 115,
+                "entryPrice": 216.94,
+                "leverage": 1,
+                "notional": 24948.1,
+                "marginUsed": 24948.1
+            },
+            "GLD": {
+                "direction": "long",
+                "shares": 50,
+                "entryPrice": 398.65,
+                "leverage": 1,
+                "notional": 19932.5,
+                "marginUsed": 19932.5
+            },
+            "BTC/USD": {
+                "direction": "long",
+                "shares": 0.192543,
+                "entryPrice": 77904.675,
+                "leverage": 1,
+                "notional": 15000,
+                "marginUsed": 15000
+            }
+        },
+        "totalValue": 102940.28,
+        "startingCash": 100000,
+        "strategyPrompt": "You are an autonomous trading agent. You can choose whatever style fits today's conditions best, including trend-following, mean reversion, catalyst/event-driven, valuation, volatility breakout, sentiment, or staying out entirely. Use web search whenever it helps you gather live market context, recent news, filings, earnings, macro events, technical levels, or other relevant metrics.",
+        "llmProvider": "gemini",
+        "llmModel": "gemini-3.6-flash",
+        "timestamp": "2026-09-04T13:37:09Z",
+        "sessionId": "open-2026-09-04",
+        "_rid": "FN8OAOpdBMkoAAAAAAAAAA==",
+        "_self": "dbs/FN8OAA==/colls/FN8OAOpdBMk=/docs/FN8OAOpdBMkoAAAAAAAAAA==/",
+        "_etag": "\"24013d3f-0000-0200-0000-6a9ac9850000\"",
+        "_attachments": "attachments/",
+        "_ts": 1788529029
+    },
+    {
+        "id": "73173c0d-7afc-4249-9558-6d9b8cb6630a",
+        "botName": "open_gptoss",
+        "cash": 54244.11,
+        "positions": {
+            "SPY": {
+                "direction": "long",
+                "shares": 19,
+                "entryPrice": 770.03,
+                "leverage": 1,
+                "notional": 14630.57,
+                "marginUsed": 14630.57,
+                "assetType": "etf"
+            },
+            "NVDA": {
+                "direction": "long",
+                "shares": 86,
+                "entryPrice": 229.91,
+                "leverage": 1,
+                "notional": 19772.26,
+                "marginUsed": 19772.26,
+                "assetType": "stock"
+            },
+            "BTC/USD": {
+                "direction": "long",
+                "shares": 0.188027,
+                "entryPrice": 79775.805,
+                "leverage": 1.5,
+                "notional": 15000.01,
+                "marginUsed": 10000,
+                "assetType": "crypto"
+            }
+        },
+        "totalValue": 98646.94,
+        "startingCash": 100000,
+        "strategyPrompt": "You are an autonomous trading agent. You can choose whatever style fits today's conditions best, including trend-following, mean reversion, catalyst/event-driven, valuation, volatility breakout, sentiment, or staying out entirely. Use web search whenever it helps you gather live market context, recent news, filings, earnings, macro events, technical levels, or other relevant metrics.",
+        "llmProvider": "groq_tavily",
+        "llmModel": "openai/gpt-oss-120b",
+        "timestamp": "2026-09-04T19:30:45Z",
+        "sessionId": "close-2026-09-04",
+        "_rid": "FN8OAOpdBMkpAAAAAAAAAA==",
+        "_self": "dbs/FN8OAA==/colls/FN8OAOpdBMk=/docs/FN8OAOpdBMkpAAAAAAAAAA==/",
+        "_etag": "\"2901a6d3-0000-0200-0000-6a9b1c650000\"",
+        "_attachments": "attachments/",
+        "_ts": 1788550245
+    },
+    {
+        "id": "5b31ec2c-f09b-4e68-87ab-327dae0e378c",
+        "botName": "open_gemini",
+        "cash": 40758.59,
+        "positions": {
+            "NVDA": {
+                "direction": "long",
+                "shares": 115,
+                "entryPrice": 216.94,
+                "leverage": 1,
+                "notional": 24948.1,
+                "marginUsed": 24948.1
+            },
+            "GLD": {
+                "direction": "long",
+                "shares": 50,
+                "entryPrice": 398.65,
+                "leverage": 1,
+                "notional": 19932.5,
+                "marginUsed": 19932.5
+            },
+            "BTC/USD": {
+                "direction": "long",
+                "shares": 0.192543,
+                "entryPrice": 77904.675,
+                "leverage": 1,
+                "notional": 15000,
+                "marginUsed": 15000
+            }
+        },
+        "totalValue": 102888.96,
+        "startingCash": 100000,
+        "strategyPrompt": "You are an autonomous trading agent. You can choose whatever style fits today's conditions best, including trend-following, mean reversion, catalyst/event-driven, valuation, volatility breakout, sentiment, or staying out entirely. Use web search whenever it helps you gather live market context, recent news, filings, earnings, macro events, technical levels, or other relevant metrics.",
+        "llmProvider": "gemini",
+        "llmModel": "gemini-3.6-flash",
+        "timestamp": "2026-09-04T19:30:57Z",
+        "sessionId": "close-2026-09-04",
+        "_rid": "FN8OAOpdBMkqAAAAAAAAAA==",
+        "_self": "dbs/FN8OAA==/colls/FN8OAOpdBMk=/docs/FN8OAOpdBMkqAAAAAAAAAA==/",
+        "_etag": "\"290162d4-0000-0200-0000-6a9b1c710000\"",
+        "_attachments": "attachments/",
+        "_ts": 1788550257
+    },
+    {
+        "id": "93215f53-d668-433c-9df4-c3cf46592b6f",
+        "botName": "open_qwen",
+        "cash": 68093.34,
+        "positions": {
+            "NVDA": {
+                "direction": "long",
+                "shares": 86,
+                "entryPrice": 230.19,
+                "leverage": 1,
+                "notional": 19796.34,
+                "marginUsed": 19796.34,
+                "assetType": "stock"
+            },
+            "GLD": {
+                "direction": "long",
+                "shares": 29,
+                "entryPrice": 405.08,
+                "leverage": 1,
+                "notional": 11747.32,
+                "marginUsed": 11747.32,
+                "assetType": "etf"
+            }
+        },
+        "totalValue": 99663.09,
+        "startingCash": 100000,
+        "strategyPrompt": "You are an autonomous trading agent. You can choose whatever style fits today's conditions best, including trend-following, mean reversion, catalyst/event-driven, valuation, volatility breakout, sentiment, or staying out entirely. Use web search whenever it helps you gather live market context, recent news, filings, earnings, macro events, technical levels, or other relevant metrics.",
+        "llmProvider": "groq_tavily",
+        "llmModel": "qwen/qwen3.8-27b",
+        "timestamp": "2026-09-04T19:31:29Z",
+        "sessionId": "close-2026-09-04",
+        "_rid": "FN8OAOpdBMkrAAAAAAAAAA==",
+        "_self": "dbs/FN8OAA==/colls/FN8OAOpdBMk=/docs/FN8OAOpdBMkrAAAAAAAAAA==/",
+        "_etag": "\"29019bd6-0000-0200-0000-6a9b1c910000\"",
+        "_attachments": "attachments/",
+        "_ts": 1788550289
+    },
+    {
+        "id": "9af82150-a206-4983-a125-2635c42f68a6",
+        "botName": "open_gptoss",
+        "cash": 34369.93,
+        "positions": {
+            "BTC/USD": {
+                "direction": "long",
+                "shares": 0.188027,
+                "entryPrice": 79775.805,
+                "leverage": 1.5,
+                "notional": 15000.01,
+                "marginUsed": 10000,
+                "assetType": "crypto"
+            },
+            "NVDA": {
+                "direction": "long",
+                "shares": 130,
+                "entryPrice": 230.4,
+                "leverage": 1,
+                "notional": 29952,
+                "marginUsed": 29952,
+                "assetType": "stock"
+            },
+            "QQQ": {
+                "direction": "long",
+                "shares": 20,
+                "entryPrice": 719,
+                "leverage": 1,
+                "notional": 14380,
+                "marginUsed": 14380,
+                "assetType": "etf"
+            },
+            "TLT": {
+                "direction": "short",
+                "shares": -243,
+                "entryPrice": 82.23,
+                "leverage": 2,
+                "notional": 19981.89,
+                "marginUsed": 9990.94,
+                "assetType": "etf"
+            }
+        },
+        "totalValue": 98666.04,
+        "startingCash": 100000,
+        "strategyPrompt": "You are an autonomous trading agent. You can choose whatever style fits today's conditions best, including trend-following, mean reversion, catalyst/event-driven, valuation, volatility breakout, sentiment, or staying out entirely. Use web search whenever it helps you gather live market context, recent news, filings, earnings, macro events, technical levels, or other relevant metrics.",
+        "llmProvider": "groq_tavily",
+        "llmModel": "openai/gpt-oss-120b",
+        "timestamp": "2026-09-07T13:30:19Z",
+        "sessionId": "open-2026-09-07",
+        "_rid": "FN8OAOpdBMksAAAAAAAAAA==",
+        "_self": "dbs/FN8OAA==/colls/FN8OAOpdBMk=/docs/FN8OAOpdBMksAAAAAAAAAA==/",
+        "_etag": "\"6101d2bf-0000-0200-0000-6a9ebc6b0000\"",
+        "_attachments": "attachments/",
+        "_ts": 1788787819
+    },
+    {
+        "id": "1d48beea-254d-44f8-83e1-931b5115cb34",
+        "botName": "open_gemini",
+        "cash": 40758.59,
+        "positions": {
+            "NVDA": {
+                "direction": "long",
+                "shares": 115,
+                "entryPrice": 216.94,
+                "leverage": 1,
+                "notional": 24948.1,
+                "marginUsed": 24948.1
+            },
+            "GLD": {
+                "direction": "long",
+                "shares": 50,
+                "entryPrice": 398.65,
+                "leverage": 1,
+                "notional": 19932.5,
+                "marginUsed": 19932.5
+            },
+            "BTC/USD": {
+                "direction": "long",
+                "shares": 0.192543,
+                "entryPrice": 77904.675,
+                "leverage": 1,
+                "notional": 15000,
+                "marginUsed": 15000
+            }
+        },
+        "totalValue": 102924.53,
+        "startingCash": 100000,
+        "strategyPrompt": "You are an autonomous trading agent. You can choose whatever style fits today's conditions best, including trend-following, mean reversion, catalyst/event-driven, valuation, volatility breakout, sentiment, or staying out entirely. Use web search whenever it helps you gather live market context, recent news, filings, earnings, macro events, technical levels, or other relevant metrics.",
+        "llmProvider": "gemini",
+        "llmModel": "gemini-3.6-flash",
+        "timestamp": "2026-09-07T13:31:53Z",
+        "sessionId": "open-2026-09-07",
+        "_rid": "FN8OAOpdBMktAAAAAAAAAA==",
+        "_self": "dbs/FN8OAA==/colls/FN8OAOpdBMk=/docs/FN8OAOpdBMktAAAAAAAAAA==/",
+        "_etag": "\"6101dfc5-0000-0200-0000-6a9ebcc90000\"",
+        "_attachments": "attachments/",
+        "_ts": 1788787913
+    },
+    {
+        "id": "4378c5af-8cba-4105-8591-f7be6c0a7d98",
+        "botName": "open_qwen",
+        "cash": 68093.34,
+        "positions": {
+            "NVDA": {
+                "direction": "long",
+                "shares": 86,
+                "entryPrice": 230.19,
+                "leverage": 1,
+                "notional": 19796.34,
+                "marginUsed": 19796.34,
+                "assetType": "stock"
+            },
+            "GLD": {
+                "direction": "long",
+                "shares": 29,
+                "entryPrice": 405.08,
+                "leverage": 1,
+                "notional": 11747.32,
+                "marginUsed": 11747.32,
+                "assetType": "etf"
+            }
+        },
+        "totalValue": 99705.23,
+        "startingCash": 100000,
+        "strategyPrompt": "You are an autonomous trading agent. You can choose whatever style fits today's conditions best, including trend-following, mean reversion, catalyst/event-driven, valuation, volatility breakout, sentiment, or staying out entirely. Use web search whenever it helps you gather live market context, recent news, filings, earnings, macro events, technical levels, or other relevant metrics.",
+        "llmProvider": "groq_tavily",
+        "llmModel": "qwen/qwen3.8-27b",
+        "timestamp": "2026-09-07T13:32:52Z",
+        "sessionId": "open-2026-09-07",
+        "_rid": "FN8OAOpdBMkuAAAAAAAAAA==",
+        "_self": "dbs/FN8OAA==/colls/FN8OAOpdBMk=/docs/FN8OAOpdBMkuAAAAAAAAAA==/",
+        "_etag": "\"610185c9-0000-0200-0000-6a9ebd040000\"",
+        "_attachments": "attachments/",
+        "_ts": 1788787972
+    },
+    {
+        "id": "8846f552-8c1e-47c3-9370-b3c6f47d2846",
+        "botName": "open_qwen",
+        "cash": 53713.34,
+        "positions": {
+            "NVDA": {
+                "direction": "long",
+                "shares": 86,
+                "entryPrice": 230.19,
+                "leverage": 1,
+                "notional": 19796.34,
+                "marginUsed": 19796.34,
+                "assetType": "stock"
+            },
+            "GLD": {
+                "direction": "long",
+                "shares": 29,
+                "entryPrice": 405.08,
+                "leverage": 1,
+                "notional": 11747.32,
+                "marginUsed": 11747.32,
+                "assetType": "etf"
+            },
+            "QQQ": {
+                "direction": "long",
+                "shares": 20,
+                "entryPrice": 719,
+                "leverage": 1,
+                "notional": 14380,
+                "marginUsed": 14380,
+                "assetType": "etf"
+            }
+        },
+        "totalValue": 99705.23,
+        "startingCash": 100000,
+        "strategyPrompt": "You are an autonomous trading agent. You can choose whatever style fits today's conditions best, including trend-following, mean reversion, catalyst/event-driven, valuation, volatility breakout, sentiment, or staying out entirely. Use web search whenever it helps you gather live market context, recent news, filings, earnings, macro events, technical levels, or other relevant metrics.",
+        "llmProvider": "groq_tavily",
+        "llmModel": "qwen/qwen3.8-27b",
+        "timestamp": "2026-09-07T19:30:13Z",
+        "sessionId": "close-2026-09-07",
+        "_rid": "FN8OAOpdBMkvAAAAAAAAAA==",
+        "_self": "dbs/FN8OAA==/colls/FN8OAOpdBMk=/docs/FN8OAOpdBMkvAAAAAAAAAA==/",
+        "_etag": "\"67012e28-0000-0200-0000-6a9f10c50000\"",
+        "_attachments": "attachments/",
+        "_ts": 1788809413
+    },
+    {
+        "id": "c73bc2c9-72cd-4906-8e64-4f1741bf0856",
+        "botName": "open_gemini",
+        "cash": 40758.59,
+        "positions": {
+            "NVDA": {
+                "direction": "long",
+                "shares": 115,
+                "entryPrice": 216.94,
+                "leverage": 1,
+                "notional": 24948.1,
+                "marginUsed": 24948.1
+            },
+            "GLD": {
+                "direction": "long",
+                "shares": 50,
+                "entryPrice": 398.65,
+                "leverage": 1,
+                "notional": 19932.5,
+                "marginUsed": 19932.5
+            },
+            "BTC/USD": {
+                "direction": "long",
+                "shares": 0.192543,
+                "entryPrice": 77904.675,
+                "leverage": 1,
+                "notional": 15000,
+                "marginUsed": 15000
+            }
+        },
+        "totalValue": 102850.99,
+        "startingCash": 100000,
+        "strategyPrompt": "You are an autonomous trading agent. You can choose whatever style fits today's conditions best, including trend-following, mean reversion, catalyst/event-driven, valuation, volatility breakout, sentiment, or staying out entirely. Use web search whenever it helps you gather live market context, recent news, filings, earnings, macro events, technical levels, or other relevant metrics.",
+        "llmProvider": "gemini",
+        "llmModel": "gemini-3.6-flash",
+        "timestamp": "2026-09-07T19:30:22Z",
+        "sessionId": "close-2026-09-07",
+        "_rid": "FN8OAOpdBMkwAAAAAAAAAA==",
+        "_self": "dbs/FN8OAA==/colls/FN8OAOpdBMk=/docs/FN8OAOpdBMkwAAAAAAAAAA==/",
+        "_etag": "\"6701c128-0000-0200-0000-6a9f10ce0000\"",
+        "_attachments": "attachments/",
+        "_ts": 1788809422
+    },
+    {
+        "id": "de972455-98d8-496f-8599-6de766c1b0a7",
+        "botName": "open_gptoss",
+        "cash": 64308.02,
+        "positions": {
+            "NVDA": {
+                "direction": "long",
+                "shares": 64,
+                "entryPrice": 233.22,
+                "leverage": 1,
+                "notional": 14926.08,
+                "marginUsed": 14926.08,
+                "assetType": "stock"
+            },
+            "BTC/USD": {
+                "direction": "short",
+                "shares": -0.20428,
+                "entryPrice": 78323.885,
+                "leverage": 2,
+                "notional": 16000,
+                "marginUsed": 8000,
+                "assetType": "crypto"
+            },
+            "QQQ": {
+                "direction": "long",
+                "shares": 16,
+                "entryPrice": 720.88,
+                "leverage": 1,
+                "notional": 11534.08,
+                "marginUsed": 11534.08,
+                "assetType": "etf"
+            }
+        },
+        "totalValue": 98768.18,
+        "startingCash": 100000,
+        "strategyPrompt": "You are an autonomous trading agent. You can choose whatever style fits today's conditions best, including trend-following, mean reversion, catalyst/event-driven, valuation, volatility breakout, sentiment, or staying out entirely. Use web search whenever it helps you gather live market context, recent news, filings, earnings, macro events, technical levels, or other relevant metrics.",
+        "llmProvider": "groq_tavily",
+        "llmModel": "openai/gpt-oss-120b",
+        "timestamp": "2026-09-08T13:30:37Z",
+        "sessionId": "open-2026-09-08",
+        "_rid": "FN8OAOpdBMkxAAAAAAAAAA==",
+        "_self": "dbs/FN8OAA==/colls/FN8OAOpdBMk=/docs/FN8OAOpdBMkxAAAAAAAAAA==/",
+        "_etag": "\"7601a1ff-0000-0200-0000-6aa00dfd0000\"",
+        "_attachments": "attachments/",
+        "_ts": 1788874237
+    },
+    {
+        "id": "3bce32a4-5b53-469e-a0a7-8df3847f3b91",
+        "botName": "open_gemini",
+        "cash": 40758.59,
+        "positions": {
+            "NVDA": {
+                "direction": "long",
+                "shares": 115,
+                "entryPrice": 216.94,
+                "leverage": 1,
+                "notional": 24948.1,
+                "marginUsed": 24948.1
+            },
+            "GLD": {
+                "direction": "long",
+                "shares": 50,
+                "entryPrice": 398.65,
+                "leverage": 1,
+                "notional": 19932.5,
+                "marginUsed": 19932.5
+            },
+            "BTC/USD": {
+                "direction": "long",
+                "shares": 0.192543,
+                "entryPrice": 77904.675,
+                "leverage": 1,
+                "notional": 15000,
+                "marginUsed": 15000
+            }
+        },
+        "totalValue": 102895.58,
+        "startingCash": 100000,
+        "strategyPrompt": "You are an autonomous trading agent. You can choose whatever style fits today's conditions best, including trend-following, mean reversion, catalyst/event-driven, valuation, volatility breakout, sentiment, or staying out entirely. Use web search whenever it helps you gather live market context, recent news, filings, earnings, macro events, technical levels, or other relevant metrics.",
+        "llmProvider": "gemini",
+        "llmModel": "gemini-3.6-flash",
+        "timestamp": "2026-09-08T13:31:14Z",
+        "sessionId": "open-2026-09-08",
+        "_rid": "FN8OAOpdBMkyAAAAAAAAAA==",
+        "_self": "dbs/FN8OAA==/colls/FN8OAOpdBMk=/docs/FN8OAOpdBMkyAAAAAAAAAA==/",
+        "_etag": "\"77015702-0000-0200-0000-6aa00e220000\"",
+        "_attachments": "attachments/",
+        "_ts": 1788874274
+    },
+    {
+        "id": "5295247f-ddc5-46ac-b803-82c55597cf34",
+        "botName": "open_qwen",
+        "cash": 51433.44,
+        "positions": {
+            "GLD": {
+                "direction": "long",
+                "shares": 29,
+                "entryPrice": 405.08,
+                "leverage": 1,
+                "notional": 11747.32,
+                "marginUsed": 11747.32,
+                "assetType": "etf"
+            },
+            "QQQ": {
+                "direction": "long",
+                "shares": 20,
+                "entryPrice": 719,
+                "leverage": 1,
+                "notional": 14380,
+                "marginUsed": 14380,
+                "assetType": "etf"
+            },
+            "NVDA": {
+                "direction": "long",
+                "shares": 96,
+                "entryPrice": 227.99,
+                "leverage": 1,
+                "notional": 21887.04,
+                "marginUsed": 21887.04,
+                "assetType": "stock"
+            }
+        },
+        "totalValue": 99383.54,
+        "startingCash": 100000,
+        "strategyPrompt": "You are an autonomous trading agent. You can choose whatever style fits today's conditions best, including trend-following, mean reversion, catalyst/event-driven, valuation, volatility breakout, sentiment, or staying out entirely. Use web search whenever it helps you gather live market context, recent news, filings, earnings, macro events, technical levels, or other relevant metrics.",
+        "llmProvider": "groq_tavily",
+        "llmModel": "qwen/qwen3.8-27b",
+        "timestamp": "2026-09-08T14:26:35Z",
+        "sessionId": "open-2026-09-08",
+        "_rid": "FN8OAOpdBMkzAAAAAAAAAA==",
+        "_self": "dbs/FN8OAA==/colls/FN8OAOpdBMk=/docs/FN8OAOpdBMkzAAAAAAAAAA==/",
+        "_etag": "\"77013df8-0000-0200-0000-6aa01b1b0000\"",
+        "_attachments": "attachments/",
+        "_ts": 1788877595
+    },
+    {
+        "id": "fa05ba89-2149-4bef-ab17-35427ac18ab0",
+        "botName": "open_gemini",
+        "cash": 30865.95,
+        "positions": {
+            "NVDA": {
+                "direction": "long",
+                "shares": 115,
+                "entryPrice": 216.94,
+                "leverage": 1,
+                "notional": 24948.1,
+                "marginUsed": 24948.1
+            },
+            "GLD": {
+                "direction": "long",
+                "shares": 50,
+                "entryPrice": 398.65,
+                "leverage": 1,
+                "notional": 19932.5,
+                "marginUsed": 19932.5
+            },
+            "BTC/USD": {
+                "direction": "long",
+                "shares": 0.192543,
+                "entryPrice": 77904.675,
+                "leverage": 1,
+                "notional": 15000,
+                "marginUsed": 15000
+            },
+            "USO": {
+                "direction": "long",
+                "shares": 68,
+                "entryPrice": 145.48,
+                "leverage": 1,
+                "notional": 9892.64,
+                "marginUsed": 9892.64,
+                "assetType": "etf"
+            }
+        },
+        "totalValue": 101835.79,
+        "startingCash": 100000,
+        "strategyPrompt": "You are an autonomous trading agent. You can choose whatever style fits today's conditions best, including trend-following, mean reversion, catalyst/event-driven, valuation, volatility breakout, sentiment, or staying out entirely. Use web search whenever it helps you gather live market context, recent news, filings, earnings, macro events, technical levels, or other relevant metrics.",
+        "llmProvider": "gemini",
+        "llmModel": "gemini-3.6-flash",
+        "timestamp": "2026-09-08T19:30:28Z",
+        "sessionId": "close-2026-09-08",
+        "_rid": "FN8OAOpdBMk0AAAAAAAAAA==",
+        "_self": "dbs/FN8OAA==/colls/FN8OAOpdBMk=/docs/FN8OAOpdBMk0AAAAAAAAAA==/",
+        "_etag": "\"7d01e826-0000-0200-0000-6aa062540000\"",
+        "_attachments": "attachments/",
+        "_ts": 1788895828
+    },
+    {
+        "id": "f7b5d536-07ac-4c7a-88ab-6fbc20eb0843",
+        "botName": "open_gptoss",
+        "cash": 46864.3,
+        "positions": {
+            "QQQ": {
+                "direction": "long",
+                "shares": 16,
+                "entryPrice": 720.88,
+                "leverage": 1,
+                "notional": 11534.08,
+                "marginUsed": 11534.08,
+                "assetType": "etf"
+            },
+            "NVDA": {
+                "direction": "long",
+                "shares": 265,
+                "entryPrice": 225.58,
+                "leverage": 2,
+                "notional": 59778.7,
+                "marginUsed": 29889.35,
+                "assetType": "stock"
+            },
+            "SPY": {
+                "direction": "long",
+                "shares": 13,
+                "entryPrice": 766.94,
+                "leverage": 1,
+                "notional": 9970.22,
+                "marginUsed": 9970.22,
+                "assetType": "etf"
+            }
+        },
+        "totalValue": 98226.75,
+        "startingCash": 100000,
+        "strategyPrompt": "You are an autonomous trading agent. You can choose whatever style fits today's conditions best, including trend-following, mean reversion, catalyst/event-driven, valuation, volatility breakout, sentiment, or staying out entirely. Use web search whenever it helps you gather live market context, recent news, filings, earnings, macro events, technical levels, or other relevant metrics.",
+        "llmProvider": "groq_tavily",
+        "llmModel": "openai/gpt-oss-120b",
+        "timestamp": "2026-09-08T19:30:45Z",
+        "sessionId": "close-2026-09-08",
+        "_rid": "FN8OAOpdBMk1AAAAAAAAAA==",
+        "_self": "dbs/FN8OAA==/colls/FN8OAOpdBMk=/docs/FN8OAOpdBMk1AAAAAAAAAA==/",
+        "_etag": "\"7d01f627-0000-0200-0000-6aa062650000\"",
+        "_attachments": "attachments/",
+        "_ts": 1788895845
+    },
+    {
+        "id": "382f4740-0a51-42a0-b036-92d99c12cb7b",
+        "botName": "open_qwen",
+        "cash": 48044.16,
+        "positions": {
+            "QQQ": {
+                "direction": "long",
+                "shares": 20,
+                "entryPrice": 719,
+                "leverage": 1,
+                "notional": 14380,
+                "marginUsed": 14380,
+                "assetType": "etf"
+            },
+            "NVDA": {
+                "direction": "long",
+                "shares": 96,
+                "entryPrice": 227.99,
+                "leverage": 1,
+                "notional": 21887.04,
+                "marginUsed": 21887.04,
+                "assetType": "stock"
+            },
+            "BTC/USD": {
+                "direction": "long",
+                "shares": 0.229259,
+                "entryPrice": 78513.885,
+                "leverage": 1.2,
+                "notional": 18000.01,
+                "marginUsed": 15000.01,
+                "assetType": "crypto"
+            }
+        },
+        "totalValue": 99051.53,
+        "startingCash": 100000,
+        "strategyPrompt": "You are an autonomous trading agent. You can choose whatever style fits today's conditions best, including trend-following, mean reversion, catalyst/event-driven, valuation, volatility breakout, sentiment, or staying out entirely. Use web search whenever it helps you gather live market context, recent news, filings, earnings, macro events, technical levels, or other relevant metrics.",
+        "llmProvider": "groq_tavily",
+        "llmModel": "qwen/qwen3.8-27b",
+        "timestamp": "2026-09-08T19:31:35Z",
+        "sessionId": "close-2026-09-08",
+        "_rid": "FN8OAOpdBMk2AAAAAAAAAA==",
+        "_self": "dbs/FN8OAA==/colls/FN8OAOpdBMk=/docs/FN8OAOpdBMk2AAAAAAAAAA==/",
+        "_etag": "\"7d01552b-0000-0200-0000-6aa062970000\"",
+        "_attachments": "attachments/",
+        "_ts": 1788895895
+    },
+    {
+        "id": "c032baf8-b774-49e3-9de2-35b5175f11b2",
+        "botName": "open_gptoss",
+        "cash": 13911.49,
+        "positions": {
+            "SPY": {
+                "direction": "long",
+                "shares": 13,
+                "entryPrice": 766.94,
+                "leverage": 1,
+                "notional": 9970.22,
+                "marginUsed": 9970.22,
+                "assetType": "etf"
+            },
+            "NVDA": {
+                "direction": "long",
+                "shares": 177,
+                "entryPrice": 225.2,
+                "leverage": 1,
+                "notional": 39860.4,
+                "marginUsed": 39860.4,
+                "assetType": "stock"
+            },
+            "QQQ": {
+                "direction": "long",
+                "shares": 27,
+                "entryPrice": 716.46,
+                "leverage": 1,
+                "notional": 19344.42,
+                "marginUsed": 19344.42,
+                "assetType": "etf"
+            },
+            "AMD": {
+                "direction": "long",
+                "shares": 5450898,
+                "entryPrice": 0.0028,
+                "leverage": 1,
+                "notional": 15000,
+                "marginUsed": 15000,
+                "assetType": "stock"
+            }
+        },
+        "totalValue": 97792,
+        "startingCash": 100000,
+        "strategyPrompt": "You are an autonomous trading agent. You can choose whatever style fits today's conditions best, including trend-following, mean reversion, catalyst/event-driven, valuation, volatility breakout, sentiment, or staying out entirely. Use web search whenever it helps you gather live market context, recent news, filings, earnings, macro events, technical levels, or other relevant metrics.",
+        "llmProvider": "groq_tavily",
+        "llmModel": "openai/gpt-oss-120b",
+        "timestamp": "2026-09-09T13:30:45Z",
+        "sessionId": "open-2026-09-09",
+        "_rid": "FN8OAOpdBMk3AAAAAAAAAA==",
+        "_self": "dbs/FN8OAA==/colls/FN8OAOpdBMk=/docs/FN8OAOpdBMk3AAAAAAAAAA==/",
+        "_etag": "\"d301801b-0000-0200-0000-6aa15f850000\"",
+        "_attachments": "attachments/",
+        "_ts": 1788960645
+    },
+    {
+        "id": "aaf40ff0-fe3b-427e-852e-3fb0105c8b0c",
+        "botName": "open_gemini",
+        "cash": 16538.35,
+        "positions": {
+            "NVDA": {
+                "direction": "long",
+                "shares": 115,
+                "entryPrice": 216.94,
+                "leverage": 1,
+                "notional": 24948.1,
+                "marginUsed": 24948.1
+            },
+            "GLD": {
+                "direction": "long",
+                "shares": 50,
+                "entryPrice": 398.65,
+                "leverage": 1,
+                "notional": 19932.5,
+                "marginUsed": 19932.5
+            },
+            "BTC/USD": {
+                "direction": "long",
+                "shares": 0.192543,
+                "entryPrice": 77904.675,
+                "leverage": 1,
+                "notional": 15000,
+                "marginUsed": 15000
+            },
+            "USO": {
+                "direction": "long",
+                "shares": 68,
+                "entryPrice": 145.48,
+                "leverage": 1,
+                "notional": 9892.64,
+                "marginUsed": 9892.64,
+                "assetType": "etf"
+            },
+            "QQQ": {
+                "direction": "long",
+                "shares": 20,
+                "entryPrice": 716.38,
+                "leverage": 1,
+                "notional": 14327.6,
+                "marginUsed": 14327.6,
+                "assetType": "etf"
+            }
+        },
+        "totalValue": 102488.94,
+        "startingCash": 100000,
+        "strategyPrompt": "You are an autonomous trading agent. You can choose whatever style fits today's conditions best, including trend-following, mean reversion, catalyst/event-driven, valuation, volatility breakout, sentiment, or staying out entirely. Use web search whenever it helps you gather live market context, recent news, filings, earnings, macro events, technical levels, or other relevant metrics.",
+        "llmProvider": "gemini",
+        "llmModel": "gemini-3.6-flash",
+        "timestamp": "2026-09-09T13:34:43Z",
+        "sessionId": "open-2026-09-09",
+        "_rid": "FN8OAOpdBMk4AAAAAAAAAA==",
+        "_self": "dbs/FN8OAA==/colls/FN8OAOpdBMk=/docs/FN8OAOpdBMk4AAAAAAAAAA==/",
+        "_etag": "\"d301022b-0000-0200-0000-6aa160740000\"",
+        "_attachments": "attachments/",
+        "_ts": 1788960884
+    },
+    {
+        "id": "380405ab-215a-4cb4-a78e-356e7dd93468",
+        "botName": "open_gemini",
+        "cash": 30865.95,
+        "positions": {
+            "NVDA": {
+                "direction": "long",
+                "shares": 115,
+                "entryPrice": 216.94,
+                "leverage": 1,
+                "notional": 24948.1,
+                "marginUsed": 24948.1
+            },
+            "GLD": {
+                "direction": "long",
+                "shares": 50,
+                "entryPrice": 398.65,
+                "leverage": 1,
+                "notional": 19932.5,
+                "marginUsed": 19932.5
+            },
+            "BTC/USD": {
+                "direction": "long",
+                "shares": 0.192543,
+                "entryPrice": 77904.675,
+                "leverage": 1,
+                "notional": 15000,
+                "marginUsed": 15000
+            },
+            "USO": {
+                "direction": "long",
+                "shares": 68,
+                "entryPrice": 145.48,
+                "leverage": 1,
+                "notional": 9892.64,
+                "marginUsed": 9892.64,
+                "assetType": "etf"
+            }
+        },
+        "totalValue": 102477.92,
+        "startingCash": 100000,
+        "strategyPrompt": "You are an autonomous trading agent. You can choose whatever style fits today's conditions best, including trend-following, mean reversion, catalyst/event-driven, valuation, volatility breakout, sentiment, or staying out entirely. Use web search whenever it helps you gather live market context, recent news, filings, earnings, macro events, technical levels, or other relevant metrics.",
+        "llmProvider": "gemini",
+        "llmModel": "gemini-3.6-flash",
+        "timestamp": "2026-09-09T13:36:09Z",
+        "sessionId": "open-2026-09-09",
+        "_rid": "FN8OAOpdBMk5AAAAAAAAAA==",
+        "_self": "dbs/FN8OAA==/colls/FN8OAOpdBMk=/docs/FN8OAOpdBMk5AAAAAAAAAA==/",
+        "_etag": "\"d3018a31-0000-0200-0000-6aa160c90000\"",
+        "_attachments": "attachments/",
+        "_ts": 1788960969
+    },
+    {
+        "id": "63642c35-08e9-45f0-9174-7f21c0689c1e",
+        "botName": "open_qwen",
+        "cash": 60069.22,
+        "positions": {
+            "QQQ": {
+                "direction": "long",
+                "shares": 20,
+                "entryPrice": 719,
+                "leverage": 1,
+                "notional": 14380,
+                "marginUsed": 14380,
+                "assetType": "etf"
+            },
+            "NVDA": {
+                "direction": "long",
+                "shares": 110,
+                "entryPrice": 225.74,
+                "leverage": 1,
+                "notional": 24831.4,
+                "marginUsed": 24831.4,
+                "assetType": "stock"
+            }
+        },
+        "totalValue": 99242.62,
+        "startingCash": 100000,
+        "strategyPrompt": "You are an autonomous trading agent. You can choose whatever style fits today's conditions best, including trend-following, mean reversion, catalyst/event-driven, valuation, volatility breakout, sentiment, or staying out entirely. Use web search whenever it helps you gather live market context, recent news, filings, earnings, macro events, technical levels, or other relevant metrics.",
+        "llmProvider": "groq_tavily",
+        "llmModel": "qwen/qwen3.8-27b",
+        "timestamp": "2026-09-09T13:38:36Z",
+        "sessionId": "open-2026-09-09",
+        "_rid": "FN8OAOpdBMk6AAAAAAAAAA==",
+        "_self": "dbs/FN8OAA==/colls/FN8OAOpdBMk=/docs/FN8OAOpdBMk6AAAAAAAAAA==/",
+        "_etag": "\"d301663d-0000-0200-0000-6aa1615c0000\"",
+        "_attachments": "attachments/",
+        "_ts": 1788961116
+    },
+    {
+        "id": "2ecaf99a-867a-46a5-a957-a64f492d1e22",
+        "botName": "open_qwen",
+        "cash": 60069.22,
+        "positions": {
+            "QQQ": {
+                "direction": "long",
+                "shares": 20,
+                "entryPrice": 719,
+                "leverage": 1,
+                "notional": 14380,
+                "marginUsed": 14380,
+                "assetType": "etf"
+            },
+            "NVDA": {
+                "direction": "long",
+                "shares": 110,
+                "entryPrice": 225.74,
+                "leverage": 1,
+                "notional": 24831.4,
+                "marginUsed": 24831.4,
+                "assetType": "stock"
+            }
+        },
+        "totalValue": 99054.12,
+        "startingCash": 100000,
+        "strategyPrompt": "You are an autonomous trading agent. You can choose whatever style fits today's conditions best, including trend-following, mean reversion, catalyst/event-driven, valuation, volatility breakout, sentiment, or staying out entirely. Use web search whenever it helps you gather live market context, recent news, filings, earnings, macro events, technical levels, or other relevant metrics.",
+        "llmProvider": "groq_tavily",
+        "llmModel": "qwen/qwen3.8-27b",
+        "timestamp": "2026-09-09T19:30:14Z",
+        "sessionId": "close-2026-09-09",
+        "_rid": "FN8OAOpdBMk7AAAAAAAAAA==",
+        "_self": "dbs/FN8OAA==/colls/FN8OAOpdBMk=/docs/FN8OAOpdBMk7AAAAAAAAAA==/",
+        "_etag": "\"d9017842-0000-0200-0000-6aa1b3c60000\"",
+        "_attachments": "attachments/",
+        "_ts": 1788982214
+    },
+    {
+        "id": "3e5499a9-32ea-4a0a-a4ca-12451e2c3f05",
+        "botName": "open_gptoss",
+        "cash": 48404.16,
+        "positions": {
+            "NVDA": {
+                "direction": "long",
+                "shares": 89,
+                "entryPrice": 224.17,
+                "leverage": 1,
+                "notional": 19951.13,
+                "marginUsed": 19951.13,
+                "assetType": "stock"
+            },
+            "SPY": {
+                "direction": "short",
+                "shares": -39,
+                "entryPrice": 763.15,
+                "leverage": 2,
+                "notional": 29762.85,
+                "marginUsed": 14881.42,
+                "assetType": "etf"
+            },
+            "GLD": {
+                "direction": "long",
+                "shares": 24,
+                "entryPrice": 403.45,
+                "leverage": 1,
+                "notional": 9682.8,
+                "marginUsed": 9682.8,
+                "assetType": "etf"
+            },
+            "QQQ": {
+                "direction": "short",
+                "shares": -13,
+                "entryPrice": 716.31,
+                "leverage": 2,
+                "notional": 9312.03,
+                "marginUsed": 4656.01,
+                "assetType": "etf"
+            }
+        },
+        "totalValue": 97575.52,
+        "startingCash": 100000,
+        "strategyPrompt": "You are an autonomous trading agent. You can choose whatever style fits today's conditions best, including trend-following, mean reversion, catalyst/event-driven, valuation, volatility breakout, sentiment, or staying out entirely. Use web search whenever it helps you gather live market context, recent news, filings, earnings, macro events, technical levels, or other relevant metrics.",
+        "llmProvider": "groq_tavily",
+        "llmModel": "openai/gpt-oss-120b",
+        "timestamp": "2026-09-09T19:30:45Z",
+        "sessionId": "close-2026-09-09",
+        "_rid": "FN8OAOpdBMk8AAAAAAAAAA==",
+        "_self": "dbs/FN8OAA==/colls/FN8OAOpdBMk=/docs/FN8OAOpdBMk8AAAAAAAAAA==/",
+        "_etag": "\"d9013744-0000-0200-0000-6aa1b3e50000\"",
+        "_attachments": "attachments/",
+        "_ts": 1788982245
+    },
+    {
+        "id": "e8d8437a-2fdd-46cd-8f13-c8dc3b0564ef",
+        "botName": "open_gemini",
+        "cash": 30865.95,
+        "positions": {
+            "NVDA": {
+                "direction": "long",
+                "shares": 115,
+                "entryPrice": 216.94,
+                "leverage": 1,
+                "notional": 24948.1,
+                "marginUsed": 24948.1
+            },
+            "GLD": {
+                "direction": "long",
+                "shares": 50,
+                "entryPrice": 398.65,
+                "leverage": 1,
+                "notional": 19932.5,
+                "marginUsed": 19932.5
+            },
+            "BTC/USD": {
+                "direction": "long",
+                "shares": 0.192543,
+                "entryPrice": 77904.675,
+                "leverage": 1,
+                "notional": 15000,
+                "marginUsed": 15000
+            },
+            "USO": {
+                "direction": "long",
+                "shares": 68,
+                "entryPrice": 145.48,
+                "leverage": 1,
+                "notional": 9892.64,
+                "marginUsed": 9892.64,
+                "assetType": "etf"
+            }
+        },
+        "totalValue": 102104.06,
+        "startingCash": 100000,
+        "strategyPrompt": "You are an autonomous trading agent. You can choose whatever style fits today's conditions best, including trend-following, mean reversion, catalyst/event-driven, valuation, volatility breakout, sentiment, or staying out entirely. Use web search whenever it helps you gather live market context, recent news, filings, earnings, macro events, technical levels, or other relevant metrics.",
+        "llmProvider": "gemini",
+        "llmModel": "gemini-3.6-flash",
+        "timestamp": "2026-09-09T19:30:50Z",
+        "sessionId": "close-2026-09-09",
+        "_rid": "FN8OAOpdBMk9AAAAAAAAAA==",
+        "_self": "dbs/FN8OAA==/colls/FN8OAOpdBMk=/docs/FN8OAOpdBMk9AAAAAAAAAA==/",
+        "_etag": "\"d9017044-0000-0200-0000-6aa1b3ea0000\"",
+        "_attachments": "attachments/",
+        "_ts": 1788982250
+    },
+    {
+        "id": "a76274ff-6c3b-4086-9bb9-ed2d586a770b",
+        "botName": "open_gptoss",
+        "cash": 33479.08,
+        "positions": {
+            "QQQ": {
+                "direction": "short",
+                "shares": -13,
+                "entryPrice": 716.31,
+                "leverage": 2,
+                "notional": 9312.03,
+                "marginUsed": 4656.01,
+                "assetType": "etf"
+            },
+            "GLD": {
+                "direction": "long",
+                "shares": 50,
+                "entryPrice": 399.52,
+                "leverage": 1,
+                "notional": 19976,
+                "marginUsed": 19976,
+                "assetType": "etf"
+            },
+            "SPY": {
+                "direction": "short",
+                "shares": -32,
+                "entryPrice": 758.07,
+                "leverage": 1,
+                "notional": 24258.24,
+                "marginUsed": 24258.24,
+                "assetType": "etf"
+            },
+            "TLT": {
+                "direction": "short",
+                "shares": -370,
+                "entryPrice": 81.02,
+                "leverage": 2,
+                "notional": 29977.4,
+                "marginUsed": 14988.7,
+                "assetType": "etf"
+            }
+        },
+        "totalValue": 97469.57,
+        "startingCash": 100000,
+        "strategyPrompt": "You are an autonomous trading agent. You can choose whatever style fits today's conditions best, including trend-following, mean reversion, catalyst/event-driven, valuation, volatility breakout, sentiment, or staying out entirely. Use web search whenever it helps you gather live market context, recent news, filings, earnings, macro events, technical levels, or other relevant metrics.",
+        "llmProvider": "groq_tavily",
+        "llmModel": "openai/gpt-oss-120b",
+        "timestamp": "2026-09-10T13:30:22Z",
+        "sessionId": "open-2026-09-10",
+        "_rid": "FN8OAOpdBMk+AAAAAAAAAA==",
+        "_self": "dbs/FN8OAA==/colls/FN8OAOpdBMk=/docs/FN8OAOpdBMk+AAAAAAAAAA==/",
+        "_etag": "\"e9010493-0000-0200-0000-6aa2b0ef0000\"",
+        "_attachments": "attachments/",
+        "_ts": 1789047023
+    },
+    {
+        "id": "1f2ae48b-246b-4840-ae0d-960953e19d3b",
+        "botName": "open_gemini",
+        "cash": 30865.95,
+        "positions": {
+            "NVDA": {
+                "direction": "long",
+                "shares": 115,
+                "entryPrice": 216.94,
+                "leverage": 1,
+                "notional": 24948.1,
+                "marginUsed": 24948.1
+            },
+            "GLD": {
+                "direction": "long",
+                "shares": 50,
+                "entryPrice": 398.65,
+                "leverage": 1,
+                "notional": 19932.5,
+                "marginUsed": 19932.5
+            },
+            "BTC/USD": {
+                "direction": "long",
+                "shares": 0.192543,
+                "entryPrice": 77904.675,
+                "leverage": 1,
+                "notional": 15000,
+                "marginUsed": 15000
+            },
+            "USO": {
+                "direction": "long",
+                "shares": 68,
+                "entryPrice": 145.48,
+                "leverage": 1,
+                "notional": 9892.64,
+                "marginUsed": 9892.64,
+                "assetType": "etf"
+            }
+        },
+        "totalValue": 101543.6,
+        "startingCash": 100000,
+        "strategyPrompt": "You are an autonomous trading agent. You can choose whatever style fits today's conditions best, including trend-following, mean reversion, catalyst/event-driven, valuation, volatility breakout, sentiment, or staying out entirely. Use web search whenever it helps you gather live market context, recent news, filings, earnings, macro events, technical levels, or other relevant metrics.",
+        "llmProvider": "gemini",
+        "llmModel": "gemini-3.6-flash",
+        "timestamp": "2026-09-10T13:30:35Z",
+        "sessionId": "open-2026-09-10",
+        "_rid": "FN8OAOpdBMk-AAAAAAAAAA==",
+        "_self": "dbs/FN8OAA==/colls/FN8OAOpdBMk=/docs/FN8OAOpdBMk-AAAAAAAAAA==/",
+        "_etag": "\"e9019893-0000-0200-0000-6aa2b0fb0000\"",
+        "_attachments": "attachments/",
+        "_ts": 1789047035
+    },
+    {
+        "id": "f84f3636-7844-4865-8584-49a3b40d1190",
+        "botName": "open_qwen",
+        "cash": 74223.82,
+        "positions": {
+            "NVDA": {
+                "direction": "long",
+                "shares": 110,
+                "entryPrice": 225.74,
+                "leverage": 1,
+                "notional": 24831.4,
+                "marginUsed": 24831.4,
+                "assetType": "stock"
+            }
+        },
+        "totalValue": 98485.42,
+        "startingCash": 100000,
+        "strategyPrompt": "You are an autonomous trading agent. You can choose whatever style fits today's conditions best, including trend-following, mean reversion, catalyst/event-driven, valuation, volatility breakout, sentiment, or staying out entirely. Use web search whenever it helps you gather live market context, recent news, filings, earnings, macro events, technical levels, or other relevant metrics.",
+        "llmProvider": "groq_tavily",
+        "llmModel": "qwen/qwen3.8-27b",
+        "timestamp": "2026-09-10T13:30:56Z",
+        "sessionId": "open-2026-09-10",
+        "_rid": "FN8OAOpdBMlAAAAAAAAAAA==",
+        "_self": "dbs/FN8OAA==/colls/FN8OAOpdBMk=/docs/FN8OAOpdBMlAAAAAAAAAAA==/",
+        "_etag": "\"e9019094-0000-0200-0000-6aa2b1100000\"",
+        "_attachments": "attachments/",
+        "_ts": 1789047056
+    },
+    {
+        "id": "9dbbdf32-c387-43b6-ae76-fd739db8a8cf",
+        "botName": "open_gemini",
+        "cash": 30865.95,
+        "positions": {
+            "NVDA": {
+                "direction": "long",
+                "shares": 115,
+                "entryPrice": 216.94,
+                "leverage": 1,
+                "notional": 24948.1,
+                "marginUsed": 24948.1
+            },
+            "GLD": {
+                "direction": "long",
+                "shares": 50,
+                "entryPrice": 398.65,
+                "leverage": 1,
+                "notional": 19932.5,
+                "marginUsed": 19932.5
+            },
+            "BTC/USD": {
+                "direction": "long",
+                "shares": 0.192543,
+                "entryPrice": 77904.675,
+                "leverage": 1,
+                "notional": 15000,
+                "marginUsed": 15000
+            },
+            "USO": {
+                "direction": "long",
+                "shares": 68,
+                "entryPrice": 145.48,
+                "leverage": 1,
+                "notional": 9892.64,
+                "marginUsed": 9892.64,
+                "assetType": "etf"
+            }
+        },
+        "totalValue": 101430.46,
+        "startingCash": 100000,
+        "strategyPrompt": "You are an autonomous trading agent. You can choose whatever style fits today's conditions best, including trend-following, mean reversion, catalyst/event-driven, valuation, volatility breakout, sentiment, or staying out entirely. Use web search whenever it helps you gather live market context, recent news, filings, earnings, macro events, technical levels, or other relevant metrics.",
+        "llmProvider": "gemini",
+        "llmModel": "gemini-3.6-flash",
+        "timestamp": "2026-09-10T19:30:27Z",
+        "sessionId": "close-2026-09-10",
+        "_rid": "FN8OAOpdBMlBAAAAAAAAAA==",
+        "_self": "dbs/FN8OAA==/colls/FN8OAOpdBMk=/docs/FN8OAOpdBMlBAAAAAAAAAA==/",
+        "_etag": "\"ef011576-0000-0200-0000-6aa305530000\"",
+        "_attachments": "attachments/",
+        "_ts": 1789068627
+    },
+    {
+        "id": "84b405e8-2d26-43cb-977e-df68607ea08d",
+        "botName": "open_gptoss",
+        "cash": 37692,
+        "positions": {
+            "GLD": {
+                "direction": "long",
+                "shares": 75,
+                "entryPrice": 396.74,
+                "leverage": 1,
+                "notional": 29755.5,
+                "marginUsed": 29755.5,
+                "assetType": "etf"
+            },
+            "TLT": {
+                "direction": "long",
+                "shares": 1858,
+                "entryPrice": 80.71,
+                "leverage": 5,
+                "notional": 149959.18,
+                "marginUsed": 29991.84,
+                "assetType": "etf"
+            }
+        },
+        "totalValue": 97439.34,
+        "startingCash": 100000,
+        "strategyPrompt": "You are an autonomous trading agent. You can choose whatever style fits today's conditions best, including trend-following, mean reversion, catalyst/event-driven, valuation, volatility breakout, sentiment, or staying out entirely. Use web search whenever it helps you gather live market context, recent news, filings, earnings, macro events, technical levels, or other relevant metrics.",
+        "llmProvider": "groq_tavily",
+        "llmModel": "openai/gpt-oss-120b",
+        "timestamp": "2026-09-10T19:30:40Z",
+        "sessionId": "close-2026-09-10",
+        "_rid": "FN8OAOpdBMlCAAAAAAAAAA==",
+        "_self": "dbs/FN8OAA==/colls/FN8OAOpdBMk=/docs/FN8OAOpdBMlCAAAAAAAAAA==/",
+        "_etag": "\"ef01d276-0000-0200-0000-6aa305600000\"",
+        "_attachments": "attachments/",
+        "_ts": 1789068640
+    },
+    {
+        "id": "d940f7ff-9bba-499c-a114-25371506840a",
+        "botName": "open_qwen",
+        "cash": 74223.82,
+        "positions": {
+            "NVDA": {
+                "direction": "long",
+                "shares": 110,
+                "entryPrice": 225.74,
+                "leverage": 1,
+                "notional": 24831.4,
+                "marginUsed": 24831.4,
+                "assetType": "stock"
+            }
+        },
+        "totalValue": 98239.02,
+        "startingCash": 100000,
+        "strategyPrompt": "You are an autonomous trading agent. You can choose whatever style fits today's conditions best, including trend-following, mean reversion, catalyst/event-driven, valuation, volatility breakout, sentiment, or staying out entirely. Use web search whenever it helps you gather live market context, recent news, filings, earnings, macro events, technical levels, or other relevant metrics.",
+        "llmProvider": "groq_tavily",
+        "llmModel": "qwen/qwen3.8-27b",
+        "timestamp": "2026-09-10T19:32:42Z",
+        "sessionId": "close-2026-09-10",
+        "_rid": "FN8OAOpdBMlDAAAAAAAAAA==",
+        "_self": "dbs/FN8OAA==/colls/FN8OAOpdBMk=/docs/FN8OAOpdBMlDAAAAAAAAAA==/",
+        "_etag": "\"ef017f7d-0000-0200-0000-6aa305da0000\"",
+        "_attachments": "attachments/",
+        "_ts": 1789068762
+    },
+    {
+        "id": "62295379-8b55-46c5-b6fc-2fa1f834b729",
+        "botName": "open_gptoss",
+        "cash": 18752.37,
+        "positions": {
+            "TLT": {
+                "direction": "long",
+                "shares": 1858,
+                "entryPrice": 80.71,
+                "leverage": 5,
+                "notional": 149959.18,
+                "marginUsed": 29991.84,
+                "assetType": "etf"
+            },
+            "SPY": {
+                "direction": "long",
+                "shares": 39,
+                "entryPrice": 764.61,
+                "leverage": 1,
+                "notional": 29819.79,
+                "marginUsed": 29819.79,
+                "assetType": "etf"
+            },
+            "QQQ": {
+                "direction": "long",
+                "shares": 27,
+                "entryPrice": 715.17,
+                "leverage": 1,
+                "notional": 19309.59,
+                "marginUsed": 19309.59,
+                "assetType": "etf"
+            }
+        },
+        "totalValue": 98951.23,
+        "startingCash": 100000,
+        "strategyPrompt": "You are an autonomous trading agent. You can choose whatever style fits today's conditions best, including trend-following, mean reversion, catalyst/event-driven, valuation, volatility breakout, sentiment, or staying out entirely. Use web search whenever it helps you gather live market context, recent news, filings, earnings, macro events, technical levels, or other relevant metrics.",
+        "llmProvider": "groq_tavily",
+        "llmModel": "openai/gpt-oss-120b",
+        "timestamp": "2026-09-11T13:30:25Z",
+        "sessionId": "open-2026-09-11",
+        "_rid": "FN8OAOpdBMlEAAAAAAAAAA==",
+        "_self": "dbs/FN8OAA==/colls/FN8OAOpdBMk=/docs/FN8OAOpdBMlEAAAAAAAAAA==/",
+        "_etag": "\"0d002b79-0000-0200-0000-6aa402710000\"",
+        "_attachments": "attachments/",
+        "_ts": 1789133425
+    },
+    {
+        "id": "8971c847-f955-42f1-8614-468e4dd7bf88",
+        "botName": "open_gemini",
+        "cash": 30865.95,
+        "positions": {
+            "NVDA": {
+                "direction": "long",
+                "shares": 115,
+                "entryPrice": 216.94,
+                "leverage": 1,
+                "notional": 24948.1,
+                "marginUsed": 24948.1
+            },
+            "GLD": {
+                "direction": "long",
+                "shares": 50,
+                "entryPrice": 398.65,
+                "leverage": 1,
+                "notional": 19932.5,
+                "marginUsed": 19932.5
+            },
+            "BTC/USD": {
+                "direction": "long",
+                "shares": 0.192543,
+                "entryPrice": 77904.675,
+                "leverage": 1,
+                "notional": 15000,
+                "marginUsed": 15000
+            },
+            "USO": {
+                "direction": "long",
+                "shares": 68,
+                "entryPrice": 145.48,
+                "leverage": 1,
+                "notional": 9892.64,
+                "marginUsed": 9892.64,
+                "assetType": "etf"
+            }
+        },
+        "totalValue": 101670.54,
+        "startingCash": 100000,
+        "strategyPrompt": "You are an autonomous trading agent. You can choose whatever style fits today's conditions best, including trend-following, mean reversion, catalyst/event-driven, valuation, volatility breakout, sentiment, or staying out entirely. Use web search whenever it helps you gather live market context, recent news, filings, earnings, macro events, technical levels, or other relevant metrics.",
+        "llmProvider": "gemini",
+        "llmModel": "gemini-3.6-flash",
+        "timestamp": "2026-09-11T13:31:16Z",
+        "sessionId": "open-2026-09-11",
+        "_rid": "FN8OAOpdBMlFAAAAAAAAAA==",
+        "_self": "dbs/FN8OAA==/colls/FN8OAOpdBMk=/docs/FN8OAOpdBMlFAAAAAAAAAA==/",
+        "_etag": "\"0d001884-0000-0200-0000-6aa402a40000\"",
+        "_attachments": "attachments/",
+        "_ts": 1789133476
+    },
+    {
+        "id": "a305ed08-72cc-460d-b692-36e0d522ae7c",
+        "botName": "open_qwen",
+        "cash": 74223.82,
+        "positions": {
+            "NVDA": {
+                "direction": "long",
+                "shares": 110,
+                "entryPrice": 225.74,
+                "leverage": 1,
+                "notional": 24831.4,
+                "marginUsed": 24831.4,
+                "assetType": "stock"
+            }
+        },
+        "totalValue": 98344.62,
+        "startingCash": 100000,
+        "strategyPrompt": "You are an autonomous trading agent. You can choose whatever style fits today's conditions best, including trend-following, mean reversion, catalyst/event-driven, valuation, volatility breakout, sentiment, or staying out entirely. Use web search whenever it helps you gather live market context, recent news, filings, earnings, macro events, technical levels, or other relevant metrics.",
+        "llmProvider": "groq_tavily",
+        "llmModel": "qwen/qwen3.8-27b",
+        "timestamp": "2026-09-11T13:32:47Z",
+        "sessionId": "open-2026-09-11",
+        "_rid": "FN8OAOpdBMlGAAAAAAAAAA==",
+        "_self": "dbs/FN8OAA==/colls/FN8OAOpdBMk=/docs/FN8OAOpdBMlGAAAAAAAAAA==/",
+        "_etag": "\"0d00b29a-0000-0200-0000-6aa402ff0000\"",
+        "_attachments": "attachments/",
+        "_ts": 1789133567
+    },
+    {
+        "id": "89a8f0df-d1cc-4c5e-91f6-dbb65083897d",
+        "botName": "open_qwen",
+        "cash": 66585.25,
+        "positions": {
+            "NVDA": {
+                "direction": "long",
+                "shares": 110,
+                "entryPrice": 225.74,
+                "leverage": 1,
+                "notional": 24831.4,
+                "marginUsed": 24831.4,
+                "assetType": "stock"
+            },
+            "GLD": {
+                "direction": "long",
+                "shares": 19,
+                "entryPrice": 402.03,
+                "leverage": 1,
+                "notional": 7638.57,
+                "marginUsed": 7638.57,
+                "assetType": "etf"
+            }
+        },
+        "totalValue": 98373.22,
+        "startingCash": 100000,
+        "strategyPrompt": "You are an autonomous trading agent. You can choose whatever style fits today's conditions best, including trend-following, mean reversion, catalyst/event-driven, valuation, volatility breakout, sentiment, or staying out entirely. Use web search whenever it helps you gather live market context, recent news, filings, earnings, macro events, technical levels, or other relevant metrics.",
+        "llmProvider": "groq_tavily",
+        "llmModel": "qwen/qwen3.8-27b",
+        "timestamp": "2026-09-11T13:34:09Z",
+        "sessionId": "open-2026-09-11",
+        "_rid": "FN8OAOpdBMlHAAAAAAAAAA==",
+        "_self": "dbs/FN8OAA==/colls/FN8OAOpdBMk=/docs/FN8OAOpdBMlHAAAAAAAAAA==/",
+        "_etag": "\"0d0011ac-0000-0200-0000-6aa403510000\"",
+        "_attachments": "attachments/",
+        "_ts": 1789133649
+    },
+    {
+        "id": "65b40116-f3cb-408c-89c5-e58d1db45184",
+        "botName": "open_gemini",
+        "cash": 30865.95,
+        "positions": {
+            "NVDA": {
+                "direction": "long",
+                "shares": 115,
+                "entryPrice": 216.94,
+                "leverage": 1,
+                "notional": 24948.1,
+                "marginUsed": 24948.1
+            },
+            "GLD": {
+                "direction": "long",
+                "shares": 50,
+                "entryPrice": 398.65,
+                "leverage": 1,
+                "notional": 19932.5,
+                "marginUsed": 19932.5
+            },
+            "BTC/USD": {
+                "direction": "long",
+                "shares": 0.192543,
+                "entryPrice": 77904.675,
+                "leverage": 1,
+                "notional": 15000,
+                "marginUsed": 15000
+            },
+            "USO": {
+                "direction": "long",
+                "shares": 68,
+                "entryPrice": 145.48,
+                "leverage": 1,
+                "notional": 9892.64,
+                "marginUsed": 9892.64,
+                "assetType": "etf"
+            }
+        },
+        "totalValue": 101311.32,
+        "startingCash": 100000,
+        "strategyPrompt": "You are an autonomous trading agent. You can choose whatever style fits today's conditions best, including trend-following, mean reversion, catalyst/event-driven, valuation, volatility breakout, sentiment, or staying out entirely. Use web search whenever it helps you gather live market context, recent news, filings, earnings, macro events, technical levels, or other relevant metrics.",
+        "llmProvider": "gemini",
+        "llmModel": "gemini-3.6-flash",
+        "timestamp": "2026-09-11T19:30:28Z",
+        "sessionId": "close-2026-09-11",
+        "_rid": "FN8OAOpdBMlIAAAAAAAAAA==",
+        "_self": "dbs/FN8OAA==/colls/FN8OAOpdBMk=/docs/FN8OAOpdBMlIAAAAAAAAAA==/",
+        "_etag": "\"1c00aea9-0000-0200-0000-6aa456d40000\"",
+        "_attachments": "attachments/",
+        "_ts": 1789155028
+    },
+    {
+        "id": "cda63df8-3c5e-47ed-87f2-c3660ec2cca3",
+        "botName": "open_qwen",
+        "cash": 66298.41,
+        "positions": {
+            "NVDA": {
+                "direction": "long",
+                "shares": 146,
+                "entryPrice": 218.34,
+                "leverage": 1,
+                "notional": 31877.64,
+                "marginUsed": 31877.64,
+                "assetType": "stock"
+            }
+        },
+        "totalValue": 98176.05,
+        "startingCash": 100000,
+        "strategyPrompt": "You are an autonomous trading agent. You can choose whatever style fits today's conditions best, including trend-following, mean reversion, catalyst/event-driven, valuation, volatility breakout, sentiment, or staying out entirely. Use web search whenever it helps you gather live market context, recent news, filings, earnings, macro events, technical levels, or other relevant metrics.",
+        "llmProvider": "groq_tavily",
+        "llmModel": "qwen/qwen3.8-27b",
+        "timestamp": "2026-09-11T19:32:11Z",
+        "sessionId": "close-2026-09-11",
+        "_rid": "FN8OAOpdBMlJAAAAAAAAAA==",
+        "_self": "dbs/FN8OAA==/colls/FN8OAOpdBMk=/docs/FN8OAOpdBMlJAAAAAAAAAA==/",
+        "_etag": "\"1c00efb8-0000-0200-0000-6aa4573b0000\"",
+        "_attachments": "attachments/",
+        "_ts": 1789155131
+    },
+    {
+        "id": "4f3cca00-93b5-4d59-9a8b-842c1ae8864e",
+        "botName": "open_gemini",
+        "cash": 30865.95,
+        "positions": {
+            "NVDA": {
+                "direction": "long",
+                "shares": 115,
+                "entryPrice": 216.94,
+                "leverage": 1,
+                "notional": 24948.1,
+                "marginUsed": 24948.1
+            },
+            "GLD": {
+                "direction": "long",
+                "shares": 50,
+                "entryPrice": 398.65,
+                "leverage": 1,
+                "notional": 19932.5,
+                "marginUsed": 19932.5
+            },
+            "BTC/USD": {
+                "direction": "long",
+                "shares": 0.192543,
+                "entryPrice": 77904.675,
+                "leverage": 1,
+                "notional": 15000,
+                "marginUsed": 15000
+            },
+            "USO": {
+                "direction": "long",
+                "shares": 68,
+                "entryPrice": 145.48,
+                "leverage": 1,
+                "notional": 9892.64,
+                "marginUsed": 9892.64,
+                "assetType": "etf"
+            }
+        },
+        "totalValue": 101434.91,
+        "startingCash": 100000,
+        "strategyPrompt": "You are an autonomous trading agent. You can choose whatever style fits today's conditions best, including trend-following, mean reversion, catalyst/event-driven, valuation, volatility breakout, sentiment, or staying out entirely. Use web search whenever it helps you gather live market context, recent news, filings, earnings, macro events, technical levels, or other relevant metrics.",
+        "llmProvider": "gemini",
+        "llmModel": "gemini-3.6-flash",
+        "timestamp": "2026-09-14T13:30:17Z",
+        "sessionId": "open-2026-09-14",
+        "_rid": "FN8OAOpdBMlKAAAAAAAAAA==",
+        "_self": "dbs/FN8OAA==/colls/FN8OAOpdBMk=/docs/FN8OAOpdBMlKAAAAAAAAAA==/",
+        "_etag": "\"b6001272-0000-0200-0000-6aa7f6e90000\"",
+        "_attachments": "attachments/",
+        "_ts": 1789392617
+    },
+    {
+        "id": "36fd11cf-b5c6-4321-a75e-6152493c2cb8",
+        "botName": "open_gptoss",
+        "cash": 37649.66,
+        "positions": {
+            "TLT": {
+                "direction": "long",
+                "shares": 1858,
+                "entryPrice": 80.71,
+                "leverage": 5,
+                "notional": 149959.18,
+                "marginUsed": 29991.84,
+                "assetType": "etf"
+            },
+            "AAPL": {
+                "direction": "long",
+                "shares": 44,
+                "entryPrice": 334.29,
+                "leverage": 1,
+                "notional": 14708.76,
+                "marginUsed": 14708.76,
+                "assetType": "stock"
+            },
+            "NVDA": {
+                "direction": "long",
+                "shares": 71,
+                "entryPrice": 211.1,
+                "leverage": 1,
+                "notional": 14988.1,
+                "marginUsed": 14988.1,
+                "assetType": "stock"
+            }
+        },
+        "totalValue": 97579.9,
+        "startingCash": 100000,
+        "strategyPrompt": "You are an autonomous trading agent. You can choose whatever style fits today's conditions best, including trend-following, mean reversion, catalyst/event-driven, valuation, volatility breakout, sentiment, or staying out entirely. Use web search whenever it helps you gather live market context, recent news, filings, earnings, macro events, technical levels, or other relevant metrics.",
+        "llmProvider": "groq_tavily",
+        "llmModel": "openai/gpt-oss-120b",
+        "timestamp": "2026-09-14T13:30:29Z",
+        "sessionId": "open-2026-09-14",
+        "_rid": "FN8OAOpdBMlLAAAAAAAAAA==",
+        "_self": "dbs/FN8OAA==/colls/FN8OAOpdBMk=/docs/FN8OAOpdBMlLAAAAAAAAAA==/",
+        "_etag": "\"b6007f73-0000-0200-0000-6aa7f6f50000\"",
+        "_attachments": "attachments/",
+        "_ts": 1789392629
+    },
+    {
+        "id": "4a680e92-3ca7-437e-a085-b2d186ecb142",
+        "botName": "open_qwen",
+        "cash": 33755.78,
+        "positions": {
+            "NVDA": {
+                "direction": "long",
+                "shares": 146,
+                "entryPrice": 218.34,
+                "leverage": 1,
+                "notional": 31877.64,
+                "marginUsed": 31877.64,
+                "assetType": "stock"
+            },
+            "DELL": {
+                "direction": "long",
+                "shares": 31,
+                "entryPrice": 567.33,
+                "leverage": 1,
+                "notional": 17587.23,
+                "marginUsed": 17587.23,
+                "assetType": "stock"
+            },
+            "TLT": {
+                "direction": "long",
+                "shares": 185,
+                "entryPrice": 80.84,
+                "leverage": 1,
+                "notional": 14955.4,
+                "marginUsed": 14955.4,
+                "assetType": "etf"
+            }
+        },
+        "totalValue": 97119.01,
+        "startingCash": 100000,
+        "strategyPrompt": "You are an autonomous trading agent. You can choose whatever style fits today's conditions best, including trend-following, mean reversion, catalyst/event-driven, valuation, volatility breakout, sentiment, or staying out entirely. Use web search whenever it helps you gather live market context, recent news, filings, earnings, macro events, technical levels, or other relevant metrics.",
+        "llmProvider": "groq_tavily",
+        "llmModel": "qwen/qwen3.8-27b",
+        "timestamp": "2026-09-14T13:31:15Z",
+        "sessionId": "open-2026-09-14",
+        "_rid": "FN8OAOpdBMlMAAAAAAAAAA==",
+        "_self": "dbs/FN8OAA==/colls/FN8OAOpdBMk=/docs/FN8OAOpdBMlMAAAAAAAAAA==/",
+        "_etag": "\"b6002879-0000-0200-0000-6aa7f7230000\"",
+        "_attachments": "attachments/",
+        "_ts": 1789392675
+    },
+    {
+        "id": "0b913f47-e202-4990-a0a5-0932f4f190c2",
+        "botName": "open_gptoss",
+        "cash": 23383.92,
+        "positions": {
+            "TLT": {
+                "direction": "long",
+                "shares": 555,
+                "entryPrice": 81.07,
+                "leverage": 1,
+                "notional": 44993.85,
+                "marginUsed": 44993.85,
+                "assetType": "etf"
+            },
+            "SPY": {
+                "direction": "long",
+                "shares": 39,
+                "entryPrice": 761.75,
+                "leverage": 1,
+                "notional": 29708.25,
+                "marginUsed": 29708.25,
+                "assetType": "etf"
+            }
+        },
+        "totalValue": 98086.02,
+        "startingCash": 100000,
+        "strategyPrompt": "You are an autonomous trading agent. You can choose whatever style fits today's conditions best, including trend-following, mean reversion, catalyst/event-driven, valuation, volatility breakout, sentiment, or staying out entirely. Use web search whenever it helps you gather live market context, recent news, filings, earnings, macro events, technical levels, or other relevant metrics.",
+        "llmProvider": "groq_tavily",
+        "llmModel": "openai/gpt-oss-120b",
+        "timestamp": "2026-09-14T19:30:37Z",
+        "sessionId": "close-2026-09-14",
+        "_rid": "FN8OAOpdBMlNAAAAAAAAAA==",
+        "_self": "dbs/FN8OAA==/colls/FN8OAOpdBMk=/docs/FN8OAOpdBMlNAAAAAAAAAA==/",
+        "_etag": "\"c900d27f-0000-0200-0000-6aa84b5d0000\"",
+        "_attachments": "attachments/",
+        "_ts": 1789414237
+    },
+    {
+        "id": "ac8a7948-7ef4-4e47-8961-031a65841799",
+        "botName": "open_gemini",
+        "cash": 16392.7,
+        "positions": {
+            "NVDA": {
+                "direction": "long",
+                "shares": 115,
+                "entryPrice": 216.94,
+                "leverage": 1,
+                "notional": 24948.1,
+                "marginUsed": 24948.1
+            },
+            "GLD": {
+                "direction": "long",
+                "shares": 50,
+                "entryPrice": 398.65,
+                "leverage": 1,
+                "notional": 19932.5,
+                "marginUsed": 19932.5
+            },
+            "BTC/USD": {
+                "direction": "long",
+                "shares": 0.192543,
+                "entryPrice": 77904.675,
+                "leverage": 1,
+                "notional": 15000,
+                "marginUsed": 15000
+            },
+            "USO": {
+                "direction": "long",
+                "shares": 68,
+                "entryPrice": 145.48,
+                "leverage": 1,
+                "notional": 9892.64,
+                "marginUsed": 9892.64,
+                "assetType": "etf"
+            },
+            "SPY": {
+                "direction": "long",
+                "shares": 19,
+                "entryPrice": 761.75,
+                "leverage": 1,
+                "notional": 14473.25,
+                "marginUsed": 14473.25,
+                "assetType": "etf"
+            }
+        },
+        "totalValue": 100798.27,
+        "startingCash": 100000,
+        "strategyPrompt": "You are an autonomous trading agent. You can choose whatever style fits today's conditions best, including trend-following, mean reversion, catalyst/event-driven, valuation, volatility breakout, sentiment, or staying out entirely. Use web search whenever it helps you gather live market context, recent news, filings, earnings, macro events, technical levels, or other relevant metrics.",
+        "llmProvider": "gemini",
+        "llmModel": "gemini-3.6-flash",
+        "timestamp": "2026-09-14T19:30:53Z",
+        "sessionId": "close-2026-09-14",
+        "_rid": "FN8OAOpdBMlOAAAAAAAAAA==",
+        "_self": "dbs/FN8OAA==/colls/FN8OAOpdBMk=/docs/FN8OAOpdBMlOAAAAAAAAAA==/",
+        "_etag": "\"c900e580-0000-0200-0000-6aa84b6e0000\"",
+        "_attachments": "attachments/",
+        "_ts": 1789414254
+    },
+    {
+        "id": "768b22e1-312f-4f30-8a84-8bb0dc4ad1cc",
+        "botName": "open_qwen",
+        "cash": 46467.77,
+        "positions": {
+            "TLT": {
+                "direction": "long",
+                "shares": 185,
+                "entryPrice": 80.84,
+                "leverage": 1,
+                "notional": 14955.4,
+                "marginUsed": 14955.4,
+                "assetType": "etf"
+            },
+            "NVDA": {
+                "direction": "long",
+                "shares": 94,
+                "entryPrice": 212.11,
+                "leverage": 1,
+                "notional": 19938.34,
+                "marginUsed": 19938.34,
+                "assetType": "stock"
+            },
+            "GLD": {
+                "direction": "long",
+                "shares": 38,
+                "entryPrice": 393.98,
+                "leverage": 1,
+                "notional": 14971.24,
+                "marginUsed": 14971.24,
+                "assetType": "etf"
+            }
+        },
+        "totalValue": 96375.3,
+        "startingCash": 100000,
+        "strategyPrompt": "You are an autonomous trading agent. You can choose whatever style fits today's conditions best, including trend-following, mean reversion, catalyst/event-driven, valuation, volatility breakout, sentiment, or staying out entirely. Use web search whenever it helps you gather live market context, recent news, filings, earnings, macro events, technical levels, or other relevant metrics.",
+        "llmProvider": "groq_tavily",
+        "llmModel": "qwen/qwen3.8-27b",
+        "timestamp": "2026-09-14T19:32:14Z",
+        "sessionId": "close-2026-09-14",
+        "_rid": "FN8OAOpdBMlPAAAAAAAAAA==",
+        "_self": "dbs/FN8OAA==/colls/FN8OAOpdBMk=/docs/FN8OAOpdBMlPAAAAAAAAAA==/",
+        "_etag": "\"c9009f85-0000-0200-0000-6aa84bbe0000\"",
+        "_attachments": "attachments/",
+        "_ts": 1789414334
+    },
+    {
+        "id": "3a951445-e657-4754-9564-ea77b4d71fa1",
+        "botName": "open_gemini",
+        "cash": 65959.7,
+        "positions": {
+            "BTC/USD": {
+                "direction": "long",
+                "shares": 0.192543,
+                "entryPrice": 77904.675,
+                "leverage": 1,
+                "notional": 15000,
+                "marginUsed": 15000
+            },
+            "USO": {
+                "direction": "long",
+                "shares": 125,
+                "entryPrice": 159.1,
+                "leverage": 1,
+                "notional": 19887.5,
+                "marginUsed": 19887.5,
+                "assetType": "etf"
+            }
+        },
+        "totalValue": 100627.38,
+        "startingCash": 100000,
+        "strategyPrompt": "You are an autonomous trading agent. You can choose whatever style fits today's conditions best, including trend-following, mean reversion, catalyst/event-driven, valuation, volatility breakout, sentiment, or staying out entirely. Use web search whenever it helps you gather live market context, recent news, filings, earnings, macro events, technical levels, or other relevant metrics.",
+        "llmProvider": "gemini",
+        "llmModel": "gemini-3.6-flash",
+        "timestamp": "2026-09-15T13:31:10Z",
+        "sessionId": "open-2026-09-15",
+        "_rid": "FN8OAOpdBMlQAAAAAAAAAA==",
+        "_self": "dbs/FN8OAA==/colls/FN8OAOpdBMk=/docs/FN8OAOpdBMlQAAAAAAAAAA==/",
+        "_etag": "\"d700cc8e-0000-0200-0000-6aa9489e0000\"",
+        "_attachments": "attachments/",
+        "_ts": 1789479070
+    },
+    {
+        "id": "72d4dd9e-deb4-41e9-9fec-b1d0d9029f73",
+        "botName": "open_qwen",
+        "cash": 41543.52,
+        "positions": {
+            "NVDA": {
+                "direction": "long",
+                "shares": 94,
+                "entryPrice": 212.11,
+                "leverage": 1,
+                "notional": 19938.34,
+                "marginUsed": 19938.34,
+                "assetType": "stock"
+            },
+            "GLD": {
+                "direction": "long",
+                "shares": 38,
+                "entryPrice": 393.98,
+                "leverage": 1,
+                "notional": 14971.24,
+                "marginUsed": 14971.24,
+                "assetType": "etf"
+            },
+            "QQQ": {
+                "direction": "long",
+                "shares": 42,
+                "entryPrice": 708.6,
+                "leverage": 1.5,
+                "notional": 29761.2,
+                "marginUsed": 19840.8,
+                "assetType": "etf"
+            }
+        },
+        "totalValue": 96377.68,
+        "startingCash": 100000,
+        "strategyPrompt": "You are an autonomous trading agent. You can choose whatever style fits today's conditions best, including trend-following, mean reversion, catalyst/event-driven, valuation, volatility breakout, sentiment, or staying out entirely. Use web search whenever it helps you gather live market context, recent news, filings, earnings, macro events, technical levels, or other relevant metrics.",
+        "llmProvider": "groq_tavily",
+        "llmModel": "qwen/qwen3.8-27b",
+        "timestamp": "2026-09-15T13:31:22Z",
+        "sessionId": "open-2026-09-15",
+        "_rid": "FN8OAOpdBMlRAAAAAAAAAA==",
+        "_self": "dbs/FN8OAA==/colls/FN8OAOpdBMk=/docs/FN8OAOpdBMlRAAAAAAAAAA==/",
+        "_etag": "\"d700968f-0000-0200-0000-6aa948aa0000\"",
+        "_attachments": "attachments/",
+        "_ts": 1789479082
+    },
+    {
+        "id": "2e9caf64-2e2c-4bb0-8c07-df859a06ca01",
+        "botName": "open_qwen",
+        "cash": 53267.64,
+        "positions": {
+            "NVDA": {
+                "direction": "long",
+                "shares": 94,
+                "entryPrice": 212.11,
+                "leverage": 1,
+                "notional": 19938.34,
+                "marginUsed": 19938.34,
+                "assetType": "stock"
+            },
+            "GLD": {
+                "direction": "long",
+                "shares": 38,
+                "entryPrice": 393.98,
+                "leverage": 1,
+                "notional": 14971.24,
+                "marginUsed": 14971.24,
+                "assetType": "etf"
+            },
+            "TLT": {
+                "direction": "short",
+                "shares": -118,
+                "entryPrice": 80.77,
+                "leverage": 1.2,
+                "notional": 9530.86,
+                "marginUsed": 7942.38,
+                "assetType": "etf"
+            }
+        },
+        "totalValue": 96141.22,
+        "startingCash": 100000,
+        "strategyPrompt": "You are an autonomous trading agent. You can choose whatever style fits today's conditions best, including trend-following, mean reversion, catalyst/event-driven, valuation, volatility breakout, sentiment, or staying out entirely. Use web search whenever it helps you gather live market context, recent news, filings, earnings, macro events, technical levels, or other relevant metrics.",
+        "llmProvider": "groq_tavily",
+        "llmModel": "qwen/qwen3.8-27b",
+        "timestamp": "2026-09-15T19:30:21Z",
+        "sessionId": "close-2026-09-15",
+        "_rid": "FN8OAOpdBMlSAAAAAAAAAA==",
+        "_self": "dbs/FN8OAA==/colls/FN8OAOpdBMk=/docs/FN8OAOpdBMlSAAAAAAAAAA==/",
+        "_etag": "\"dd00386f-0000-0200-0000-6aa99ccd0000\"",
+        "_attachments": "attachments/",
+        "_ts": 1789500621
+    },
+    {
+        "id": "0e70ae4c-9b38-48e1-b4bd-92f0766e6297",
+        "botName": "open_gptoss",
+        "cash": 52971.66,
+        "positions": {
+            "KO": {
+                "direction": "long",
+                "shares": 225,
+                "entryPrice": 88.62,
+                "leverage": 1,
+                "notional": 19939.5,
+                "marginUsed": 19939.5,
+                "assetType": "stock"
+            },
+            "NVDA": {
+                "direction": "long",
+                "shares": 117,
+                "entryPrice": 212.16,
+                "leverage": 1,
+                "notional": 24822.72,
+                "marginUsed": 24822.72,
+                "assetType": "stock"
+            }
+        },
+        "totalValue": 97733.88,
+        "startingCash": 100000,
+        "strategyPrompt": "You are an autonomous trading agent. You can choose whatever style fits today's conditions best, including trend-following, mean reversion, catalyst/event-driven, valuation, volatility breakout, sentiment, or staying out entirely. Use web search whenever it helps you gather live market context, recent news, filings, earnings, macro events, technical levels, or other relevant metrics.",
+        "llmProvider": "groq_tavily",
+        "llmModel": "openai/gpt-oss-120b",
+        "timestamp": "2026-09-15T19:30:30Z",
+        "sessionId": "close-2026-09-15",
+        "_rid": "FN8OAOpdBMlTAAAAAAAAAA==",
+        "_self": "dbs/FN8OAA==/colls/FN8OAOpdBMk=/docs/FN8OAOpdBMlTAAAAAAAAAA==/",
+        "_etag": "\"dd00b46f-0000-0200-0000-6aa99cd60000\"",
+        "_attachments": "attachments/",
+        "_ts": 1789500630
+    },
+    {
+        "id": "bf8e2f49-3a9f-4a04-b1d0-a4dbd81d492c",
+        "botName": "open_gemini",
+        "cash": 65959.7,
+        "positions": {
+            "BTC/USD": {
+                "direction": "long",
+                "shares": 0.192543,
+                "entryPrice": 77904.675,
+                "leverage": 1,
+                "notional": 15000,
+                "marginUsed": 15000
+            },
+            "USO": {
+                "direction": "long",
+                "shares": 125,
+                "entryPrice": 159.1,
+                "leverage": 1,
+                "notional": 19887.5,
+                "marginUsed": 19887.5,
+                "assetType": "etf"
+            }
+        },
+        "totalValue": 100769.59,
+        "startingCash": 100000,
+        "strategyPrompt": "You are an autonomous trading agent. You can choose whatever style fits today's conditions best, including trend-following, mean reversion, catalyst/event-driven, valuation, volatility breakout, sentiment, or staying out entirely. Use web search whenever it helps you gather live market context, recent news, filings, earnings, macro events, technical levels, or other relevant metrics.",
+        "llmProvider": "gemini",
+        "llmModel": "gemini-3.6-flash",
+        "timestamp": "2026-09-15T19:30:47Z",
+        "sessionId": "close-2026-09-15",
+        "_rid": "FN8OAOpdBMlUAAAAAAAAAA==",
+        "_self": "dbs/FN8OAA==/colls/FN8OAOpdBMk=/docs/FN8OAOpdBMlUAAAAAAAAAA==/",
+        "_etag": "\"dd00ac70-0000-0200-0000-6aa99ce70000\"",
+        "_attachments": "attachments/",
+        "_ts": 1789500647
+    },
+    {
+        "id": "975b4c9e-99f8-4639-9984-e4375c6cad37",
+        "botName": "open_gemini",
+        "cash": 65959.7,
+        "positions": {
+            "BTC/USD": {
+                "direction": "long",
+                "shares": 0.192543,
+                "entryPrice": 77904.675,
+                "leverage": 1,
+                "notional": 15000,
+                "marginUsed": 15000
+            },
+            "USO": {
+                "direction": "long",
+                "shares": 125,
+                "entryPrice": 159.1,
+                "leverage": 1,
+                "notional": 19887.5,
+                "marginUsed": 19887.5,
+                "assetType": "etf"
+            }
+        },
+        "totalValue": 100759.17,
+        "startingCash": 100000,
+        "strategyPrompt": "You are an autonomous trading agent. You can choose whatever style fits today's conditions best, including trend-following, mean reversion, catalyst/event-driven, valuation, volatility breakout, sentiment, or staying out entirely. Use web search whenever it helps you gather live market context, recent news, filings, earnings, macro events, technical levels, or other relevant metrics.",
+        "llmProvider": "gemini",
+        "llmModel": "gemini-3.6-flash",
+        "timestamp": "2026-09-16T13:30:46Z",
+        "sessionId": "open-2026-09-16",
+        "_rid": "FN8OAOpdBMlVAAAAAAAAAA==",
+        "_self": "dbs/FN8OAA==/colls/FN8OAOpdBMk=/docs/FN8OAOpdBMlVAAAAAAAAAA==/",
+        "_etag": "\"f00052c1-0000-0200-0000-6aaa9a060000\"",
+        "_attachments": "attachments/",
+        "_ts": 1789565446
+    },
+    {
+        "id": "cc705c8c-72be-4cf2-9b77-9470ae008e6c",
+        "botName": "open_gptoss",
+        "cash": 13270.69,
+        "positions": {
+            "KO": {
+                "direction": "long",
+                "shares": 225,
+                "entryPrice": 88.62,
+                "leverage": 1,
+                "notional": 19939.5,
+                "marginUsed": 19939.5,
+                "assetType": "stock"
+            },
+            "USO": {
+                "direction": "long",
+                "shares": 125,
+                "entryPrice": 159.33,
+                "leverage": 1,
+                "notional": 19916.25,
+                "marginUsed": 19916.25,
+                "assetType": "etf"
+            },
+            "GLD": {
+                "direction": "long",
+                "shares": 50,
+                "entryPrice": 398.915,
+                "leverage": 1,
+                "notional": 19945.75,
+                "marginUsed": 19945.75,
+                "assetType": "etf"
+            },
+            "QQQ": {
+                "direction": "short",
+                "shares": -42,
+                "entryPrice": 708.05,
+                "leverage": 2,
+                "notional": 29738.1,
+                "marginUsed": 14869.05,
+                "assetType": "etf"
+            },
+            "TLT": {
+                "direction": "short",
+                "shares": -247,
+                "entryPrice": 80.96,
+                "leverage": 2,
+                "notional": 19997.12,
+                "marginUsed": 9998.56,
+                "assetType": "etf"
+            }
+        },
+        "totalValue": 97892.55,
+        "startingCash": 100000,
+        "strategyPrompt": "You are an autonomous trading agent. You can choose whatever style fits today's conditions best, including trend-following, mean reversion, catalyst/event-driven, valuation, volatility breakout, sentiment, or staying out entirely. Use web search whenever it helps you gather live market context, recent news, filings, earnings, macro events, technical levels, or other relevant metrics.",
+        "llmProvider": "groq_tavily",
+        "llmModel": "openai/gpt-oss-120b",
+        "timestamp": "2026-09-16T13:30:59Z",
+        "sessionId": "open-2026-09-16",
+        "_rid": "FN8OAOpdBMlWAAAAAAAAAA==",
+        "_self": "dbs/FN8OAA==/colls/FN8OAOpdBMk=/docs/FN8OAOpdBMlWAAAAAAAAAA==/",
+        "_etag": "\"f0006dc2-0000-0200-0000-6aaa9a130000\"",
+        "_attachments": "attachments/",
+        "_ts": 1789565459
+    },
+    {
+        "id": "eae41997-1364-4eb3-9a00-6509acc06b8e",
+        "botName": "open_qwen",
+        "cash": 61186.42,
+        "positions": {
+            "NVDA": {
+                "direction": "long",
+                "shares": 94,
+                "entryPrice": 212.11,
+                "leverage": 1,
+                "notional": 19938.34,
+                "marginUsed": 19938.34,
+                "assetType": "stock"
+            },
+            "GLD": {
+                "direction": "long",
+                "shares": 38,
+                "entryPrice": 393.98,
+                "leverage": 1,
+                "notional": 14971.24,
+                "marginUsed": 14971.24,
+                "assetType": "etf"
+            }
+        },
+        "totalValue": 96429.68,
+        "startingCash": 100000,
+        "strategyPrompt": "You are an autonomous trading agent. You can choose whatever style fits today's conditions best, including trend-following, mean reversion, catalyst/event-driven, valuation, volatility breakout, sentiment, or staying out entirely. Use web search whenever it helps you gather live market context, recent news, filings, earnings, macro events, technical levels, or other relevant metrics.",
+        "llmProvider": "groq_tavily",
+        "llmModel": "qwen/qwen3.8-27b",
+        "timestamp": "2026-09-16T13:31:39Z",
+        "sessionId": "open-2026-09-16",
+        "_rid": "FN8OAOpdBMlXAAAAAAAAAA==",
+        "_self": "dbs/FN8OAA==/colls/FN8OAOpdBMk=/docs/FN8OAOpdBMlXAAAAAAAAAA==/",
+        "_etag": "\"f000f8c4-0000-0200-0000-6aaa9a3b0000\"",
+        "_attachments": "attachments/",
+        "_ts": 1789565499
+    },
+    {
+        "id": "d29612f1-3ce0-48ea-a17a-e60fc57c5b59",
+        "botName": "open_qwen",
+        "cash": 96067,
+        "positions": {},
+        "totalValue": 96067,
+        "startingCash": 100000,
+        "strategyPrompt": "You are an autonomous trading agent. You can choose whatever style fits today's conditions best, including trend-following, mean reversion, catalyst/event-driven, valuation, volatility breakout, sentiment, or staying out entirely. Use web search whenever it helps you gather live market context, recent news, filings, earnings, macro events, technical levels, or other relevant metrics.",
+        "llmProvider": "groq_tavily",
+        "llmModel": "qwen/qwen3.8-27b",
+        "timestamp": "2026-09-16T19:30:28Z",
+        "sessionId": "close-2026-09-16",
+        "_rid": "FN8OAOpdBMlYAAAAAAAAAA==",
+        "_self": "dbs/FN8OAA==/colls/FN8OAOpdBMk=/docs/FN8OAOpdBMlYAAAAAAAAAA==/",
+        "_etag": "\"f600627b-0000-0200-0000-6aaaee540000\"",
+        "_attachments": "attachments/",
+        "_ts": 1789587028
+    },
+    {
+        "id": "4cb646c2-f147-4211-93dc-114a8006ad93",
+        "botName": "open_gemini",
+        "cash": 51135.9,
+        "positions": {
+            "BTC/USD": {
+                "direction": "long",
+                "shares": 0.192543,
+                "entryPrice": 77904.675,
+                "leverage": 1,
+                "notional": 15000,
+                "marginUsed": 15000
+            },
+            "USO": {
+                "direction": "long",
+                "shares": 125,
+                "entryPrice": 159.1,
+                "leverage": 1,
+                "notional": 19887.5,
+                "marginUsed": 19887.5,
+                "assetType": "etf"
+            },
+            "GLD": {
+                "direction": "long",
+                "shares": 38,
+                "entryPrice": 390.1,
+                "leverage": 1,
+                "notional": 14823.8,
+                "marginUsed": 14823.8,
+                "assetType": "etf"
+            }
+        },
+        "totalValue": 100058.15,
+        "startingCash": 100000,
+        "strategyPrompt": "You are an autonomous trading agent. You can choose whatever style fits today's conditions best, including trend-following, mean reversion, catalyst/event-driven, valuation, volatility breakout, sentiment, or staying out entirely. Use web search whenever it helps you gather live market context, recent news, filings, earnings, macro events, technical levels, or other relevant metrics.",
+        "llmProvider": "gemini",
+        "llmModel": "gemini-3.6-flash",
+        "timestamp": "2026-09-16T19:30:43Z",
+        "sessionId": "close-2026-09-16",
+        "_rid": "FN8OAOpdBMlZAAAAAAAAAA==",
+        "_self": "dbs/FN8OAA==/colls/FN8OAOpdBMk=/docs/FN8OAOpdBMlZAAAAAAAAAA==/",
+        "_etag": "\"f600307c-0000-0200-0000-6aaaee630000\"",
+        "_attachments": "attachments/",
+        "_ts": 1789587043
+    },
+    {
+        "id": "555edf36-a119-4710-9bf3-8a17c3d24ed1",
+        "botName": "open_gptoss",
+        "cash": 32882.74,
+        "positions": {
+            "KO": {
+                "direction": "long",
+                "shares": 225,
+                "entryPrice": 88.62,
+                "leverage": 1,
+                "notional": 19939.5,
+                "marginUsed": 19939.5,
+                "assetType": "stock"
+            },
+            "TLT": {
+                "direction": "short",
+                "shares": -247,
+                "entryPrice": 80.96,
+                "leverage": 2,
+                "notional": 19997.12,
+                "marginUsed": 9998.56,
+                "assetType": "etf"
+            },
+            "NVDA": {
+                "direction": "long",
+                "shares": 210,
+                "entryPrice": 213.42,
+                "leverage": 3,
+                "notional": 44818.2,
+                "marginUsed": 14939.4,
+                "assetType": "stock"
+            },
+            "QQQ": {
+                "direction": "long",
+                "shares": 56,
+                "entryPrice": 702.26,
+                "leverage": 2,
+                "notional": 39326.56,
+                "marginUsed": 19663.28,
+                "assetType": "etf"
+            }
+        },
+        "totalValue": 97300.61,
+        "startingCash": 100000,
+        "strategyPrompt": "You are an autonomous trading agent. You can choose whatever style fits today's conditions best, including trend-following, mean reversion, catalyst/event-driven, valuation, volatility breakout, sentiment, or staying out entirely. Use web search whenever it helps you gather live market context, recent news, filings, earnings, macro events, technical levels, or other relevant metrics.",
+        "llmProvider": "groq_tavily",
+        "llmModel": "openai/gpt-oss-120b",
+        "timestamp": "2026-09-16T19:31:31Z",
+        "sessionId": "close-2026-09-16",
+        "_rid": "FN8OAOpdBMlaAAAAAAAAAA==",
+        "_self": "dbs/FN8OAA==/colls/FN8OAOpdBMk=/docs/FN8OAOpdBMlaAAAAAAAAAA==/",
+        "_etag": "\"f600c17e-0000-0200-0000-6aaaee930000\"",
+        "_attachments": "attachments/",
+        "_ts": 1789587091
+    },
+    {
+        "id": "3bebe158-a327-44af-a41b-e7cdaa7f3304",
+        "botName": "open_gptoss",
+        "cash": 29927.49,
+        "positions": {
+            "KO": {
+                "direction": "long",
+                "shares": 225,
+                "entryPrice": 88.62,
+                "leverage": 1,
+                "notional": 19939.5,
+                "marginUsed": 19939.5,
+                "assetType": "stock"
+            },
+            "QQQ": {
+                "direction": "long",
+                "shares": 41,
+                "entryPrice": 716.13,
+                "leverage": 1,
+                "notional": 29361.33,
+                "marginUsed": 29361.33,
+                "assetType": "etf"
+            },
+            "NVDA": {
+                "direction": "long",
+                "shares": 91,
+                "entryPrice": 218.4,
+                "leverage": 1,
+                "notional": 19874.4,
+                "marginUsed": 19874.4,
+                "assetType": "stock"
+            }
+        },
+        "totalValue": 98980.09,
+        "startingCash": 100000,
+        "strategyPrompt": "You are an autonomous trading agent. You can choose whatever style fits today's conditions best, including trend-following, mean reversion, catalyst/event-driven, valuation, volatility breakout, sentiment, or staying out entirely. Use web search whenever it helps you gather live market context, recent news, filings, earnings, macro events, technical levels, or other relevant metrics.",
+        "llmProvider": "groq_tavily",
+        "llmModel": "openai/gpt-oss-120b",
+        "timestamp": "2026-09-17T13:30:47Z",
+        "sessionId": "open-2026-09-17",
+        "_rid": "FN8OAOpdBMlbAAAAAAAAAA==",
+        "_self": "dbs/FN8OAA==/colls/FN8OAOpdBMk=/docs/FN8OAOpdBMlbAAAAAAAAAA==/",
+        "_etag": "\"08018de2-0000-0200-0000-6aabeb870000\"",
+        "_attachments": "attachments/",
+        "_ts": 1789651847
+    },
+    {
+        "id": "5e323afb-3478-40f3-b834-c15da777335c",
+        "botName": "open_qwen",
+        "cash": 18967.53,
+        "positions": {
+            "QQQ": {
+                "direction": "long",
+                "shares": 45,
+                "entryPrice": 715.87,
+                "leverage": 1.3,
+                "notional": 32214.15,
+                "marginUsed": 24780.12,
+                "assetType": "etf"
+            },
+            "SPY": {
+                "direction": "long",
+                "shares": 31,
+                "entryPrice": 762.91,
+                "leverage": 1.2,
+                "notional": 23650.21,
+                "marginUsed": 19708.51,
+                "assetType": "etf"
+            },
+            "NVDA": {
+                "direction": "long",
+                "shares": 103,
+                "entryPrice": 217.84,
+                "leverage": 1.5,
+                "notional": 22437.52,
+                "marginUsed": 14958.35,
+                "assetType": "stock"
+            },
+            "TLT": {
+                "direction": "short",
+                "shares": -183,
+                "entryPrice": 81.57,
+                "leverage": 1.5,
+                "notional": 14927.31,
+                "marginUsed": 9951.54,
+                "assetType": "etf"
+            },
+            "GLD": {
+                "direction": "short",
+                "shares": -25,
+                "entryPrice": 400.45,
+                "leverage": 1.3,
+                "notional": 10011.25,
+                "marginUsed": 7700.96,
+                "assetType": "etf"
+            }
+        },
+        "totalValue": 96067.01,
+        "startingCash": 100000,
+        "strategyPrompt": "You are an autonomous trading agent. You can choose whatever style fits today's conditions best, including trend-following, mean reversion, catalyst/event-driven, valuation, volatility breakout, sentiment, or staying out entirely. Use web search whenever it helps you gather live market context, recent news, filings, earnings, macro events, technical levels, or other relevant metrics.",
+        "llmProvider": "groq_tavily",
+        "llmModel": "qwen/qwen3.8-27b",
+        "timestamp": "2026-09-17T13:31:36Z",
+        "sessionId": "open-2026-09-17",
+        "_rid": "FN8OAOpdBMlcAAAAAAAAAA==",
+        "_self": "dbs/FN8OAA==/colls/FN8OAOpdBMk=/docs/FN8OAOpdBMlcAAAAAAAAAA==/",
+        "_etag": "\"08013fea-0000-0200-0000-6aabebb80000\"",
+        "_attachments": "attachments/",
+        "_ts": 1789651896
+    },
+    {
+        "id": "0e181479-b41e-4b2a-80f8-0985264522f8",
+        "botName": "open_gemini",
+        "cash": 36654.29,
+        "positions": {
+            "BTC/USD": {
+                "direction": "long",
+                "shares": 0.192543,
+                "entryPrice": 77904.675,
+                "leverage": 1,
+                "notional": 15000,
+                "marginUsed": 15000
+            },
+            "USO": {
+                "direction": "long",
+                "shares": 125,
+                "entryPrice": 159.1,
+                "leverage": 1,
+                "notional": 19887.5,
+                "marginUsed": 19887.5,
+                "assetType": "etf"
+            },
+            "GLD": {
+                "direction": "long",
+                "shares": 38,
+                "entryPrice": 390.1,
+                "leverage": 1,
+                "notional": 14823.8,
+                "marginUsed": 14823.8,
+                "assetType": "etf"
+            },
+            "SPY": {
+                "direction": "short",
+                "shares": -19,
+                "entryPrice": 762.19,
+                "leverage": 1,
+                "notional": 14481.61,
+                "marginUsed": 14481.61,
+                "assetType": "etf"
+            }
+        },
+        "totalValue": 100315.96,
+        "startingCash": 100000,
+        "strategyPrompt": "You are an autonomous trading agent. You can choose whatever style fits today's conditions best, including trend-following, mean reversion, catalyst/event-driven, valuation, volatility breakout, sentiment, or staying out entirely. Use web search whenever it helps you gather live market context, recent news, filings, earnings, macro events, technical levels, or other relevant metrics.",
+        "llmProvider": "gemini",
+        "llmModel": "gemini-3.6-flash",
+        "timestamp": "2026-09-17T13:33:10Z",
+        "sessionId": "open-2026-09-17",
+        "_rid": "FN8OAOpdBMldAAAAAAAAAA==",
+        "_self": "dbs/FN8OAA==/colls/FN8OAOpdBMk=/docs/FN8OAOpdBMldAAAAAAAAAA==/",
+        "_etag": "\"080188f9-0000-0200-0000-6aabec160000\"",
+        "_attachments": "attachments/",
+        "_ts": 1789651990
+    },
+    {
+        "id": "863458e7-388b-4eff-ac48-64d778ed758f",
+        "botName": "open_gemini",
+        "cash": 45504.59,
+        "positions": {
+            "BTC/USD": {
+                "direction": "long",
+                "shares": 0.192543,
+                "entryPrice": 77904.675,
+                "leverage": 1,
+                "notional": 15000,
+                "marginUsed": 15000
+            },
+            "GLD": {
+                "direction": "long",
+                "shares": 38,
+                "entryPrice": 390.1,
+                "leverage": 1,
+                "notional": 14823.8,
+                "marginUsed": 14823.8,
+                "assetType": "etf"
+            },
+            "NVDA": {
+                "direction": "long",
+                "shares": 114,
+                "entryPrice": 218.29,
+                "leverage": 1,
+                "notional": 24885.06,
+                "marginUsed": 24885.06,
+                "assetType": "stock"
+            }
+        },
+        "totalValue": 100284.46,
+        "startingCash": 100000,
+        "strategyPrompt": "You are an autonomous trading agent. You can choose whatever style fits today's conditions best, including trend-following, mean reversion, catalyst/event-driven, valuation, volatility breakout, sentiment, or staying out entirely. Use web search whenever it helps you gather live market context, recent news, filings, earnings, macro events, technical levels, or other relevant metrics.",
+        "llmProvider": "gemini",
+        "llmModel": "gemini-3.6-flash",
+        "timestamp": "2026-09-17T13:33:32Z",
+        "sessionId": "open-2026-09-17",
+        "_rid": "FN8OAOpdBMleAAAAAAAAAA==",
+        "_self": "dbs/FN8OAA==/colls/FN8OAOpdBMk=/docs/FN8OAOpdBMleAAAAAAAAAA==/",
+        "_etag": "\"0801f1fc-0000-0200-0000-6aabec2c0000\"",
+        "_attachments": "attachments/",
+        "_ts": 1789652012
+    },
+    {
+        "id": "17a5f8f2-b93d-4f1f-be74-5a5bbcf4df76",
+        "botName": "open_gptoss",
+        "cash": 30401.27,
+        "positions": {
+            "QQQ": {
+                "direction": "long",
+                "shares": 41,
+                "entryPrice": 716.13,
+                "leverage": 1,
+                "notional": 29361.33,
+                "marginUsed": 29361.33,
+                "assetType": "etf"
+            },
+            "SPY": {
+                "direction": "long",
+                "shares": 32,
+                "entryPrice": 762.64,
+                "leverage": 1,
+                "notional": 24404.48,
+                "marginUsed": 24404.48,
+                "assetType": "etf"
+            },
+            "NVDA": {
+                "direction": "long",
+                "shares": 68,
+                "entryPrice": 219.62,
+                "leverage": 1,
+                "notional": 14934.16,
+                "marginUsed": 14934.16,
+                "assetType": "stock"
+            }
+        },
+        "totalValue": 99118.46,
+        "startingCash": 100000,
+        "strategyPrompt": "You are an autonomous trading agent. You can choose whatever style fits today's conditions best, including trend-following, mean reversion, catalyst/event-driven, valuation, volatility breakout, sentiment, or staying out entirely. Use web search whenever it helps you gather live market context, recent news, filings, earnings, macro events, technical levels, or other relevant metrics.",
+        "llmProvider": "groq_tavily",
+        "llmModel": "openai/gpt-oss-120b",
+        "timestamp": "2026-09-17T19:30:38Z",
+        "sessionId": "close-2026-09-17",
+        "_rid": "FN8OAOpdBMlfAAAAAAAAAA==",
+        "_self": "dbs/FN8OAA==/colls/FN8OAOpdBMk=/docs/FN8OAOpdBMlfAAAAAAAAAA==/",
+        "_etag": "\"1001c368-0000-0200-0000-6aac3fde0000\"",
+        "_attachments": "attachments/",
+        "_ts": 1789673438
+    },
+    {
+        "id": "0903d0df-d9c2-465a-bd9b-93adc5dabe82",
+        "botName": "open_qwen",
+        "cash": 37290.74,
+        "positions": {
+            "SPY": {
+                "direction": "long",
+                "shares": 31,
+                "entryPrice": 762.91,
+                "leverage": 1.2,
+                "notional": 23650.21,
+                "marginUsed": 19708.51,
+                "assetType": "etf"
+            },
+            "QQQ": {
+                "direction": "long",
+                "shares": 34,
+                "entryPrice": 716.55,
+                "leverage": 1,
+                "notional": 24362.7,
+                "marginUsed": 24362.7,
+                "assetType": "etf"
+            },
+            "NVDA": {
+                "direction": "long",
+                "shares": 68,
+                "entryPrice": 219.62,
+                "leverage": 1,
+                "notional": 14934.16,
+                "marginUsed": 14934.16,
+                "assetType": "stock"
+            }
+        },
+        "totalValue": 96287.74,
+        "startingCash": 100000,
+        "strategyPrompt": "You are an autonomous trading agent. You can choose whatever style fits today's conditions best, including trend-following, mean reversion, catalyst/event-driven, valuation, volatility breakout, sentiment, or staying out entirely. Use web search whenever it helps you gather live market context, recent news, filings, earnings, macro events, technical levels, or other relevant metrics.",
+        "llmProvider": "groq_tavily",
+        "llmModel": "qwen/qwen3.8-27b",
+        "timestamp": "2026-09-17T19:31:22Z",
+        "sessionId": "close-2026-09-17",
+        "_rid": "FN8OAOpdBMlgAAAAAAAAAA==",
+        "_self": "dbs/FN8OAA==/colls/FN8OAOpdBMk=/docs/FN8OAOpdBMlgAAAAAAAAAA==/",
+        "_etag": "\"10019a6b-0000-0200-0000-6aac400a0000\"",
+        "_attachments": "attachments/",
+        "_ts": 1789673482
+    },
+    {
+        "id": "f1c0d115-ec9a-4c66-95a6-e60aaa3cf659",
+        "botName": "open_gemini",
+        "cash": 45504.59,
+        "positions": {
+            "BTC/USD": {
+                "direction": "long",
+                "shares": 0.192543,
+                "entryPrice": 77904.675,
+                "leverage": 1,
+                "notional": 15000,
+                "marginUsed": 15000
+            },
+            "GLD": {
+                "direction": "long",
+                "shares": 38,
+                "entryPrice": 390.1,
+                "leverage": 1,
+                "notional": 14823.8,
+                "marginUsed": 14823.8,
+                "assetType": "etf"
+            },
+            "NVDA": {
+                "direction": "long",
+                "shares": 114,
+                "entryPrice": 218.29,
+                "leverage": 1,
+                "notional": 24885.06,
+                "marginUsed": 24885.06,
+                "assetType": "stock"
+            }
+        },
+        "totalValue": 100339.1,
+        "startingCash": 100000,
+        "strategyPrompt": "You are an autonomous trading agent. You can choose whatever style fits today's conditions best, including trend-following, mean reversion, catalyst/event-driven, valuation, volatility breakout, sentiment, or staying out entirely. Use web search whenever it helps you gather live market context, recent news, filings, earnings, macro events, technical levels, or other relevant metrics.",
+        "llmProvider": "gemini",
+        "llmModel": "gemini-3.6-flash",
+        "timestamp": "2026-09-18T00:26:31Z",
+        "sessionId": "close-2026-09-18",
+        "_rid": "FN8OAOpdBMlhAAAAAAAAAA==",
+        "_self": "dbs/FN8OAA==/colls/FN8OAOpdBMk=/docs/FN8OAOpdBMlhAAAAAAAAAA==/",
+        "_etag": "\"1301f2d9-0000-0200-0000-6aac85370000\"",
+        "_attachments": "attachments/",
+        "_ts": 1789691191
+    },
+    {
+        "id": "270dfaf0-88d3-47fe-b21c-d1fa90a660fe",
+        "botName": "open_qwen",
+        "cash": 66337.36,
+        "positions": {
+            "TLT": {
+                "direction": "long",
+                "shares": 220,
+                "entryPrice": 81.8,
+                "leverage": 1,
+                "notional": 17996,
+                "marginUsed": 17996,
+                "assetType": "etf"
+            },
+            "GLD": {
+                "direction": "long",
+                "shares": 30,
+                "entryPrice": 398.4,
+                "leverage": 1,
+                "notional": 11952,
+                "marginUsed": 11952,
+                "assetType": "etf"
+            }
+        },
+        "totalValue": 96285.36,
+        "startingCash": 100000,
+        "strategyPrompt": "You are an autonomous trading agent. You can choose whatever style fits today's conditions best, including trend-following, mean reversion, catalyst/event-driven, valuation, volatility breakout, sentiment, or staying out entirely. Use web search whenever it helps you gather live market context, recent news, filings, earnings, macro events, technical levels, or other relevant metrics.",
+        "llmProvider": "groq_tavily",
+        "llmModel": "qwen/qwen3.8-27b",
+        "timestamp": "2026-09-18T13:30:14Z",
+        "sessionId": "open-2026-09-18",
+        "_rid": "FN8OAOpdBMliAAAAAAAAAA==",
+        "_self": "dbs/FN8OAA==/colls/FN8OAOpdBMk=/docs/FN8OAOpdBMliAAAAAAAAAA==/",
+        "_etag": "\"20014e1c-0000-0200-0000-6aad3ce70000\"",
+        "_attachments": "attachments/",
+        "_ts": 1789738215
+    },
+    {
+        "id": "65de8d49-cd7e-49fb-86ad-f9c3290126ea",
+        "botName": "open_gptoss",
+        "cash": 40151,
+        "positions": {
+            "QQQ": {
+                "direction": "long",
+                "shares": 41,
+                "entryPrice": 716.13,
+                "leverage": 1,
+                "notional": 29361.33,
+                "marginUsed": 29361.33,
+                "assetType": "etf"
+            },
+            "GLD": {
+                "direction": "long",
+                "shares": 49,
+                "entryPrice": 400.459,
+                "leverage": 1,
+                "notional": 19622.49,
+                "marginUsed": 19622.49,
+                "assetType": "etf"
+            },
+            "SPY": {
+                "direction": "short",
+                "shares": -26,
+                "entryPrice": 761.58,
+                "leverage": 2,
+                "notional": 19801.08,
+                "marginUsed": 9900.54,
+                "assetType": "etf"
+            }
+        },
+        "totalValue": 99155.9,
+        "startingCash": 100000,
+        "strategyPrompt": "You are an autonomous trading agent. You can choose whatever style fits today's conditions best, including trend-following, mean reversion, catalyst/event-driven, valuation, volatility breakout, sentiment, or staying out entirely. Use web search whenever it helps you gather live market context, recent news, filings, earnings, macro events, technical levels, or other relevant metrics.",
+        "llmProvider": "groq_tavily",
+        "llmModel": "openai/gpt-oss-120b",
+        "timestamp": "2026-09-18T13:30:48Z",
+        "sessionId": "open-2026-09-18",
+        "_rid": "FN8OAOpdBMljAAAAAAAAAA==",
+        "_self": "dbs/FN8OAA==/colls/FN8OAOpdBMk=/docs/FN8OAOpdBMljAAAAAAAAAA==/",
+        "_etag": "\"20018220-0000-0200-0000-6aad3d080000\"",
+        "_attachments": "attachments/",
+        "_ts": 1789738248
+    },
+    {
+        "id": "e6e714fc-dd49-43c9-96bc-b9392e383552",
+        "botName": "open_gptoss",
+        "cash": 35082.16,
+        "positions": {
+            "GLD": {
+                "direction": "long",
+                "shares": 49,
+                "entryPrice": 400.459,
+                "leverage": 1,
+                "notional": 19622.49,
+                "marginUsed": 19622.49,
+                "assetType": "etf"
+            },
+            "SPY": {
+                "direction": "short",
+                "shares": -52,
+                "entryPrice": 760.93,
+                "leverage": 2,
+                "notional": 39568.36,
+                "marginUsed": 19784.18,
+                "assetType": "etf"
+            },
+            "TLT": {
+                "direction": "short",
+                "shares": -369,
+                "entryPrice": 81.19,
+                "leverage": 2,
+                "notional": 29959.11,
+                "marginUsed": 14979.56,
+                "assetType": "etf"
+            },
+            "QQQ": {
+                "direction": "short",
+                "shares": -27,
+                "entryPrice": 719.18,
+                "leverage": 2,
+                "notional": 19417.86,
+                "marginUsed": 9708.93,
+                "assetType": "etf"
+            }
+        },
+        "totalValue": 99237.63,
+        "startingCash": 100000,
+        "strategyPrompt": "You are an autonomous trading agent. You can choose whatever style fits today's conditions best, including trend-following, mean reversion, catalyst/event-driven, valuation, volatility breakout, sentiment, or staying out entirely. Use web search whenever it helps you gather live market context, recent news, filings, earnings, macro events, technical levels, or other relevant metrics.",
+        "llmProvider": "groq_tavily",
+        "llmModel": "openai/gpt-oss-120b",
+        "timestamp": "2026-09-18T19:30:42Z",
+        "sessionId": "close-2026-09-18",
+        "_rid": "FN8OAOpdBMlkAAAAAAAAAA==",
+        "_self": "dbs/FN8OAA==/colls/FN8OAOpdBMk=/docs/FN8OAOpdBMlkAAAAAAAAAA==/",
+        "_etag": "\"290187b6-0000-0200-0000-6aad91620000\"",
+        "_attachments": "attachments/",
+        "_ts": 1789759842
+    },
+    {
+        "id": "da64d847-587b-4d72-8a01-de31cf711d3e",
+        "botName": "open_qwen",
+        "cash": 84199.16,
+        "positions": {
+            "GLD": {
+                "direction": "long",
+                "shares": 30,
+                "entryPrice": 398.4,
+                "leverage": 1,
+                "notional": 11952,
+                "marginUsed": 11952,
+                "assetType": "etf"
+            }
+        },
+        "totalValue": 96249.86,
+        "startingCash": 100000,
+        "strategyPrompt": "You are an autonomous trading agent. You can choose whatever style fits today's conditions best, including trend-following, mean reversion, catalyst/event-driven, valuation, volatility breakout, sentiment, or staying out entirely. Use web search whenever it helps you gather live market context, recent news, filings, earnings, macro events, technical levels, or other relevant metrics.",
+        "llmProvider": "groq_tavily",
+        "llmModel": "qwen/qwen3.8-27b",
+        "timestamp": "2026-09-18T19:31:19Z",
+        "sessionId": "close-2026-09-18",
+        "_rid": "FN8OAOpdBMllAAAAAAAAAA==",
+        "_self": "dbs/FN8OAA==/colls/FN8OAOpdBMk=/docs/FN8OAOpdBMllAAAAAAAAAA==/",
+        "_etag": "\"290138b8-0000-0200-0000-6aad91870000\"",
+        "_attachments": "attachments/",
+        "_ts": 1789759879
+    },
+    {
+        "id": "4171cb8a-24fb-44fa-bd75-a37710e1f55b",
+        "botName": "open_gemini",
+        "cash": 45504.59,
+        "positions": {
+            "BTC/USD": {
+                "direction": "long",
+                "shares": 0.192543,
+                "entryPrice": 77904.675,
+                "leverage": 1,
+                "notional": 15000,
+                "marginUsed": 15000
+            },
+            "GLD": {
+                "direction": "long",
+                "shares": 38,
+                "entryPrice": 390.1,
+                "leverage": 1,
+                "notional": 14823.8,
+                "marginUsed": 14823.8,
+                "assetType": "etf"
+            },
+            "NVDA": {
+                "direction": "long",
+                "shares": 114,
+                "entryPrice": 218.29,
+                "leverage": 1,
+                "notional": 24885.06,
+                "marginUsed": 24885.06,
+                "assetType": "stock"
+            }
+        },
+        "totalValue": 101729.68,
+        "startingCash": 100000,
+        "strategyPrompt": "You are an autonomous trading agent. You can choose whatever style fits today's conditions best, including trend-following, mean reversion, catalyst/event-driven, valuation, volatility breakout, sentiment, or staying out entirely. Use web search whenever it helps you gather live market context, recent news, filings, earnings, macro events, technical levels, or other relevant metrics.",
+        "llmProvider": "gemini",
+        "llmModel": "gemini-3.6-flash",
+        "timestamp": "2026-09-19T12:28:33Z",
+        "sessionId": "open-2026-09-19",
+        "_rid": "FN8OAOpdBMlmAAAAAAAAAA==",
+        "_self": "dbs/FN8OAA==/colls/FN8OAOpdBMk=/docs/FN8OAOpdBMlmAAAAAAAAAA==/",
+        "_etag": "\"330167cf-0000-0200-0000-6aae7ff10000\"",
+        "_attachments": "attachments/",
+        "_ts": 1789820913
+    },
+    {
+        "id": "4ac48a37-28af-4bcb-a05a-a1af02e6c5ec",
+        "botName": "open_qwen",
+        "cash": 69213.49,
+        "positions": {
+            "GLD": {
+                "direction": "long",
+                "shares": 30,
+                "entryPrice": 398.4,
+                "leverage": 1,
+                "notional": 11952,
+                "marginUsed": 11952,
+                "assetType": "etf"
+            },
+            "TLT": {
+                "direction": "short",
+                "shares": -275,
+                "entryPrice": 81.74,
+                "leverage": 1.5,
+                "notional": 22478.5,
+                "marginUsed": 14985.67,
+                "assetType": "etf"
+            }
+        },
+        "totalValue": 96205.16,
+        "startingCash": 100000,
+        "strategyPrompt": "You are an autonomous trading agent. You can choose whatever style fits today's conditions best, including trend-following, mean reversion, catalyst/event-driven, valuation, volatility breakout, sentiment, or staying out entirely. Use web search whenever it helps you gather live market context, recent news, filings, earnings, macro events, technical levels, or other relevant metrics.",
+        "llmProvider": "groq_tavily",
+        "llmModel": "qwen/qwen3.8-27b",
+        "timestamp": "2026-09-21T13:31:02Z",
+        "sessionId": "open-2026-09-21",
+        "_rid": "FN8OAOpdBMlnAAAAAAAAAA==",
+        "_self": "dbs/FN8OAA==/colls/FN8OAOpdBMk=/docs/FN8OAOpdBMlnAAAAAAAAAA==/",
+        "_etag": "\"ee008b5a-0000-0200-0000-6ab131960000\"",
+        "_attachments": "attachments/",
+        "_ts": 1789997462
+    },
+    {
+        "id": "a3336897-d99c-442a-bac6-1991d2a6566b",
+        "botName": "open_gptoss",
+        "cash": 28571.6,
+        "positions": {
+            "GLD": {
+                "direction": "long",
+                "shares": 49,
+                "entryPrice": 400.459,
+                "leverage": 1,
+                "notional": 19622.49,
+                "marginUsed": 19622.49,
+                "assetType": "etf"
+            },
+            "SPY": {
+                "direction": "long",
+                "shares": 77,
+                "entryPrice": 774.14,
+                "leverage": 2,
+                "notional": 59608.78,
+                "marginUsed": 29804.39,
+                "assetType": "etf"
+            },
+            "QQQ": {
+                "direction": "long",
+                "shares": 53,
+                "entryPrice": 741.77,
+                "leverage": 2,
+                "notional": 39313.81,
+                "marginUsed": 19656.9,
+                "assetType": "etf"
+            }
+        },
+        "totalValue": 97571.63,
+        "startingCash": 100000,
+        "strategyPrompt": "You are an autonomous trading agent. You can choose whatever style fits today's conditions best, including trend-following, mean reversion, catalyst/event-driven, valuation, volatility breakout, sentiment, or staying out entirely. Use web search whenever it helps you gather live market context, recent news, filings, earnings, macro events, technical levels, or other relevant metrics.",
+        "llmProvider": "groq_tavily",
+        "llmModel": "openai/gpt-oss-120b",
+        "timestamp": "2026-09-21T19:30:43Z",
+        "sessionId": "close-2026-09-21",
+        "_rid": "FN8OAOpdBMloAAAAAAAAAA==",
+        "_self": "dbs/FN8OAA==/colls/FN8OAOpdBMk=/docs/FN8OAOpdBMloAAAAAAAAAA==/",
+        "_etag": "\"24015939-0000-0200-0000-6ab185e30000\"",
+        "_attachments": "attachments/",
+        "_ts": 1790019043
+    },
+    {
+        "id": "7de9018d-2224-45fb-9f4c-fb9e25a73b76",
+        "botName": "open_qwen",
+        "cash": 59431.26,
+        "positions": {
+            "GLD": {
+                "direction": "long",
+                "shares": 55,
+                "entryPrice": 398.88,
+                "leverage": 1,
+                "notional": 21938.4,
+                "marginUsed": 21938.4,
+                "assetType": "etf"
+            },
+            "NVDA": {
+                "direction": "long",
+                "shares": 65,
+                "entryPrice": 227.46,
+                "leverage": 1,
+                "notional": 14784.9,
+                "marginUsed": 14784.9,
+                "assetType": "stock"
+            }
+        },
+        "totalValue": 96154.56,
+        "startingCash": 100000,
+        "strategyPrompt": "You are an autonomous trading agent. You can choose whatever style fits today's conditions best, including trend-following, mean reversion, catalyst/event-driven, valuation, volatility breakout, sentiment, or staying out entirely. Use web search whenever it helps you gather live market context, recent news, filings, earnings, macro events, technical levels, or other relevant metrics.",
+        "llmProvider": "groq_tavily",
+        "llmModel": "qwen/qwen3.8-27b",
+        "timestamp": "2026-09-21T19:31:14Z",
+        "sessionId": "close-2026-09-21",
+        "_rid": "FN8OAOpdBMlpAAAAAAAAAA==",
+        "_self": "dbs/FN8OAA==/colls/FN8OAOpdBMk=/docs/FN8OAOpdBMlpAAAAAAAAAA==/",
+        "_etag": "\"2401974c-0000-0200-0000-6ab186020000\"",
+        "_attachments": "attachments/",
+        "_ts": 1790019074
+    },
+    {
+        "id": "f4c10161-b5ee-469b-8fb2-e84e0e35ab69",
+        "botName": "open_gemini",
+        "cash": 45504.59,
+        "positions": {
+            "BTC/USD": {
+                "direction": "long",
+                "shares": 0.192543,
+                "entryPrice": 77904.675,
+                "leverage": 1,
+                "notional": 15000,
+                "marginUsed": 15000
+            },
+            "GLD": {
+                "direction": "long",
+                "shares": 38,
+                "entryPrice": 390.1,
+                "leverage": 1,
+                "notional": 14823.8,
+                "marginUsed": 14823.8,
+                "assetType": "etf"
+            },
+            "NVDA": {
+                "direction": "long",
+                "shares": 114,
+                "entryPrice": 218.29,
+                "leverage": 1,
+                "notional": 24885.06,
+                "marginUsed": 24885.06,
+                "assetType": "stock"
+            }
+        },
+        "totalValue": 102984.63,
+        "startingCash": 100000,
+        "strategyPrompt": "You are an autonomous trading agent. You can choose whatever style fits today's conditions best, including trend-following, mean reversion, catalyst/event-driven, valuation, volatility breakout, sentiment, or staying out entirely. Use web search whenever it helps you gather live market context, recent news, filings, earnings, macro events, technical levels, or other relevant metrics.",
+        "llmProvider": "gemini",
+        "llmModel": "gemini-3.6-flash",
+        "timestamp": "2026-09-22T06:27:50Z",
+        "sessionId": "close-2026-09-22",
+        "_rid": "FN8OAOpdBMlqAAAAAAAAAA==",
+        "_self": "dbs/FN8OAA==/colls/FN8OAOpdBMk=/docs/FN8OAOpdBMlqAAAAAAAAAA==/",
+        "_etag": "\"3d0137b8-0000-0200-0000-6ab21fe60000\"",
+        "_attachments": "attachments/",
+        "_ts": 1790058470
+    },
+    {
+        "id": "f59d2a50-9a10-48f3-b8d0-bae97ab62dc3",
+        "botName": "open_qwen",
+        "cash": 96126.66,
+        "positions": {},
+        "totalValue": 96126.66,
+        "startingCash": 100000,
+        "strategyPrompt": "You are an autonomous trading agent. You can choose whatever style fits today's conditions best, including trend-following, mean reversion, catalyst/event-driven, valuation, volatility breakout, sentiment, or staying out entirely. Use web search whenever it helps you gather live market context, recent news, filings, earnings, macro events, technical levels, or other relevant metrics.",
+        "llmProvider": "groq_tavily",
+        "llmModel": "qwen/qwen3.8-27b",
+        "timestamp": "2026-09-22T13:30:13Z",
+        "sessionId": "open-2026-09-22",
+        "_rid": "FN8OAOpdBMlrAAAAAAAAAA==",
+        "_self": "dbs/FN8OAA==/colls/FN8OAOpdBMk=/docs/FN8OAOpdBMlrAAAAAAAAAA==/",
+        "_etag": "\"48019b17-0000-0200-0000-6ab282e50000\"",
+        "_attachments": "attachments/",
+        "_ts": 1790083813
+    },
+    {
+        "id": "da3819a0-a131-497a-8b23-78397db31201",
+        "botName": "open_gptoss",
+        "cash": 77478.12,
+        "positions": {
+            "NVDA": {
+                "direction": "long",
+                "shares": 176,
+                "entryPrice": 226.97,
+                "leverage": 2,
+                "notional": 39946.72,
+                "marginUsed": 19973.36,
+                "assetType": "stock"
+            }
+        },
+        "totalValue": 97451.48,
+        "startingCash": 100000,
+        "strategyPrompt": "You are an autonomous trading agent. You can choose whatever style fits today's conditions best, including trend-following, mean reversion, catalyst/event-driven, valuation, volatility breakout, sentiment, or staying out entirely. Use web search whenever it helps you gather live market context, recent news, filings, earnings, macro events, technical levels, or other relevant metrics.",
+        "llmProvider": "groq_tavily",
+        "llmModel": "openai/gpt-oss-120b",
+        "timestamp": "2026-09-22T13:30:40Z",
+        "sessionId": "open-2026-09-22",
+        "_rid": "FN8OAOpdBMlsAAAAAAAAAA==",
+        "_self": "dbs/FN8OAA==/colls/FN8OAOpdBMk=/docs/FN8OAOpdBMlsAAAAAAAAAA==/",
+        "_etag": "\"4801cd1a-0000-0200-0000-6ab283000000\"",
+        "_attachments": "attachments/",
+        "_ts": 1790083840
+    },
+    {
+        "id": "84b620e2-ed76-4296-910f-1708e652e930",
+        "botName": "open_gptoss",
+        "cash": 28731.15,
+        "positions": {
+            "SPY": {
+                "direction": "long",
+                "shares": 32,
+                "entryPrice": 774.41,
+                "leverage": 1,
+                "notional": 24781.12,
+                "marginUsed": 24781.12,
+                "assetType": "etf"
+            },
+            "QQQ": {
+                "direction": "long",
+                "shares": 26,
+                "entryPrice": 747.23,
+                "leverage": 1,
+                "notional": 19427.98,
+                "marginUsed": 19427.98,
+                "assetType": "etf"
+            },
+            "BTC/USD": {
+                "direction": "long",
+                "shares": 0.260091,
+                "entryPrice": 86508.055,
+                "leverage": 1.5,
+                "notional": 22499.97,
+                "marginUsed": 14999.98,
+                "assetType": "crypto"
+            },
+            "GLD": {
+                "direction": "long",
+                "shares": 25,
+                "entryPrice": 399.81,
+                "leverage": 1,
+                "notional": 9995.25,
+                "marginUsed": 9995.25,
+                "assetType": "etf"
+            }
+        },
+        "totalValue": 97934.78,
+        "startingCash": 100000,
+        "strategyPrompt": "You are an autonomous trading agent. You can choose whatever style fits today's conditions best, including trend-following, mean reversion, catalyst/event-driven, valuation, volatility breakout, sentiment, or staying out entirely. Use web search whenever it helps you gather live market context, recent news, filings, earnings, macro events, technical levels, or other relevant metrics.",
+        "llmProvider": "groq_tavily",
+        "llmModel": "openai/gpt-oss-120b",
+        "timestamp": "2026-09-22T19:30:27Z",
+        "sessionId": "close-2026-09-22",
+        "_rid": "FN8OAOpdBMltAAAAAAAAAA==",
+        "_self": "dbs/FN8OAA==/colls/FN8OAOpdBMk=/docs/FN8OAOpdBMltAAAAAAAAAA==/",
+        "_etag": "\"540118dd-0000-0200-0000-6ab2d7530000\"",
+        "_attachments": "attachments/",
+        "_ts": 1790105427
+    },
+    {
+        "id": "9e2b6edf-dd15-4b43-a388-c7ed82e4aac3",
+        "botName": "open_gemini",
+        "cash": 30555.39,
+        "positions": {
+            "BTC/USD": {
+                "direction": "long",
+                "shares": 0.192543,
+                "entryPrice": 77904.675,
+                "leverage": 1,
+                "notional": 15000,
+                "marginUsed": 15000
+            },
+            "GLD": {
+                "direction": "long",
+                "shares": 38,
+                "entryPrice": 390.1,
+                "leverage": 1,
+                "notional": 14823.8,
+                "marginUsed": 14823.8,
+                "assetType": "etf"
+            },
+            "NVDA": {
+                "direction": "long",
+                "shares": 114,
+                "entryPrice": 218.29,
+                "leverage": 1,
+                "notional": 24885.06,
+                "marginUsed": 24885.06,
+                "assetType": "stock"
+            },
+            "QQQ": {
+                "direction": "long",
+                "shares": 20,
+                "entryPrice": 747.46,
+                "leverage": 1,
+                "notional": 14949.2,
+                "marginUsed": 14949.2,
+                "assetType": "etf"
+            }
+        },
+        "totalValue": 103265.02,
+        "startingCash": 100000,
+        "strategyPrompt": "You are an autonomous trading agent. You can choose whatever style fits today's conditions best, including trend-following, mean reversion, catalyst/event-driven, valuation, volatility breakout, sentiment, or staying out entirely. Use web search whenever it helps you gather live market context, recent news, filings, earnings, macro events, technical levels, or other relevant metrics.",
+        "llmProvider": "gemini",
+        "llmModel": "gemini-3.6-flash",
+        "timestamp": "2026-09-23T12:30:51Z",
+        "sessionId": "open-2026-09-23",
+        "_rid": "FN8OAOpdBMluAAAAAAAAAA==",
+        "_self": "dbs/FN8OAA==/colls/FN8OAOpdBMk=/docs/FN8OAOpdBMluAAAAAAAAAA==/",
+        "_etag": "\"6c016cdb-0000-0200-0000-6ab3c67b0000\"",
+        "_attachments": "attachments/",
+        "_ts": 1790166651
+    },
+    {
+        "id": "f7c28f56-4f50-4966-8ed2-f4222add230e",
+        "botName": "open_gptoss",
+        "cash": 26465.79,
+        "positions": {
+            "GLD": {
+                "direction": "long",
+                "shares": 25,
+                "entryPrice": 399.81,
+                "leverage": 1,
+                "notional": 9995.25,
+                "marginUsed": 9995.25,
+                "assetType": "etf"
+            },
+            "SPY": {
+                "direction": "long",
+                "shares": 25,
+                "entryPrice": 772.87,
+                "leverage": 1,
+                "notional": 19321.75,
+                "marginUsed": 19321.75,
+                "assetType": "etf"
+            },
+            "QQQ": {
+                "direction": "long",
+                "shares": 40,
+                "entryPrice": 747.09,
+                "leverage": 1,
+                "notional": 29883.6,
+                "marginUsed": 29883.6,
+                "assetType": "etf"
+            },
+            "NVDA": {
+                "direction": "long",
+                "shares": 105,
+                "entryPrice": 227.92,
+                "leverage": 2,
+                "notional": 23931.6,
+                "marginUsed": 11965.8,
+                "assetType": "stock"
+            }
+        },
+        "totalValue": 97520.69,
+        "startingCash": 100000,
+        "strategyPrompt": "You are an autonomous trading agent. You can choose whatever style fits today's conditions best, including trend-following, mean reversion, catalyst/event-driven, valuation, volatility breakout, sentiment, or staying out entirely. Use web search whenever it helps you gather live market context, recent news, filings, earnings, macro events, technical levels, or other relevant metrics.",
+        "llmProvider": "groq_tavily",
+        "llmModel": "openai/gpt-oss-120b",
+        "timestamp": "2026-09-23T13:30:42Z",
+        "sessionId": "open-2026-09-23",
+        "_rid": "FN8OAOpdBMlvAAAAAAAAAA==",
+        "_self": "dbs/FN8OAA==/colls/FN8OAOpdBMk=/docs/FN8OAOpdBMlvAAAAAAAAAA==/",
+        "_etag": "\"6e0146a1-0000-0200-0000-6ab3d4820000\"",
+        "_attachments": "attachments/",
+        "_ts": 1790170242
+    },
+    {
+        "id": "af64795f-381d-419c-b20f-7864772fdd20",
+        "botName": "open_qwen",
+        "cash": 32326.77,
+        "positions": {
+            "AVGO": {
+                "direction": "long",
+                "shares": 138,
+                "entryPrice": 360.41,
+                "leverage": 2,
+                "notional": 49736.58,
+                "marginUsed": 24868.29,
+                "assetType": "stock"
+            },
+            "PLTR": {
+                "direction": "long",
+                "shares": 120,
+                "entryPrice": 186.87,
+                "leverage": 1.5,
+                "notional": 22424.4,
+                "marginUsed": 14949.6,
+                "assetType": "stock"
+            },
+            "TLT": {
+                "direction": "long",
+                "shares": 147,
+                "entryPrice": 81.51,
+                "leverage": 1,
+                "notional": 11981.97,
+                "marginUsed": 11981.97,
+                "assetType": "etf"
+            },
+            "BTC/USD": {
+                "direction": "long",
+                "shares": 0.140263,
+                "entryPrice": 85553.78,
+                "leverage": 1,
+                "notional": 12000.03,
+                "marginUsed": 12000.03,
+                "assetType": "crypto"
+            }
+        },
+        "totalValue": 96126.66,
+        "startingCash": 100000,
+        "strategyPrompt": "You are an autonomous trading agent. You can choose whatever style fits today's conditions best, including trend-following, mean reversion, catalyst/event-driven, valuation, volatility breakout, sentiment, or staying out entirely. Use web search whenever it helps you gather live market context, recent news, filings, earnings, macro events, technical levels, or other relevant metrics.",
+        "llmProvider": "groq_tavily",
+        "llmModel": "qwen/qwen3.8-27b",
+        "timestamp": "2026-09-23T13:31:42Z",
+        "sessionId": "open-2026-09-23",
+        "_rid": "FN8OAOpdBMlwAAAAAAAAAA==",
+        "_self": "dbs/FN8OAA==/colls/FN8OAOpdBMk=/docs/FN8OAOpdBMlwAAAAAAAAAA==/",
+        "_etag": "\"6e01d5a8-0000-0200-0000-6ab3d4be0000\"",
+        "_attachments": "attachments/",
+        "_ts": 1790170302
+    },
+    {
+        "id": "31741bae-0fe5-4cfb-9eb5-188d427be9af",
+        "botName": "open_gptoss",
+        "cash": 36972.72,
+        "positions": {
+            "GLD": {
+                "direction": "long",
+                "shares": 76,
+                "entryPrice": 393.06,
+                "leverage": 1,
+                "notional": 29872.56,
+                "marginUsed": 29872.56,
+                "assetType": "etf"
+            },
+            "SPY": {
+                "direction": "short",
+                "shares": -78,
+                "entryPrice": 767.54,
+                "leverage": 2,
+                "notional": 59868.12,
+                "marginUsed": 29934.06,
+                "assetType": "etf"
+            }
+        },
+        "totalValue": 96779.34,
+        "startingCash": 100000,
+        "strategyPrompt": "You are an autonomous trading agent. You can choose whatever style fits today's conditions best, including trend-following, mean reversion, catalyst/event-driven, valuation, volatility breakout, sentiment, or staying out entirely. Use web search whenever it helps you gather live market context, recent news, filings, earnings, macro events, technical levels, or other relevant metrics.",
+        "llmProvider": "groq_tavily",
+        "llmModel": "openai/gpt-oss-120b",
+        "timestamp": "2026-09-23T19:30:20Z",
+        "sessionId": "close-2026-09-23",
+        "_rid": "FN8OAOpdBMlxAAAAAAAAAA==",
+        "_self": "dbs/FN8OAA==/colls/FN8OAOpdBMk=/docs/FN8OAOpdBMlxAAAAAAAAAA==/",
+        "_etag": "\"7c019fac-0000-0200-0000-6ab428cc0000\"",
+        "_attachments": "attachments/",
+        "_ts": 1790191820
+    },
+    {
+        "id": "89b1024d-50a4-4fc2-bf57-86355a0f9d26",
+        "botName": "open_qwen",
+        "cash": 26615.52,
+        "positions": {
+            "PLTR": {
+                "direction": "long",
+                "shares": 120,
+                "entryPrice": 186.87,
+                "leverage": 1.5,
+                "notional": 22424.4,
+                "marginUsed": 14949.6,
+                "assetType": "stock"
+            },
+            "TLT": {
+                "direction": "long",
+                "shares": 147,
+                "entryPrice": 81.51,
+                "leverage": 1,
+                "notional": 11981.97,
+                "marginUsed": 11981.97,
+                "assetType": "etf"
+            },
+            "BTC/USD": {
+                "direction": "long",
+                "shares": 0.140263,
+                "entryPrice": 85553.78,
+                "leverage": 1,
+                "notional": 12000.03,
+                "marginUsed": 12000.03,
+                "assetType": "crypto"
+            },
+            "AVGO": {
+                "direction": "long",
+                "shares": 84,
+                "entryPrice": 354.76,
+                "leverage": 1,
+                "notional": 29799.84,
+                "marginUsed": 29799.84,
+                "assetType": "stock"
+            }
+        },
+        "totalValue": 95649.09,
+        "startingCash": 100000,
+        "strategyPrompt": "You are an autonomous trading agent. You can choose whatever style fits today's conditions best, including trend-following, mean reversion, catalyst/event-driven, valuation, volatility breakout, sentiment, or staying out entirely. Use web search whenever it helps you gather live market context, recent news, filings, earnings, macro events, technical levels, or other relevant metrics.",
+        "llmProvider": "groq_tavily",
+        "llmModel": "qwen/qwen3.8-27b",
+        "timestamp": "2026-09-23T19:31:32Z",
+        "sessionId": "close-2026-09-23",
+        "_rid": "FN8OAOpdBMlyAAAAAAAAAA==",
+        "_self": "dbs/FN8OAA==/colls/FN8OAOpdBMk=/docs/FN8OAOpdBMlyAAAAAAAAAA==/",
+        "_etag": "\"7c01c6ba-0000-0200-0000-6ab429140000\"",
+        "_attachments": "attachments/",
+        "_ts": 1790191892
+    },
+    {
+        "id": "d01fe291-79c5-468e-aea7-97de17824338",
+        "botName": "open_gemini",
+        "cash": 30555.39,
+        "positions": {
+            "BTC/USD": {
+                "direction": "long",
+                "shares": 0.192543,
+                "entryPrice": 77904.675,
+                "leverage": 1,
+                "notional": 15000,
+                "marginUsed": 15000
+            },
+            "GLD": {
+                "direction": "long",
+                "shares": 38,
+                "entryPrice": 390.1,
+                "leverage": 1,
+                "notional": 14823.8,
+                "marginUsed": 14823.8,
+                "assetType": "etf"
+            },
+            "NVDA": {
+                "direction": "long",
+                "shares": 114,
+                "entryPrice": 218.29,
+                "leverage": 1,
+                "notional": 24885.06,
+                "marginUsed": 24885.06,
+                "assetType": "stock"
+            },
+            "QQQ": {
+                "direction": "long",
+                "shares": 20,
+                "entryPrice": 747.46,
+                "leverage": 1,
+                "notional": 14949.2,
+                "marginUsed": 14949.2,
+                "assetType": "etf"
+            }
+        },
+        "totalValue": 102266.44,
+        "startingCash": 100000,
+        "strategyPrompt": "You are an autonomous trading agent. You can choose whatever style fits today's conditions best, including trend-following, mean reversion, catalyst/event-driven, valuation, volatility breakout, sentiment, or staying out entirely. Use web search whenever it helps you gather live market context, recent news, filings, earnings, macro events, technical levels, or other relevant metrics.",
+        "llmProvider": "gemini",
+        "llmModel": "gemini-3.6-flash",
+        "timestamp": "2026-09-24T00:26:48Z",
+        "sessionId": "close-2026-09-24",
+        "_rid": "FN8OAOpdBMlzAAAAAAAAAA==",
+        "_self": "dbs/FN8OAA==/colls/FN8OAOpdBMk=/docs/FN8OAOpdBMlzAAAAAAAAAA==/",
+        "_etag": "\"85012c9b-0000-0200-0000-6ab46e480000\"",
+        "_attachments": "attachments/",
+        "_ts": 1790209608
+    },
+    {
+        "id": "852e2af8-c217-4f4c-a295-fedb893652c4",
+        "botName": "open_qwen",
+        "cash": 50191.58,
+        "positions": {
+            "PLTR": {
+                "direction": "long",
+                "shares": 120,
+                "entryPrice": 186.87,
+                "leverage": 1.5,
+                "notional": 22424.4,
+                "marginUsed": 14949.6,
+                "assetType": "stock"
+            },
+            "AVGO": {
+                "direction": "long",
+                "shares": 84,
+                "entryPrice": 354.76,
+                "leverage": 1,
+                "notional": 29799.84,
+                "marginUsed": 29799.84,
+                "assetType": "stock"
+            }
+        },
+        "totalValue": 94770.26,
+        "startingCash": 100000,
+        "strategyPrompt": "You are an autonomous trading agent. You can choose whatever style fits today's conditions best, including trend-following, mean reversion, catalyst/event-driven, valuation, volatility breakout, sentiment, or staying out entirely. Use web search whenever it helps you gather live market context, recent news, filings, earnings, macro events, technical levels, or other relevant metrics.",
+        "llmProvider": "groq_tavily",
+        "llmModel": "qwen/qwen3.8-27b",
+        "timestamp": "2026-09-24T13:31:21Z",
+        "sessionId": "open-2026-09-24",
+        "_rid": "FN8OAOpdBMl0AAAAAAAAAA==",
+        "_self": "dbs/FN8OAA==/colls/FN8OAOpdBMk=/docs/FN8OAOpdBMl0AAAAAAAAAA==/",
+        "_etag": "\"9701919d-0000-0200-0000-6ab526290000\"",
+        "_attachments": "attachments/",
+        "_ts": 1790256681
+    },
+    {
+        "id": "1fc86fdc-c9e4-471f-8b4a-8c0c83b009d7",
+        "botName": "open_qwen",
+        "cash": 70202.8,
+        "positions": {
+            "TLT": {
+                "direction": "long",
+                "shares": 314,
+                "entryPrice": 79.55,
+                "leverage": 1,
+                "notional": 24978.7,
+                "marginUsed": 24978.7,
+                "assetType": "etf"
+            }
+        },
+        "totalValue": 95175.22,
+        "startingCash": 100000,
+        "strategyPrompt": "You are an autonomous trading agent. You can choose whatever style fits today's conditions best, including trend-following, mean reversion, catalyst/event-driven, valuation, volatility breakout, sentiment, or staying out entirely. Use web search whenever it helps you gather live market context, recent news, filings, earnings, macro events, technical levels, or other relevant metrics.",
+        "llmProvider": "groq_tavily",
+        "llmModel": "qwen/qwen3.8-27b",
+        "timestamp": "2026-09-24T19:30:19Z",
+        "sessionId": "close-2026-09-24",
+        "_rid": "FN8OAOpdBMl1AAAAAAAAAA==",
+        "_self": "dbs/FN8OAA==/colls/FN8OAOpdBMk=/docs/FN8OAOpdBMl1AAAAAAAAAA==/",
+        "_etag": "\"a1014b7e-0000-0200-0000-6ab57a4b0000\"",
+        "_attachments": "attachments/",
+        "_ts": 1790278219
+    },
+    {
+        "id": "dc946c0f-7718-434f-af4f-fc8ea1189ac0",
+        "botName": "open_qwen",
+        "cash": 95146.96,
+        "positions": {},
+        "totalValue": 95146.96,
+        "startingCash": 100000,
+        "strategyPrompt": "You are an autonomous trading agent. You can choose whatever style fits today's conditions best, including trend-following, mean reversion, catalyst/event-driven, valuation, volatility breakout, sentiment, or staying out entirely. Use web search whenever it helps you gather live market context, recent news, filings, earnings, macro events, technical levels, or other relevant metrics.",
+        "llmProvider": "groq_tavily",
+        "llmModel": "qwen/qwen3.8-27b",
+        "timestamp": "2026-09-25T13:30:15Z",
+        "sessionId": "open-2026-09-25",
+        "_rid": "FN8OAOpdBMl2AAAAAAAAAA==",
+        "_self": "dbs/FN8OAA==/colls/FN8OAOpdBMk=/docs/FN8OAOpdBMl2AAAAAAAAAA==/",
+        "_etag": "\"b901c7c0-0000-0200-0000-6ab677670000\"",
+        "_attachments": "attachments/",
+        "_ts": 1790343015
+    },
+    {
+        "id": "59472106-1ccd-4af9-b78e-68683365efcf",
+        "botName": "open_gptoss",
+        "cash": 27153.39,
+        "positions": {
+            "SPY": {
+                "direction": "long",
+                "shares": 39,
+                "entryPrice": 767.22,
+                "leverage": 1,
+                "notional": 29921.58,
+                "marginUsed": 29921.58,
+                "assetType": "etf"
+            },
+            "QQQ": {
+                "direction": "long",
+                "shares": 40,
+                "entryPrice": 741.14,
+                "leverage": 1,
+                "notional": 29645.6,
+                "marginUsed": 29645.6,
+                "assetType": "etf"
+            },
+            "XLF": {
+                "direction": "long",
+                "shares": 183,
+                "entryPrice": 54.55,
+                "leverage": 1,
+                "notional": 9982.65,
+                "marginUsed": 9982.65,
+                "assetType": "etf"
+            }
+        },
+        "totalValue": 96703.22,
+        "startingCash": 100000,
+        "strategyPrompt": "You are an autonomous trading agent. You can choose whatever style fits today's conditions best, including trend-following, mean reversion, catalyst/event-driven, valuation, volatility breakout, sentiment, or staying out entirely. Use web search whenever it helps you gather live market context, recent news, filings, earnings, macro events, technical levels, or other relevant metrics.",
+        "llmProvider": "groq_tavily",
+        "llmModel": "openai/gpt-oss-120b",
+        "timestamp": "2026-09-25T13:30:19Z",
+        "sessionId": "open-2026-09-25",
+        "_rid": "FN8OAOpdBMl3AAAAAAAAAA==",
+        "_self": "dbs/FN8OAA==/colls/FN8OAOpdBMk=/docs/FN8OAOpdBMl3AAAAAAAAAA==/",
+        "_etag": "\"b90137c1-0000-0200-0000-6ab6776b0000\"",
+        "_attachments": "attachments/",
+        "_ts": 1790343019
+    },
+    {
+        "id": "2e882a79-733b-4a2f-a1e1-7896ca643c79",
+        "botName": "open_gemini",
+        "cash": 30555.39,
+        "positions": {
+            "BTC/USD": {
+                "direction": "long",
+                "shares": 0.192543,
+                "entryPrice": 77904.675,
+                "leverage": 1,
+                "notional": 15000,
+                "marginUsed": 15000
+            },
+            "GLD": {
+                "direction": "long",
+                "shares": 38,
+                "entryPrice": 390.1,
+                "leverage": 1,
+                "notional": 14823.8,
+                "marginUsed": 14823.8,
+                "assetType": "etf"
+            },
+            "NVDA": {
+                "direction": "long",
+                "shares": 114,
+                "entryPrice": 218.29,
+                "leverage": 1,
+                "notional": 24885.06,
+                "marginUsed": 24885.06,
+                "assetType": "stock"
+            },
+            "QQQ": {
+                "direction": "long",
+                "shares": 20,
+                "entryPrice": 747.46,
+                "leverage": 1,
+                "notional": 14949.2,
+                "marginUsed": 14949.2,
+                "assetType": "etf"
+            }
+        },
+        "totalValue": 102207.21,
+        "startingCash": 100000,
+        "strategyPrompt": "You are an autonomous trading agent. You can choose whatever style fits today's conditions best, including trend-following, mean reversion, catalyst/event-driven, valuation, volatility breakout, sentiment, or staying out entirely. Use web search whenever it helps you gather live market context, recent news, filings, earnings, macro events, technical levels, or other relevant metrics.",
+        "llmProvider": "gemini",
+        "llmModel": "gemini-3.6-flash",
+        "timestamp": "2026-09-26T06:27:31Z",
+        "sessionId": "close-2026-09-26",
+        "_rid": "FN8OAOpdBMl4AAAAAAAAAA==",
+        "_self": "dbs/FN8OAA==/colls/FN8OAOpdBMk=/docs/FN8OAOpdBMl4AAAAAAAAAA==/",
+        "_etag": "\"d6010d68-0000-0200-0000-6ab765d30000\"",
+        "_attachments": "attachments/",
+        "_ts": 1790404051
+    }
+]

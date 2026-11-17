@@ -29,21 +29,45 @@ webpubsub_client = WebPubSubServiceClient.from_connection_string(
 )
 
 
-def fetch_live_price(ticker: str) -> float | None:
-    """Fetch a live price for a single ticker (Finnhub → Yahoo Finance fallback)."""
+def fetch_live_price(ticker: str, asset_type: str | None = None) -> float | None:
+    """Fetch a live price for a single ticker.
+
+    asset_type is the stored 'assetType' field from the position:
+      'stock' | 'etf' | 'brazil' | 'forex' | 'crypto'
+
+    Routing order:
+      - Crypto only: Coinbase (never for stocks/ETFs/forex/brazil — prevents
+        single-letter tickers like T or S colliding with same-named crypto tokens)
+      - Stocks/ETFs: Finnhub → Yahoo Finance
+      - Brazil (.SA): Yahoo Finance
+      - Forex (=X): Yahoo Finance
+    """
     clean = ticker.upper().strip()
-    # Crypto via Coinbase
-    try:
-        base = clean.replace("/USD", "").replace("-USD", "").replace("USD", "")
-        r = requests.get(f"https://api.coinbase.com/v2/prices/{base}-USD/spot", timeout=5)
-        if r.ok:
-            price = float(r.json().get("data", {}).get("amount") or 0)
-            if price > 0:
-                return price
-    except Exception:
-        pass
-    # Finnhub for equities
-    if FINNHUB_API_KEY:
+    t = str(asset_type or "").strip().lower()
+
+    # Only query Coinbase when we know (or strongly suspect) the asset is crypto.
+    # Never do this for stocks/ETFs/forex/brazil — single-letter tickers like
+    # 'T' (AT&T), 'S' (SentinelOne), or 'C' (Citigroup) have same-named crypto
+    # tokens that Coinbase happily returns at fractions of a cent.
+    is_crypto = (
+        t == "crypto"
+        or "/" in ticker
+        or "-USD" in ticker.upper()
+        or (t not in ("stock", "etf", "brazil", "forex") and t == "")
+    )
+    if is_crypto and t not in ("stock", "etf", "brazil", "forex"):
+        try:
+            base = clean.replace("/USD", "").replace("-USD", "").replace("USD", "")
+            r = requests.get(f"https://api.coinbase.com/v2/prices/{base}-USD/spot", timeout=5)
+            if r.ok:
+                price = float(r.json().get("data", {}).get("amount") or 0)
+                if price > 0:
+                    return price
+        except Exception:
+            pass
+
+    # Finnhub for US equities / ETFs
+    if t not in ("crypto", "brazil", "forex") and FINNHUB_API_KEY:
         try:
             r = requests.get("https://finnhub.io/api/v1/quote",
                              params={"symbol": clean, "token": FINNHUB_API_KEY}, timeout=5)
@@ -53,18 +77,29 @@ def fetch_live_price(ticker: str) -> float | None:
                     return price
         except Exception:
             pass
-    # Yahoo Finance fallback
-    try:
-        ticker_yf = f"{clean}.SA" if re.fullmatch(r"[A-Z]{4}[0-9]{1,2}", clean) else clean
-        r = requests.get(f"https://query1.finance.yahoo.com/v8/finance/chart/{ticker_yf}",
-                         headers={"User-Agent": "Mozilla/5.0"}, timeout=6)
-        if r.ok:
-            meta = r.json().get("chart", {}).get("result", [{}])[0].get("meta", {})
-            price = float(meta.get("regularMarketPrice") or 0)
-            if price > 0:
-                return price
-    except Exception:
-        pass
+
+    # Yahoo Finance for B3, forex, global, and Finnhub fallback
+    if t != "crypto":
+        try:
+            if t == "brazil" and not clean.endswith(".SA"):
+                ticker_yf = f"{clean}.SA"
+            elif re.fullmatch(r"[A-Z]{4}[0-9]{1,2}", clean) and not clean.endswith(".SA"):
+                ticker_yf = f"{clean}.SA"
+            else:
+                ticker_yf = clean
+            headers = {
+                "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36"
+            }
+            r = requests.get(f"https://query1.finance.yahoo.com/v8/finance/chart/{ticker_yf}",
+                             headers=headers, timeout=6)
+            if r.ok:
+                meta = r.json().get("chart", {}).get("result", [{}])[0].get("meta", {})
+                price = float(meta.get("regularMarketPrice") or 0)
+                if price > 0:
+                    return price
+        except Exception:
+            pass
+
     return None
 
 
@@ -122,18 +157,28 @@ def leaderboard(req: func.HttpRequest) -> func.HttpResponse:
             pos_margin  = pos.get("marginUsed", 0)
             notional    = pos.get("notional", 0)
             direction   = 1 if pos.get("direction") == "long" else -1
-            live_price  = fetch_live_price(ticker) if entry_price > 0 else None
+            asset_type  = pos.get("assetType")
+            live_price  = fetch_live_price(ticker, asset_type=asset_type) if entry_price > 0 else None
+            # Sanity check: if live quote represents an impossible >85% crash compared to entry
+            # on non-crypto assets (often ticker collision or bad quote feed), reject it and fall back
+            # to the snapshot markPrice.
+            is_crypto_asset = str(asset_type or "").lower() == "crypto" or "/" in ticker
+            if live_price and entry_price > 0:
+                if not is_crypto_asset and (live_price / entry_price < 0.15 or live_price <= 0):
+                    live_price = None
+
             if live_price and entry_price > 0:
                 unreal_pnl = direction * notional * (live_price / entry_price - 1)
-                unreal_pct = (unreal_pnl / starting_cash) * 100
+                unreal_pct = (unreal_pnl / pos_margin) * 100 if pos_margin > 0 else 0.0
                 positions_equity += pos_margin + unreal_pnl
             else:
-                unreal_pnl = None
-                unreal_pct = None
-                positions_equity += pos_margin  # assume breakeven if no live price
+                live_price = pos.get("markPrice")
+                unreal_pnl = pos.get("unrealizedPnl")
+                unreal_pct = pos.get("unrealizedPct")
+                positions_equity += pos_margin + (unreal_pnl if unreal_pnl is not None else 0.0)
             enriched_positions[ticker] = {
                 **pos,
-                "currentPrice":  round(live_price, 4) if live_price else None,
+                "currentPrice":  round(live_price, 4) if live_price is not None else None,
                 "unrealizedPnl": round(unreal_pnl, 2) if unreal_pnl is not None else None,
                 "unrealizedPct": round(unreal_pct, 2) if unreal_pct is not None else None,
             }
@@ -142,20 +187,26 @@ def leaderboard(req: func.HttpRequest) -> func.HttpResponse:
         live_total_value = free_cash + positions_equity
 
         result.append({
-            "botName":         p["botName"],
-            "cash":            raw_cash,
-            "availableMargin": free_cash,
-            "marginUsed":      round(margin_used, 2),
-            "positions":       enriched_positions,
-            "totalValue":      round(live_total_value, 2),
-            "startingCash":    starting_cash,
-            "strategyPrompt":  p.get("strategyPrompt", ""),
-            "llmProvider":     p.get("llmProvider", "unknown"),
-            "llmModel":        p.get("llmModel", "unknown"),
+            "botName":                    p["botName"],
+            "cash":                       raw_cash,
+            "availableMargin":            free_cash,
+            "marginUsed":                 round(margin_used, 2),
+            "positions":                  enriched_positions,
+            "totalValue":                 round(live_total_value, 2),
+            "startingCash":               starting_cash,
+            "strategyPrompt":             p.get("strategyPrompt", ""),
+            "llmProvider":                p.get("llmProvider", "unknown"),
+            "llmModel":                   p.get("llmModel", "unknown"),
+            "dailyPnL":                   p.get("dailyPnL"),
+            "dailyPnLPct":                p.get("dailyPnLPct"),
+            "sessionPnL":                 p.get("sessionPnL"),
+            "sessionPnLPct":              p.get("sessionPnLPct"),
+            "totalRealizedPnlCumulative": p.get("totalRealizedPnlCumulative"),
+            "api_version":                "2026-11-12-v3",
         })
-    return func.HttpResponse(json.dumps(result), mimetype="application/json")
-
-
+    response = func.HttpResponse(json.dumps(result), mimetype="application/json")
+    response.headers["X-API-Version"] = "2026-11-12-v3"
+    return response
 
 
 @app.route(route="trades", methods=["GET"])
@@ -195,20 +246,20 @@ def analysis(req: func.HttpRequest) -> func.HttpResponse:
         query = "SELECT * FROM c WHERE c.reportDate = @date"
         params = [{"name": "@date", "value": date_param}]
         items = list(analyses.query_items(query=query, parameters=params, enable_cross_partition_query=True))
-        
+
         if not items:
             return func.HttpResponse(
                 json.dumps({"reportDate": date_param, "overview": "", "ideas": [], "notFound": True}),
                 mimetype="application/json",
                 status_code=404,
             )
-            
+
         # Group them into a dictionary by provider
         result = {}
         for item in items:
             provider = item.get("provider") or item.get("model", "unknown")
             result[provider] = item
-            
+
         return func.HttpResponse(json.dumps(result), mimetype="application/json")
     except Exception as e:
         logging.error(f"Error reading analysis for {date_param}: {e}")
@@ -239,7 +290,7 @@ def analysis_outcomes(req: func.HttpRequest) -> func.HttpResponse:
         query = "SELECT * FROM c WHERE c.reportDate = @date"
         params = [{"name": "@date", "value": date_param}]
         items = list(analyses.query_items(query=query, parameters=params, enable_cross_partition_query=True))
-        
+
         if not items:
             return func.HttpResponse(json.dumps([]), mimetype="application/json", status_code=404)
     except Exception:
@@ -265,7 +316,7 @@ def fetch_candle_history(ticker: str, start: datetime.datetime, end: datetime.da
     Finance, then Coinbase/Binance for crypto pairs — so assets that aren't on
     Finnhub (crypto, B3, forex, many global listings) still get chart history.
     """
-    history = []
+    result = []
 
     # 1. Finnhub candles (US / most listed equities)
     try:
@@ -278,12 +329,12 @@ def fetch_candle_history(ticker: str, start: datetime.datetime, end: datetime.da
         }, timeout=8)
         candle = response.json()
         if response.ok and candle.get("s") == "ok" and candle.get("c"):
-            history = [
+            result = [
                 {"date": datetime.datetime.fromtimestamp(ts, datetime.timezone.utc).strftime("%Y-%m-%dT%H:%M"), "price": close}
                 for ts, close in zip(candle.get("t", []), candle.get("c", []))
             ]
-            if history:
-                return history
+            if result:
+                return result
     except requests.RequestException:
         pass
 
@@ -298,17 +349,16 @@ def fetch_candle_history(ticker: str, start: datetime.datetime, end: datetime.da
             if r.ok:
                 candles = r.json()
                 if isinstance(candles, list) and candles:
-                    history = [
+                    result = [
                         {"date": datetime.datetime.fromtimestamp(int(c[0]), datetime.timezone.utc).date().isoformat(),
                          "price": float(c[4])}
                         for c in candles
                     ]
-                    history.sort(key=lambda p: p["date"])
-                    # filter to the requested window
+                    result.sort(key=lambda p: p["date"])
                     start_date = start.date().isoformat()
-                    history = [p for p in history if p["date"] >= start_date]
-                    if history:
-                        return history
+                    result = [p for p in result if p["date"] >= start_date]
+                    if result:
+                        return result
         except requests.RequestException:
             pass
         try:
@@ -317,14 +367,14 @@ def fetch_candle_history(ticker: str, start: datetime.datetime, end: datetime.da
             if r.ok:
                 klines = r.json()
                 if isinstance(klines, list) and klines:
-                    history = [
+                    result = [
                         {"date": datetime.datetime.fromtimestamp(int(k[0]) / 1000, datetime.timezone.utc).date().isoformat(),
                          "price": float(k[4])}
                         for k in klines
                     ]
-                    history.sort(key=lambda p: p["date"])
-                    if history:
-                        return history
+                    result.sort(key=lambda p: p["date"])
+                    if result:
+                        return result
         except requests.RequestException:
             pass
 
@@ -334,39 +384,36 @@ def fetch_candle_history(ticker: str, start: datetime.datetime, end: datetime.da
         r = requests.get(url, headers={"User-Agent": "Mozilla/5.0"}, timeout=8)
         if r.ok:
             data = r.json()
-            result = (data.get("chart") or {}).get("result") or []
-            if result:
-                ts_list = result[0].get("timestamp", [])
-                close_list = (result[0].get("indicators") or {}).get("quote", [{}])[0].get("close", [])
+            chart_result = (data.get("chart") or {}).get("result") or []
+            if chart_result:
+                ts_list = chart_result[0].get("timestamp", [])
+                close_list = (chart_result[0].get("indicators") or {}).get("quote", [{}])[0].get("close", [])
                 if ts_list and close_list:
-                    # Fall back to the daily chart (query range covers window)
-                    assert len(ts_list) == len(close_list)
                     filtered = [
                         (ts, close)
                         for ts, close in zip(ts_list, close_list)
                         if close is not None and ts >= int(start.timestamp())
                     ]
-                    # Yahoo timestamps can be seconds; unix seconds
-                    history = [
+                    result = [
                         {"date": datetime.datetime.fromtimestamp(ts, datetime.timezone.utc).strftime("%Y-%m-%dT%H:%M"), "price": close}
                         for ts, close in filtered
                     ]
-                    if history:
-                        return history
+                    if result:
+                        return result
     except requests.RequestException:
         pass
 
-    return history
+    return result
 
 
 def build_outcome(ticker: str, report_date: str, entry_price) -> dict:
     start = datetime.datetime.fromisoformat(report_date).replace(tzinfo=datetime.timezone.utc)
     end = datetime.datetime.now(datetime.timezone.utc)
 
-    history = fetch_candle_history(ticker, start, end)
+    price_history = fetch_candle_history(ticker, start, end)
 
-    baseline = float(entry_price) if entry_price else (history[0]["price"] if history else None)
-    current = history[-1]["price"] if history else None
+    baseline = float(entry_price) if entry_price else (price_history[0]["price"] if price_history else None)
+    current = price_history[-1]["price"] if price_history else None
 
     # Candle data may not include the in-progress current session, so try to add a
     # fresh quote as the final point when it differs from the last close.
@@ -375,8 +422,8 @@ def build_outcome(ticker: str, report_date: str, entry_price) -> dict:
         if live_price:
             current = live_price
             now_str = datetime.datetime.now(datetime.timezone.utc).strftime("%Y-%m-%dT%H:%M")
-            if not history or history[-1]["date"] != now_str:
-                history.append({"date": now_str, "price": current})
+            if not price_history or price_history[-1]["date"] != now_str:
+                price_history.append({"date": now_str, "price": current})
     except Exception:
         pass
 
@@ -385,7 +432,7 @@ def build_outcome(ticker: str, report_date: str, entry_price) -> dict:
         "initialPrice": baseline,
         "currentPrice": current,
         "returnPct": ((current / baseline) - 1) * 100 if baseline and current else None,
-        "history": history,
+        "history": price_history,
         "asOf": datetime.datetime.now(datetime.timezone.utc).isoformat(),
     }
 

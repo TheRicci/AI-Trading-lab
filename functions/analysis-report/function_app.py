@@ -18,7 +18,7 @@ GEMINI_API_KEY = os.environ.get("GEMINI_API_KEY")
 GEMINI_MODEL = os.environ.get("GEMINI_MODEL", "gemini-3.6-flash")
 GROQ_API_KEY = os.environ.get("GROQ_API_KEY")
 GROQ_MODEL = os.environ.get("GROQ_MODEL", "openai/gpt-oss-120b")
-TAVILY_API_KEY = os.environ.get("TAVILY_API_KEY")
+TAVILY_API_KEY = os.environ.get("TAVILY_RESEARCH_API_KEY") or os.environ.get("TAVILY_API_KEY")
 COSMOS_ENDPOINT = os.environ.get("COSMOS_ENDPOINT")
 COSMOS_KEY = os.environ.get("COSMOS_KEY")
 
@@ -209,31 +209,16 @@ def fetch_live_market_intelligence() -> str:
     run). The budget tracker still blocks once the 1k/month free cap is hit.
     """
     today = datetime.date.today().isoformat()
-    q1 = f"stock market breaking news macro drivers inflation fed earnings {today}"
-    q2 = f"today market catalysts sector rotations top stock movers {today}"
-    q3 = f"earnings previews guidance analyst upgrades downgrades {today}"
-    q4 = f"central bank interest rate policy geopolitics commodity moves {today}"
+    # Combine the queries into a single, comprehensive search to save Tavily budget
+    q = f"stock market breaking news catalysts sector movements macro drivers earnings {today}"
 
     logging.info(f"Gathering live market intelligence via Tavily for {today}...")
-    res1 = search_tavily(q1, max_results=4)
-    res2 = search_tavily(q2, max_results=3)
-    res3 = search_tavily(q3, max_results=3)
-    res4 = search_tavily(q4, max_results=3)
+    res = search_tavily(q, max_results=6)
 
-    combined = []
-    if res1:
-        combined.append("### Macro & Global Market Catalysts Today:\n" + res1)
-    if res2:
-        combined.append("### Sector Movements & Breaking News:\n" + res2)
-    if res3:
-        combined.append("### Earnings & Single-Stock Catalysts:\n" + res3)
-    if res4:
-        combined.append("### Macro-Regime, Rates & Commodity Drivers:\n" + res4)
-
-    if not combined:
+    if not res:
         return "(Live web search context unavailable; relying on model intelligence)"
 
-    return "\n\n".join(combined)
+    return f"### Market Intelligence for {today}:\n{res}"
 
 
 def ask_llm_for_market_asymmetries(provider: str, model: str) -> dict:

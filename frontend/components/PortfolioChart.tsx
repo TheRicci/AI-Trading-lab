@@ -70,7 +70,7 @@ export function PortfolioChart({ history }: { history: PortfolioHistoryByBot }) 
 
   return <div className="card chart-shell p-5">
     <div className="mb-5"><div className="overline">Portfolio performance</div><div className="mt-1 text-[12px] text-secondary">Portfolio value across every bot.</div></div>
-    <div className="mb-3 flex flex-wrap gap-x-4 gap-y-1">{names.map((name) => { const change = (latest[name] / 100000 - 1) * 100; return <div key={name} className="chart-legend-item"><span className="chart-legend-dot" style={{ backgroundColor: botColorFor(name) }} /><span>{name.replace(/^open_/, "")}</span><strong className={change >= 0 ? "text-up" : "text-down"}>{change >= 0 ? "+" : ""}{change.toFixed(1)}%</strong></div>; })}</div>
+    <div className="mb-3 flex flex-wrap gap-x-4 gap-y-1">{names.map((name) => { const change = (latest[name] / 100000 - 1) * 100; const label = name.replace(/_/g, " "); return <div key={name} className="chart-legend-item"><span className="chart-legend-dot" style={{ backgroundColor: botColorFor(name) }} /><span className="capitalize">{label}</span><strong className={change >= 0 ? "text-up" : "text-down"}>{change >= 0 ? "+" : ""}{change.toFixed(1)}%</strong></div>; })}</div>
     <LineChart history={history} />
   </div>;
 }

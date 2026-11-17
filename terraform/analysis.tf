@@ -30,7 +30,7 @@ resource "azurerm_linux_function_app" "analysis_report" {
     "FINNHUB_API_KEY"          = var.finnhub_api_key
     "GEMINI_API_KEY"           = var.gemini_api_key
     "GROQ_API_KEY"             = var.groq_api_key
-    "TAVILY_API_KEY"           = var.tavily_api_key
+    "TAVILY_RESEARCH_API_KEY"  = var.tavily_research_api_key
     "COSMOS_ENDPOINT"          = azurerm_cosmosdb_account.main.endpoint
     "COSMOS_KEY"               = azurerm_cosmosdb_account.main.primary_key
   }

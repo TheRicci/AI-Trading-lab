@@ -26,6 +26,14 @@ output "api_function_default_hostname" {
   value = azurerm_linux_function_app.api.default_hostname
 }
 
+output "api_v3_function_name" {
+  value = azurerm_linux_function_app.api_v3.name
+}
+
+output "api_v3_function_default_hostname" {
+  value = azurerm_linux_function_app.api_v3.default_hostname
+}
+
 output "cosmos_endpoint" {
   value = azurerm_cosmosdb_account.main.endpoint
 }

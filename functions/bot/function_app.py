@@ -75,7 +75,11 @@ BOT_LLM_MODEL = os.environ.get("BOT_LLM_MODEL", "gemini-3.6-flash")
 FINNHUB_API_KEY = os.environ.get("FINNHUB_API_KEY")
 GEMINI_API_KEY = os.environ.get("GEMINI_API_KEY")
 GROQ_API_KEY = os.environ.get("GROQ_API_KEY")
-TAVILY_API_KEY = os.environ.get("TAVILY_API_KEY")
+CURRENT_TAVILY_KEY = (
+    os.environ.get("TAVILY_API_KEY")
+    or os.environ.get("TAVILY_OPEN_API_KEY")
+    or os.environ.get("TAVILY_CLOSE_API_KEY")
+)
 
 COSMOS_ENDPOINT = os.environ.get("COSMOS_ENDPOINT")
 COSMOS_KEY = os.environ.get("COSMOS_KEY")
@@ -109,22 +113,38 @@ def post_with_retry(
     headers: dict | None = None,
     json: dict | None = None,
     timeout: int = 60,
-    max_retries: int = 6,
+    max_retries: int = 4,
 ) -> requests.Response:
     for attempt in range(max_retries):
         try:
             r = requests.post(url, headers=headers, json=json, timeout=timeout)
             if r.status_code in (429, 503):
-                # 429 = rate limited; 503 = transient overload (high demand). Both retryable.
-                # Use exponential backoff to clear 1-minute API rate limit windows
-                wait = min(60.0, 5.0 * (2 ** attempt))
+                # 429 = rate limited; 503 = transient overload.
+                err_msg = ""
                 try:
-                    err_msg = r.json().get("error", {}).get("message", "")
-                    m = re.search(r"try again in ([0-9.]+)s", err_msg, re.IGNORECASE)
-                    if m:
-                        wait = min(float(m.group(1)) + 0.5, 30.0)
+                    err_body = r.json()
+                    err_msg = str(err_body.get("error", {}).get("message", ""))
+                    # If daily quota is permanently exhausted (e.g. Gemini 20 RPD free tier limit), do not keep retrying
+                    if "GenerateRequestsPerDay" in str(err_body) or ("RESOURCE_EXHAUSTED" in str(err_body) and "limit: 20" in str(err_body)):
+                        logging.error(f"[{BOT_NAME}] Daily request quota permanently exhausted for this model: {err_msg}")
+                        return r
                 except Exception:
                     pass
+
+                wait = min(30.0, 3.0 * (2 ** attempt))
+                # 1. Respect Retry-After header if provided by Groq or Gemini
+                retry_after = r.headers.get("Retry-After")
+                if retry_after:
+                    try:
+                        wait = max(float(retry_after) + 0.5, wait)
+                    except (ValueError, TypeError):
+                        pass
+                else:
+                    # 2. Parse retry duration from error text (e.g. 'try again in 5s', 'retry in 19s')
+                    m = re.search(r"(?:try again in|retry in|please retry in|retrydelay)\s*[:\" ]*\s*([0-9.]+)", err_msg, re.IGNORECASE)
+                    if m:
+                        wait = min(float(m.group(1)) + 0.5, 30.0)
+
                 logging.warning(
                     f"[{BOT_NAME}] {r.status_code}. Retrying in {wait:.1f}s (attempt {attempt + 1}/{max_retries})..."
                 )
@@ -152,8 +172,13 @@ def call_gemini(prompt: str) -> str:
     budget and a prompt hint encourage it to minimize searches so we stay inside
     the free Tavily monthly quota."""
     key = (GEMINI_API_KEY or "").strip().strip('"').strip("'")
-    model = (BOT_LLM_MODEL or "gemini-3.6-flash").strip().strip('"').strip("'")
-    url = f"https://generativelanguage.googleapis.com/v1beta/models/{model}:generateContent?key={key}"
+    primary_model = (BOT_LLM_MODEL or "gemini-2.5-flash").strip().strip('"').strip("'")
+
+    # Try primary model first; if daily quota (20 RPD on 3.6-flash preview) or 503 is hit, fall back to GA flash models
+    candidate_models = [primary_model]
+    for alt in ["gemini-2.5-flash", "gemini-2.0-flash", "gemini-1.5-flash"]:
+        if alt not in candidate_models:
+            candidate_models.append(alt)
 
     tools = [
         {
@@ -173,88 +198,96 @@ def call_gemini(prompt: str) -> str:
         }
     ]
 
-    contents = [
-        {
-            "role": "user",
-            "parts": [
-                {
-                    "text": prompt + "\n\nUse web_search calls to gather live context only when needed. " + "Minimize the number of searches: do as few as you need, then produce your final JSON decision."
-                }
-            ],
-        }
-    ]
-
-    for turn in range(4):
-        body = {
-            "contents": contents,
-            "tools": tools,
-            "generationConfig": {"temperature": 0.7},
-        }
-        response = post_with_retry(url, json=body, timeout=120)
-        if not response.ok:
-            logging.error(f"[{BOT_NAME}] Gemini API error ({response.status_code}) for model '{model}': {response.text}")
-            response.raise_for_status()
-
-        data = response.json()
-        candidates = data.get("candidates") or []
-        if not candidates:
-            break
-        parts = (candidates[0].get("content") or {}).get("parts") or []
-
-        calls = [pt for pt in parts if "functionCall" in pt]
-        if calls:
-            # Echo the model's full function-call part back verbatim (including
-            # its thought_signature if present) so Gemini 3 accepts the turn.
-            contents.append(
-                {
-                    "role": "model",
-                    "parts": [dict(call) for call in calls],
-                }
-            )
-            for call in calls:
-                fc = call["functionCall"]
-                name = fc.get("name", "")
-                args = fc.get("args") or {}
-                query = args.get("query", "") if isinstance(args, dict) else ""
-                if name == "web_search" and query:
-                    result_str = search_tavily(query)
-                else:
-                    result_str = "No usable query."
-                contents.append(
+    for model_idx, model in enumerate(candidate_models):
+        url = f"https://generativelanguage.googleapis.com/v1beta/models/{model}:generateContent?key={key}"
+        contents = [
+            {
+                "role": "user",
+                "parts": [
                     {
-                        "role": "user",
-                        "parts": [
-                            {
-                                "functionResponse": {
-                                    "name": name,
-                                    "response": {"result": result_str},
-                                }
-                            }
-                        ],
+                        "text": prompt + "\n\nUse web_search calls to gather live context only when needed. " + "Minimize the number of searches: do as few as you need, then produce your final JSON decision."
                     }
-                )
-            continue
+                ],
+            }
+        ]
 
-        texts = [pt.get("text", "") for pt in parts if "text" in pt]
-        if texts:
-            return "\n".join(t.strip() for t in texts if t.strip())
+        try:
+            for turn in range(2):
+                body = {
+                    "contents": contents,
+                    "tools": tools,
+                    "generationConfig": {"temperature": 0.7},
+                }
+                response = post_with_retry(url, json=body, timeout=60)
+                if not response.ok:
+                    logging.warning(f"[{BOT_NAME}] Gemini error ({response.status_code}) on '{model}': {response.text[:200]}")
+                    if response.status_code in (429, 503) and model_idx < len(candidate_models) - 1:
+                        # Break out of turn loop to try next candidate model
+                        break
+                    response.raise_for_status()
 
-    # Final fallback: request a plain answer.
-    last = {
-        "contents": contents
-        + [{"role": "user", "parts": [{"text": "Produce your final JSON decision now without further searching."}]}],
-        "generationConfig": {"temperature": 0.7},
-    }
-    response = post_with_retry(url, json=last, timeout=120)
-    if response.ok:
-        data = response.json()
-        candidates = data.get("candidates") or []
-        if candidates:
-            parts = (candidates[0].get("content") or {}).get("parts") or []
-            texts = [p.get("text", "") for p in parts if "text" in p]
-            if texts:
-                return "\n".join(t.strip() for t in texts if t.strip())
-    raise RuntimeError(f"Gemini Tavily could not obtain final decision from {model}")
+                data = response.json()
+                candidates = data.get("candidates") or []
+                if not candidates:
+                    break
+                parts = (candidates[0].get("content") or {}).get("parts") or []
+
+                calls = [pt for pt in parts if "functionCall" in pt]
+                if calls:
+                    contents.append(
+                        {
+                            "role": "model",
+                            "parts": [dict(call) for call in calls],
+                        }
+                    )
+                    for call in calls:
+                        fc = call["functionCall"]
+                        name = fc.get("name", "")
+                        args = fc.get("args") or {}
+                        query = args.get("query", "") if isinstance(args, dict) else ""
+                        result_str = search_tavily(query) if (name == "web_search" and query) else "No usable query."
+                        contents.append(
+                            {
+                                "role": "user",
+                                "parts": [
+                                    {
+                                        "functionResponse": {
+                                            "name": name,
+                                            "response": {"result": result_str},
+                                        }
+                                    }
+                                ],
+                            }
+                        )
+                    continue
+
+                texts = [pt.get("text", "") for pt in parts if "text" in pt]
+                if texts:
+                    return "\n".join(t.strip() for t in texts if t.strip())
+
+            # Final fallback: request a plain answer.
+            if response.ok:
+                last = {
+                    "contents": contents
+                    + [{"role": "user", "parts": [{"text": "Produce your final JSON decision now without further searching."}]}],
+                    "generationConfig": {"temperature": 0.7},
+                }
+                final_resp = post_with_retry(url, json=last, timeout=60)
+                if final_resp.ok:
+                    data = final_resp.json()
+                    candidates = data.get("candidates") or []
+                    if candidates:
+                        parts = (candidates[0].get("content") or {}).get("parts") or []
+                        texts = [p.get("text", "") for p in parts if "text" in p]
+                        if texts:
+                            return "\n".join(t.strip() for t in texts if t.strip())
+        except Exception as e:
+            if model_idx < len(candidate_models) - 1:
+                logging.warning(f"[{BOT_NAME}] Model {model} failed ({e}), falling back to {candidate_models[model_idx + 1]}...")
+                continue
+            raise
+
+    raise RuntimeError(f"Gemini Tavily could not obtain final decision from any candidate models: {candidate_models}")
 
 
 def call_openai_compatible(base_url: str, api_key: str, prompt: str) -> str:
@@ -274,7 +307,7 @@ def call_openai_compatible(base_url: str, api_key: str, prompt: str) -> str:
 
 
 def search_tavily(query: str) -> str:
-    if not TAVILY_API_KEY:
+    if not CURRENT_TAVILY_KEY:
         return "Error: TAVILY_API_KEY not configured."
     if not BUDGET.allowance(1):
         logging.warning(f"[{BOT_NAME}] Tavily monthly limit reached; skipping search: {BUDGET.status()}")
@@ -282,7 +315,7 @@ def search_tavily(query: str) -> str:
     BUDGET.spend(1)
     url = "https://api.tavily.com/search"
     body = {
-        "api_key": TAVILY_API_KEY,
+        "api_key": CURRENT_TAVILY_KEY,
         "query": query,
         "search_depth": "basic",
         "include_answer": True,
@@ -309,7 +342,71 @@ def search_tavily(query: str) -> str:
         return f"Search error: {e}"
 
 
-def call_groq_with_tavily(prompt: str, max_turns: int = 5) -> str:
+def _extract_text_tool_calls(text: str) -> list[tuple[str, str]]:
+    """Extract (func_name, query) when a model outputs tool calls in text content instead of tool_calls parameter."""
+    calls = []
+    cleaned = text.strip()
+
+    # 1. Search for JSON blocks in markdown or bracketed [ ... ] / { ... }
+    candidates = []
+    for m in re.finditer(r"```(?:json)?\s*(\[.*?\]|\{.*?\})\s*```", cleaned, re.DOTALL | re.IGNORECASE):
+        candidates.append(m.group(1))
+
+    start_bracket = cleaned.find('[')
+    end_bracket = cleaned.rfind(']')
+    if start_bracket != -1 and end_bracket > start_bracket:
+        candidates.append(cleaned[start_bracket:end_bracket+1])
+
+    start_brace = cleaned.find('{')
+    end_brace = cleaned.rfind('}')
+    if start_brace != -1 and end_brace > start_brace:
+        candidates.append(cleaned[start_brace:end_brace+1])
+
+    candidates.append(cleaned)
+
+    for cand in candidates:
+        try:
+            data = json.loads(cand)
+            items = data if isinstance(data, list) else [data]
+            for it in items:
+                if isinstance(it, dict):
+                    fn = it.get("name") or it.get("function", {}).get("name")
+                    args = it.get("arguments") or it.get("function", {}).get("arguments", {})
+                    if fn == "web_search":
+                        if isinstance(args, dict):
+                            q = args.get("query", "")
+                        elif isinstance(args, str):
+                            try:
+                                q = json.loads(args).get("query", args)
+                            except Exception:
+                                q = args
+                        else:
+                            q = ""
+                        if q and ("web_search", q) not in calls:
+                            calls.append(("web_search", q))
+            if calls:
+                return calls
+        except Exception:
+            continue
+
+    # 2. Regex fallback: match 'query': '...' or "query": "..." when web_search is present
+    if "web_search" in text:
+        query_matches = re.findall(r'["\']query["\']\s*:\s*["\']([^"\']+)["\']', text)
+        for q in query_matches:
+            if ("web_search", q) not in calls:
+                calls.append(("web_search", q))
+        if calls:
+            return calls
+
+        regex_matches = re.findall(r"web_search\s*\(\s*(?:query\s*=\s*)?[\"']([^\"']+)[\"']\s*\)", text)
+        for q in regex_matches:
+            if ("web_search", q) not in calls:
+                calls.append(("web_search", q))
+
+    return calls
+
+
+def call_groq_with_tavily(prompt: str, max_turns: int = 2) -> str:
     url = "https://api.groq.com/openai/v1/chat/completions"
     headers = {"Authorization": f"Bearer {GROQ_API_KEY}", "Content-Type": "application/json"}
     tools = [
@@ -365,7 +462,19 @@ def call_groq_with_tavily(prompt: str, max_turns: int = 5) -> str:
         content = msg.get("content") or ""
 
         if not tool_calls:
-            if content.strip():
+            # Check if model formatted tool calls directly in text content (e.g. gpt-oss-120b)
+            text_calls = _extract_text_tool_calls(content)
+            if text_calls:
+                logging.info(f"[{BOT_NAME}] Executing text-encoded tool calls: {text_calls}")
+                messages.append({"role": "assistant", "content": content})
+                for fn_name, query in text_calls:
+                    result_str = search_tavily(query)
+                    messages.append({
+                        "role": "user",
+                        "content": f"Search results for '{query}':\n{result_str}\n\nPlease formulate your portfolio decisions now."
+                    })
+                continue
+            elif content.strip():
                 return content
             messages.append({"role": "user", "content": "Please output the final JSON decision now."})
             continue
@@ -397,14 +506,61 @@ def call_groq_with_tavily(prompt: str, max_turns: int = 5) -> str:
                 "content": "You have completed your research. Now produce your final decision JSON object immediately."
             })
 
-    # Final attempt with tools enabled
-    body = {"model": BOT_LLM_MODEL, "messages": messages, "tools": tools, "tool_choice": "auto", "temperature": 0.7}
+    # Final attempt: force plain text response using tool_choice="none" so the model is forbidden from calling tools
+    messages.append({
+        "role": "user",
+        "content": "You have completed your research. Output ONLY your final JSON array of decision objects now, starting with [ and ending with ]. Do not search anymore."
+    })
+    body = {
+        "model": BOT_LLM_MODEL,
+        "messages": messages,
+        "tools": tools,
+        "tool_choice": "none",
+        "temperature": 0.7,
+    }
     response = post_with_retry(url, headers=headers, json=body, timeout=60)
+    if not response.ok:
+        try:
+            err_data = response.json()
+            failed_gen = err_data.get("error", {}).get("failed_generation", "")
+            if "[" in failed_gen or "{" in failed_gen:
+                return failed_gen
+        except Exception:
+            pass
+        logging.warning(f"[{BOT_NAME}] Groq final decision with tool_choice='none' returned {response.status_code}: {response.text}. Retrying without tools parameter...")
+        body_no_tools = {"model": BOT_LLM_MODEL, "messages": messages, "temperature": 0.7}
+        response = post_with_retry(url, headers=headers, json=body_no_tools, timeout=60)
+
     if response.ok:
         choice = response.json()["choices"][0]
-        content = choice["message"].get("content") or ""
+        msg = choice.get("message", {})
+        content = msg.get("content") or msg.get("reasoning") or ""
+        # If model STILL outputted a text tool call on final attempt, execute search once and force decision
+        final_text_calls = _extract_text_tool_calls(content)
+        if final_text_calls:
+            logging.info(f"[{BOT_NAME}] Final attempt emitted text tool call: {final_text_calls}. Executing research fallback...")
+            messages.append({"role": "assistant", "content": content})
+            for fn_name, query in final_text_calls:
+                result_str = search_tavily(query)
+                messages.append({
+                    "role": "user",
+                    "content": f"Search results for '{query}':\n{result_str}\n\nOutput ONLY your final JSON decision array now, e.g. [{{...}}]. No more tools."
+                })
+            fallback_body = {"model": BOT_LLM_MODEL, "messages": messages, "tools": tools, "tool_choice": "none", "temperature": 0.5}
+            fb_res = post_with_retry(url, headers=headers, json=fallback_body, timeout=60)
+            if fb_res.ok:
+                fb_msg = fb_res.json()["choices"][0].get("message", {})
+                fb_content = fb_msg.get("content") or fb_msg.get("reasoning") or ""
+                if fb_content.strip() and not _extract_text_tool_calls(fb_content):
+                    return fb_content
+            logging.warning(f"[{BOT_NAME}] Final attempt emitted tool call and fallback had no valid decisions. Defaulting to cash hold [].")
+            return "[]"
+
         if content.strip():
             return content
+    else:
+        logging.error(f"[{BOT_NAME}] Groq final decision error ({response.status_code}): {response.text}")
+
     raise RuntimeError(f"Groq Tavily could not obtain final decision from {BOT_LLM_MODEL}")
 
 
@@ -541,7 +697,7 @@ def get_yahoo_price(ticker: str) -> dict | None:
     return None
 
 
-def get_quote(ticker: str) -> dict:
+def get_quote(ticker: str, asset_type: str | None = None) -> dict:
     """
     Unified multi-market quote provider:
       1. Cryptocurrencies (actual X/USD pairs via Coinbase / Binance)
@@ -553,10 +709,13 @@ def get_quote(ticker: str) -> dict:
     if not clean:
         raise ValueError("Empty ticker symbol provided")
 
-    # 1. Crypto check
-    c_quote = get_crypto_price(clean)
-    if c_quote and c_quote.get("c", 0) > 0:
-        return c_quote
+    t = str(asset_type or "").strip().lower()
+
+    # 1. Crypto check (skip if explicitly declared as another asset class)
+    if t not in ("stock", "etf", "brazil", "forex"):
+        c_quote = get_crypto_price(clean)
+        if c_quote and c_quote.get("c", 0) > 0:
+            return c_quote
 
     # 2. Brazilian stock without suffix (e.g. PETR4, VALE3, ITUB4 -> PETR4.SA)
     if re.fullmatch(r"[A-Z]{4}[0-9]{1,2}", clean) and not clean.endswith(".SA"):
@@ -622,13 +781,24 @@ def get_portfolio() -> dict:
     try:
         query = (
             "SELECT * FROM c WHERE c.botName = @name "
-            "ORDER BY c.timestamp DESC OFFSET 0 LIMIT 1"
+            "ORDER BY c.timestamp DESC OFFSET 0 LIMIT 10"
         )
         params = [{"name": "@name", "value": BOT_NAME}]
         items = list(history.query_items(query=query, parameters=params, partition_key=BOT_NAME))
         if items:
             portfolio = items[0]
             _normalise_positions(portfolio)  # backfill missing `shares` on legacy docs
+
+            # Track previous session & previous day snapshots for P&L tracking
+            today_str = datetime.datetime.now(datetime.timezone.utc).strftime("%Y-%m-%d")
+            prev_day_item = None
+            for it in items[1:]:
+                ts = it.get("timestamp", "")
+                if ts and not ts.startswith(today_str):
+                    prev_day_item = it
+                    break
+            portfolio["_prevSnapshot"] = items[1] if len(items) > 1 else None
+            portfolio["_prevDaySnapshot"] = prev_day_item
             return portfolio
     except Exception as e:
         logging.warning(f"[{BOT_NAME}] Could not read portfolio history, starting fresh: {e}")
@@ -646,8 +816,10 @@ def get_portfolio() -> dict:
     }
 
 
-def save_portfolio_snapshot(portfolio: dict, total_value: float, session_id: str | None = None):
+def save_portfolio_snapshot(portfolio: dict, total_value: float, session_id: str | None = None, extra_audit: dict | None = None):
     """Persist the full portfolio as the newest snapshot in the single history table."""
+    portfolio.pop("_prevSnapshot", None)
+    portfolio.pop("_prevDaySnapshot", None)
     snapshot = {
         "id": str(uuid.uuid4()),
         "botName": BOT_NAME,
@@ -662,6 +834,8 @@ def save_portfolio_snapshot(portfolio: dict, total_value: float, session_id: str
     }
     if session_id:
         snapshot["sessionId"] = session_id
+    if extra_audit:
+        snapshot.update(extra_audit)
     history.create_item(snapshot)
 
 
@@ -693,7 +867,7 @@ def build_portfolio_snapshot(portfolio: dict) -> tuple[dict, dict]:
                 shares = 0
         if not shares:
             continue
-        quote = get_quote(ticker)
+        quote = get_quote(ticker, asset_type=pos_meta.get("assetType"))
         price = float(quote.get("c") or 0)
         if price <= 0:
             raise ValueError(f"No usable live price returned for held symbol {ticker}")
@@ -743,7 +917,7 @@ def compute_nav(portfolio: dict, quote_cache: dict | None = None):
         price = quote_cache.get(ticker)
         if price is None:
             try:
-                price = float(get_quote(ticker).get("c") or 0)
+                price = float(get_quote(ticker, asset_type=pos.get("assetType")).get("c") or 0)
                 quote_cache[ticker] = price
             except Exception:
                 price = 0
@@ -764,7 +938,6 @@ def compute_nav(portfolio: dict, quote_cache: dict | None = None):
 def ask_llm_for_decision(portfolio_snapshot: dict, session: str) -> list:
     prompt = f"""{BOT_STRATEGY_PROMPT}
 
-You are not locked to a single strategy family. Choose the style that best fits today, such as trend-following, mean reversion, catalyst/event-driven, valuation, volatility breakout, sentiment, or staying out entirely.
 Use live web search to independently find the assets, news, filings, earnings, macro events, price history, technical levels, and metrics you need.
 
 SUPPORTED MARKETS & TICKER FORMATS:
@@ -773,9 +946,8 @@ SUPPORTED MARKETS & TICKER FORMATS:
 3. Cryptocurrencies (quoted in USD): Use COIN/USD format (e.g. BTC/USD, ETH/USD, SOL/USD)
 4. Currencies / Forex: Use YAHOO format (e.g. GBPUSD=X, EURUSD=X, BRL=X)
 
-This is your complete portfolio, freshly marked to live prices immediately before this review.
-`freeCash` is undeployed equity you can use to open new positions. `marginUsed` is capital locked as collateral in open positions. Each position shows its unrealized P&L and equity (margin + P&L). Negative shares = short.
-{json.dumps(portfolio_snapshot, indent=2)}
+This is your complete portfolio marked to live prices. `freeCash` is undeployed equity; `marginUsed` is collateral; positions show unrealized P&L. Negative shares = short.
+{json.dumps(portfolio_snapshot, separators=(',', ':'))}
 
 Trigger: market {session} (a scheduled twice-daily review)
 
@@ -819,7 +991,12 @@ Start your response exactly with [ and end exactly with ]. Example:
             
     try:
         data = json.loads(text_to_parse)
-        return data if isinstance(data, list) else [data]
+        items = data if isinstance(data, list) else [data]
+        valid_orders = [
+            d for d in items
+            if isinstance(d, dict) and ("ticker" in d or "position" in d)
+        ]
+        return valid_orders
     except json.JSONDecodeError:
         raise ValueError(f"Could not parse JSON decision from LLM output: {text}")
 
@@ -901,7 +1078,7 @@ def _liquidate_margin_calls(portfolio: dict) -> list:
     for ticker in list(portfolio.get("positions", {}).keys()):
         pos = portfolio["positions"][ticker]
         try:
-            q = get_quote(ticker)
+            q = get_quote(ticker, asset_type=pos.get("assetType"))
             live_px = float(q.get("c") or 0)
         except Exception:
             continue
@@ -936,11 +1113,22 @@ def _liquidate_margin_calls(portfolio: dict) -> list:
                 "timestamp": datetime.datetime.now(datetime.timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"),
                 # totalValue filled in by caller after the margin call executes
                 "cash": round(float(portfolio["cash"]), 2),
+                "realizedPnl": -round(margin, 2),
             })
     return liquidations
 
 
 def decide_and_trade(session: str) -> None:
+    global CURRENT_TAVILY_KEY
+    if os.environ.get("TAVILY_API_KEY"):
+        CURRENT_TAVILY_KEY = os.environ.get("TAVILY_API_KEY")
+    elif session == "open":
+        CURRENT_TAVILY_KEY = os.environ.get("TAVILY_OPEN_API_KEY")
+    elif session == "close":
+        CURRENT_TAVILY_KEY = os.environ.get("TAVILY_CLOSE_API_KEY")
+    else:
+        CURRENT_TAVILY_KEY = os.environ.get("TAVILY_OPEN_API_KEY") or os.environ.get("TAVILY_CLOSE_API_KEY")
+
     portfolio = get_portfolio()
     # Idempotency key: each bot reviews a session at most once per day.
     session_id = f"{session}-{datetime.datetime.now(datetime.timezone.utc).strftime('%Y-%m-%d')}"
@@ -957,6 +1145,11 @@ def decide_and_trade(session: str) -> None:
     except Exception as e:
         logging.warning(f"[{BOT_NAME}] Idempotency check failed: {e}")
 
+    # Stagger Groq bots to prevent simultaneous token-per-minute (TPM) quota exhaustion (8,000 TPM limit)
+    if BOT_LLM_PROVIDER in ("groq", "groq_tavily") and "qwen" in BOT_NAME.lower():
+        logging.info(f"[{BOT_NAME}] Staggering Groq API start by 15s to avoid TPM collisions with companion bot...")
+        time.sleep(15.0)
+
 
     # Migrate portfolios that were created under the old negative-cash model.
     # In the new model cash is always >= 0 (only margin is deducted, not full notional).
@@ -970,6 +1163,7 @@ def decide_and_trade(session: str) -> None:
 
     # Check for margin calls before asking the LLM
     liquidations = _liquidate_margin_calls(portfolio)
+    session_realized_pnl = sum(float(liq.get("realizedPnl", 0.0)) for liq in liquidations)
     # Set a real post-liquidation NAV on each liquidation record.
     if liquidations:
         try:
@@ -1019,9 +1213,13 @@ def decide_and_trade(session: str) -> None:
         if not isinstance(decision, dict):
             continue
 
+        # Skip tool-call dictionaries if any slipped through
+        if "name" in decision and "ticker" not in decision:
+            continue
+
         position = str(decision.get("position", "")).strip().lower()
         if position not in {"long", "short", "none"}:
-            logging.error(f"[{BOT_NAME}] Unsupported position: {position}")
+            logging.error(f"[{BOT_NAME}] Unsupported position: '{position}' in decision: {decision}")
             continue
 
         if position == "none":
@@ -1030,7 +1228,7 @@ def decide_and_trade(session: str) -> None:
         try:
             asset_type = str(decision.get("type", "") or "").strip().lower()
             ticker = normalise_ticker(decision.get("ticker"), asset_type=asset_type or None)
-            quote = get_quote(ticker)
+            quote = get_quote(ticker, asset_type=asset_type or None)
             if float(quote.get("c") or 0) <= 0:
                 raise ValueError(f"No usable live price returned for {ticker}")
         except Exception as e:
@@ -1108,9 +1306,12 @@ def decide_and_trade(session: str) -> None:
             ex_notional = existing_pos.get("notional", ex_margin)  # notional ≥ margin always
             ex_dir      = 1 if existing_pos.get("direction") == "long" else -1
             realized    = ex_dir * ex_notional * ((price / ex_entry) - 1) if ex_entry > 0 else 0
-            realized_pnl = round(realized, 2)
+            returned_cash = max(0.0, ex_margin + realized)
+            actual_realized = returned_cash - ex_margin
+            realized_pnl = round(actual_realized, 2)
+            session_realized_pnl += realized_pnl
             # Return margin + P&L; floor at 0 (can't recover more than the posted margin)
-            portfolio["cash"] += max(0.0, ex_margin + realized)
+            portfolio["cash"] += returned_cash
             portfolio.get("positions", {}).pop(ticker, None)
         elif existing_pos is not None:
             # Position record exists but has zero margin (stale / already-closed entry).
@@ -1204,22 +1405,75 @@ def decide_and_trade(session: str) -> None:
 
     # ── Final NAV: free cash + equity in each open position ──────────────────
     # Equity per position = marginUsed + unrealizedPnL (based on live price)
-    total_value = float(portfolio["cash"])
+    free_cash = round(float(portfolio.get("cash", 0)), 2)
+    total_margin_used = 0.0
+    total_unrealized_pnl = 0.0
+
     for pos_ticker, pos in portfolio.get("positions", {}).items():
-        try:
-            live_q  = get_quote(pos_ticker)
-            live_px = float(live_q.get("c") or 0)
-        except Exception:
-            live_px = 0
-        entry = pos.get("entryPrice", 0)
-        margin = pos.get("marginUsed", 0)
-        notional = pos.get("notional", 0)
+        # Use nav_cache first if available, otherwise fetch quote passing assetType
+        live_px = nav_cache.get(pos_ticker) if 'nav_cache' in locals() and nav_cache else None
+        if live_px is None or live_px <= 0:
+            try:
+                live_q = get_quote(pos_ticker, asset_type=pos.get("assetType"))
+                live_px = float(live_q.get("c") or 0)
+            except Exception:
+                live_px = 0
+
+        entry = float(pos.get("entryPrice", 0) or 0)
+        margin = float(pos.get("marginUsed", 0) or 0)
+        notional = float(pos.get("notional", 0) or 0)
+
         if live_px > 0 and entry > 0:
             pos_dir = 1 if pos.get("direction") == "long" else -1
-            unreal  = pos_dir * notional * (live_px / entry - 1)
-            total_value += margin + unreal
+            unreal = pos_dir * notional * (live_px / entry - 1)
         else:
-            total_value += margin  # fallback: assume breakeven
+            live_px = entry  # fallback to entry price if quote fails
+            unreal = 0.0
+
+        pos_equity = margin + unreal
+        total_margin_used += margin
+        total_unrealized_pnl += unreal
+
+        # Enrich position with audit fields marked at this exact snapshot
+        pos["markPrice"] = round(live_px, 4)
+        pos["marginUsed"] = round(margin, 2)
+        pos["notional"] = round(notional, 2)
+        pos["unrealizedPnl"] = round(unreal, 2)
+        pos["unrealizedPct"] = round((unreal / margin) * 100, 2) if margin > 0 else 0.0
+        pos["positionEquity"] = round(pos_equity, 2)
+
+    total_value = round(free_cash + total_margin_used + total_unrealized_pnl, 2)
+
+    # ── Daily & Session PnL Tracking ─────────────────────────────────────────
+    prev_snapshot = portfolio.get("_prevSnapshot")
+    prev_day_snapshot = portfolio.get("_prevDaySnapshot")
+
+    prev_total = float(prev_snapshot.get("totalValue", portfolio.get("startingCash", BOT_STARTING_CASH))) if prev_snapshot else float(portfolio.get("startingCash", BOT_STARTING_CASH))
+    session_pnl = round(total_value - prev_total, 2)
+    session_pnl_pct = round((session_pnl / prev_total) * 100, 2) if prev_total > 0 else 0.0
+
+    if prev_day_snapshot:
+        prev_day_total = float(prev_day_snapshot.get("totalValue", prev_total))
+        daily_pnl = round(total_value - prev_day_total, 2)
+        daily_pnl_pct = round((daily_pnl / prev_day_total) * 100, 2) if prev_day_total > 0 else 0.0
+    else:
+        daily_pnl = session_pnl
+        daily_pnl_pct = session_pnl_pct
+
+    prev_cumulative = float(prev_snapshot.get("totalRealizedPnlCumulative", 0.0)) if prev_snapshot else 0.0
+    total_cumulative_realized = round(prev_cumulative + session_realized_pnl, 2)
+
+    extra_audit = {
+        "freeCash": free_cash,
+        "marginUsed": round(total_margin_used, 2),
+        "totalUnrealizedPnl": round(total_unrealized_pnl, 2),
+        "sessionRealizedPnl": round(session_realized_pnl, 2),
+        "totalRealizedPnlCumulative": total_cumulative_realized,
+        "sessionPnL": session_pnl,
+        "sessionPnLPct": session_pnl_pct,
+        "dailyPnL": daily_pnl,
+        "dailyPnLPct": daily_pnl_pct,
+    }
 
     portfolio["strategyPrompt"] = BOT_STRATEGY_PROMPT
     portfolio["llmProvider"] = BOT_LLM_PROVIDER
@@ -1229,7 +1483,7 @@ def decide_and_trade(session: str) -> None:
 
     # Single table of truth: write the full portfolio as a snapshot. The newest
     # row for this bot IS its current state; earlier rows are its history.
-    save_portfolio_snapshot(portfolio, total_value, session_id)
+    save_portfolio_snapshot(portfolio, total_value, session_id, extra_audit=extra_audit)
 
     for record in trade_records_to_save:
         trades.create_item(record)

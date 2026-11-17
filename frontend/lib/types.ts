@@ -11,6 +11,11 @@ export interface Bot {
   strategyPrompt: string;
   llmProvider: LlmProvider;
   llmModel: string;
+  dailyPnL?: number;
+  dailyPnLPct?: number;
+  sessionPnL?: number;
+  sessionPnLPct?: number;
+  totalRealizedPnlCumulative?: number;
 }
 
 export interface Position {
@@ -21,8 +26,10 @@ export interface Position {
   notional: number;              // abs(shares) × entryPrice
   marginUsed: number;            // notional / leverage
   currentPrice?: number;         // enriched by API at read time
+  markPrice?: number;            // marked price from snapshot
   unrealizedPnl?: number;        // direction × notional × (current/entry − 1)
-  unrealizedPct?: number;        // unrealizedPnl as % of startingCash
+  unrealizedPct?: number;        // unrealizedPnl as % of marginUsed
+  positionEquity?: number;       // marginUsed + unrealizedPnl
 }
 
 export type TradeAction   = "buy" | "sell" | "hold";
@@ -101,11 +108,38 @@ export const BOT_COLORS = [
   "#a3e635", // lime
 ];
 
+export const BOT_SPECIFIC_COLORS: Record<string, string> = {
+  open_gemini:  "#818cf8", // indigo
+  open_gptoss:  "#a855f7", // purple
+  open_qwen:    "#38bdf8", // sky blue
+  close_gemini: "#2dd4bf", // teal
+  close_gptoss: "#f59e0b", // amber
+  close_qwen:   "#f43f5e", // rose/coral
+};
+
 /** A stable color per bot, independent of its model provider. */
 export function botColorFor(name: string): string {
+  if (BOT_SPECIFIC_COLORS[name]) return BOT_SPECIFIC_COLORS[name];
   let hash = 0;
   for (let i = 0; i < name.length; i += 1) hash = (hash * 31 + name.charCodeAt(i)) >>> 0;
   return BOT_COLORS[hash % BOT_COLORS.length];
+}
+
+/** Format clean display name for both open and close bots. */
+export function botDisplayName(name: string): string {
+  if (name === "open_gemini")  return "Open Gemini";
+  if (name === "open_gptoss")  return "Open GPT-OSS";
+  if (name === "open_qwen")    return "Open Qwen";
+  if (name === "close_gemini") return "Close Gemini";
+  if (name === "close_gptoss") return "Close GPT-OSS";
+  if (name === "close_qwen")   return "Close Qwen";
+  const parts = name.split("_");
+  if (parts.length === 2) {
+    const session = parts[0].charAt(0).toUpperCase() + parts[0].slice(1);
+    const model = parts[1].toUpperCase() === "GPTOSS" ? "GPT-OSS" : parts[1].charAt(0).toUpperCase() + parts[1].slice(1);
+    return `${session} ${model}`;
+  }
+  return name.replace(/_/g, " ");
 }
 
 export interface LiveTradeMessage extends Trade {
@@ -132,6 +166,7 @@ export const MODEL_LABELS: Record<string, string> = {
   "gemini-2.0-flash":            "Gemini 2.0 Flash",
   "gemini-3.1-flash-lite":       "Gemini 3.1 Flash-Lite",
   "openai/gpt-oss-120b":         "GPT-OSS 120B (Groq + Tavily)",
+  "qwen/qwen3.8-27b":            "Qwen 3.8 27B (Groq + Tavily)",
   "qwen/qwen3.6-27b":            "Qwen 3.6 27B (Groq + Tavily)",
   "llama-3.3-70b-versatile":     "Llama 3.3 70B (Groq + Tavily)",
   "groq/compound-mini":          "Groq Compound Mini",
@@ -144,6 +179,7 @@ export const MODEL_HEX: Record<string, string> = {
   "gemini-2.0-flash":            "#818cf8",
   "gemini-3.1-flash-lite":       "#818cf8",
   "openai/gpt-oss-120b":         "#38bdf8",
+  "qwen/qwen3.8-27b":            "#34d399",
   "qwen/qwen3.6-27b":            "#34d399",
   "llama-3.3-70b-versatile":     "#a78bfa",
   "groq/compound-mini":          "#fb923c",
@@ -151,11 +187,18 @@ export const MODEL_HEX: Record<string, string> = {
 };
 
 export const STRATEGY_LABELS: Record<string, string> = {
-  open: "Open",
+  open: "Open · General",
+  close_gemini: "Close · Catalyst Drift",
+  close_gptoss: "Close · Macro Rotation",
+  close_qwen: "Close · Panic Reversal",
 };
 
-/** All current bots are open-ended, so the name is mostly for display. */
+/** Formats human-readable strategy badge for open and close bots. */
 export function strategyFromBotName(name: string): string {
-  if (name.startsWith("open")) return "Open";
-  return "Open";
+  if (name === "close_gemini") return "Close · Catalyst Drift";
+  if (name === "close_gptoss") return "Close · Macro Rotation";
+  if (name === "close_qwen")   return "Close · Panic Reversal";
+  if (name.startsWith("close_")) return "Close · Strategy";
+  if (name.startsWith("open_"))  return "Open · General";
+  return "General";
 }

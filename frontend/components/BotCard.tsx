@@ -65,8 +65,19 @@ export function BotCard({
       {/* Row 1: rank + name */}
       <div className="flex items-start justify-between gap-3">
         <div className="min-w-0">
-          <div className="num text-[12px] font-semibold text-ink truncate leading-tight">
-            {bot.botName}
+          <div className="flex items-center gap-2">
+            <span className="num text-[12px] font-semibold text-ink truncate leading-tight">
+              {bot.botName}
+            </span>
+            <span
+              className={`font-mono text-[9px] px-1.5 py-0.5 rounded border uppercase tracking-wider ${
+                bot.botName.startsWith("close")
+                  ? "border-amber-500/30 text-amber-400 bg-amber-500/10"
+                  : "border-sky-500/30 text-sky-400 bg-sky-500/10"
+              }`}
+            >
+              {bot.botName.startsWith("close") ? "Close" : "Open"}
+            </span>
           </div>
           <div className="flex items-center gap-2 mt-0.5">
             <span className="font-mono text-[9px] tracking-[0.1em] uppercase text-dim">{strategy}</span>

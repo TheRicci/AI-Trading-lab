@@ -35,7 +35,9 @@ resource "azurerm_linux_function_app" "bot" {
     "FINNHUB_API_KEY"             = var.finnhub_api_key
     "GEMINI_API_KEY"              = var.gemini_api_key
     "GROQ_API_KEY"                = var.groq_api_key
-    "TAVILY_API_KEY"              = var.tavily_api_key
+    "TAVILY_API_KEY"              = contains(each.value.allowed_sessions, "open") ? var.tavily_open_api_key : var.tavily_close_api_key
+    "TAVILY_OPEN_API_KEY"         = var.tavily_open_api_key
+    "TAVILY_CLOSE_API_KEY"        = var.tavily_close_api_key
     "COSMOS_ENDPOINT"             = azurerm_cosmosdb_account.main.endpoint
     "COSMOS_KEY"                  = azurerm_cosmosdb_account.main.primary_key
     "WEBPUBSUB_CONNECTION_STRING" = azurerm_web_pubsub.main.primary_connection_string
@@ -57,7 +59,12 @@ resource "azurerm_eventgrid_event_subscription" "bot" {
   advanced_filter {
     string_in {
       key    = "subject"
-      values = ["session/open", "session/close"]
+      values = [for s in each.value.allowed_sessions : "session/${s}"]
     }
+  }
+
+  retry_policy {
+    max_delivery_attempts = 1
+    event_time_to_live    = 1
   }
 }
