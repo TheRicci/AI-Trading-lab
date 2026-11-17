@@ -17,6 +17,8 @@ venv/
 
 # Azure Functions
 local.settings.json
+settings.json
+*.zip
 bin/
 obj/
 
@@ -27,6 +29,4 @@ obj/
 scripts/backtest_state/
 
 terraform/recover_state.ps1
-scripts/backtest.py
-scripts/backfill_price_history.py
 scripts/backfill_price_history.py

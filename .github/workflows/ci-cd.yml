@@ -1,0 +1,276 @@
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+  workflow_dispatch:
+    inputs:
+      deploy_target:
+        description: "Force deploy target (overrides change detection)"
+        required: true
+        default: "detect"
+        type: choice
+        options:
+          - detect
+          - all
+          - bot
+          - api
+          - analysis-report
+          - daily-timer
+          - none
+      run_live_backtest:
+        description: "Run 1-session live backtest simulation (uses API quotas)"
+        required: false
+        default: false
+        type: boolean
+
+permissions:
+  id-token: write
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: false
+
+env:
+  RESOURCE_GROUP: ${{ vars.AZURE_RESOURCE_GROUP || 'rg-ai-trading-bots' }}
+  PYTHON_VERSION: "3.11"
+
+jobs:
+  # ── 1. Detect Changes ────────────────────────────────────────────────────────
+  detect-changes:
+    name: Detect Changed Paths
+    runs-on: ubuntu-latest
+    outputs:
+      bot: ${{ steps.filter.outputs.bot }}
+      api: ${{ steps.filter.outputs.api }}
+      analysis: ${{ steps.filter.outputs.analysis }}
+      timer: ${{ steps.filter.outputs.timer }}
+      frontend: ${{ steps.filter.outputs.frontend }}
+      shared: ${{ steps.filter.outputs.shared }}
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Path Filter
+        id: filter
+        uses: dorny/paths-filter@v3
+        with:
+          filters: |
+            bot:
+              - 'functions/bot/**'
+            api:
+              - 'functions/api/**'
+            analysis:
+              - 'functions/analysis-report/**'
+            timer:
+              - 'functions/daily-timer/**'
+            frontend:
+              - 'frontend/**'
+            shared:
+              - 'scripts/**'
+              - 'tests/**'
+              - '.github/workflows/**'
+
+  # ── 2. Test & Validate ───────────────────────────────────────────────────────
+  test:
+    name: Run Tests & Verification
+    runs-on: ubuntu-latest
+    needs: detect-changes
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Setup Python ${{ env.PYTHON_VERSION }}
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+
+      - name: Install Test Dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r functions/bot/requirements.txt
+          pip install -r functions/api/requirements.txt
+
+      - name: Run Unit Tests & Backtest Simulation (Mock)
+        run: |
+          python -m unittest discover tests -v
+
+      - name: Run Live Backtest Simulation & Validate Output (Optional)
+        if: ${{ hashFiles('scripts/backtest.py') != '' && (github.event.inputs.run_live_backtest == 'true' || github.event.inputs.run_live_backtest == true) }}
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}
+          FINNHUB_API_KEY: ${{ secrets.FINNHUB_API_KEY }}
+          TAVILY_API_KEY: ${{ secrets.TAVILY_API_KEY }}
+        run: |
+          echo "Running single-session live backtest simulation..."
+          python scripts/backtest.py --bot open_gemini --sessions 1
+          echo "Auditing and validating backtest portfolio state and trade logs..."
+          python scripts/validate_backtest_output.py --bot open_gemini
+
+      - name: Verify Frontend Build (if frontend changed)
+        if: ${{ needs.detect-changes.outputs.frontend == 'true' }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: Build Frontend
+        if: ${{ needs.detect-changes.outputs.frontend == 'true' }}
+        working-directory: frontend
+        run: |
+          npm ci || npm install
+          npm run build
+
+  # ── 3. Deploy Bot Functions ──────────────────────────────────────────────────
+  deploy-bot:
+    name: Deploy Bots
+    runs-on: ubuntu-latest
+    needs: [detect-changes, test]
+    if: >-
+      github.ref == 'refs/heads/main' &&
+      github.event_name != 'pull_request' &&
+      (
+        github.event.inputs.deploy_target == 'all' ||
+        github.event.inputs.deploy_target == 'bot' ||
+        (github.event.inputs.deploy_target != 'none' && needs.detect-changes.outputs.bot == 'true')
+      )
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Setup Python ${{ env.PYTHON_VERSION }}
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+
+      - name: Setup Azure Functions Core Tools
+        run: |
+          if ! command -v func &> /dev/null; then
+            npm install -g azure-functions-core-tools@4 --unsafe-perm true
+          fi
+
+      - name: Azure Login
+        uses: azure/login@v2
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+      - name: Deploy Bot Function Apps
+        run: |
+          chmod +x scripts/publish_component.sh
+          ./scripts/publish_component.sh bot "$RESOURCE_GROUP"
+
+  # ── 4. Deploy API Function ───────────────────────────────────────────────────
+  deploy-api:
+    name: Deploy API
+    runs-on: ubuntu-latest
+    needs: [detect-changes, test]
+    if: >-
+      github.ref == 'refs/heads/main' &&
+      github.event_name != 'pull_request' &&
+      (
+        github.event.inputs.deploy_target == 'all' ||
+        github.event.inputs.deploy_target == 'api' ||
+        (github.event.inputs.deploy_target != 'none' && needs.detect-changes.outputs.api == 'true')
+      )
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Setup Python ${{ env.PYTHON_VERSION }}
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+
+      - name: Setup Azure Functions Core Tools
+        run: |
+          if ! command -v func &> /dev/null; then
+            npm install -g azure-functions-core-tools@4 --unsafe-perm true
+          fi
+
+      - name: Azure Login
+        uses: azure/login@v2
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+      - name: Deploy API Function App
+        run: |
+          chmod +x scripts/publish_component.sh
+          ./scripts/publish_component.sh api "$RESOURCE_GROUP"
+
+  # ── 5. Deploy Analysis Report Function ───────────────────────────────────────
+  deploy-analysis:
+    name: Deploy Analysis Report
+    runs-on: ubuntu-latest
+    needs: [detect-changes, test]
+    if: >-
+      github.ref == 'refs/heads/main' &&
+      github.event_name != 'pull_request' &&
+      (
+        github.event.inputs.deploy_target == 'all' ||
+        github.event.inputs.deploy_target == 'analysis-report' ||
+        (github.event.inputs.deploy_target != 'none' && needs.detect-changes.outputs.analysis == 'true')
+      )
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Setup Python ${{ env.PYTHON_VERSION }}
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+
+      - name: Setup Azure Functions Core Tools
+        run: |
+          if ! command -v func &> /dev/null; then
+            npm install -g azure-functions-core-tools@4 --unsafe-perm true
+          fi
+
+      - name: Azure Login
+        uses: azure/login@v2
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+      - name: Deploy Analysis Function App
+        run: |
+          chmod +x scripts/publish_component.sh
+          ./scripts/publish_component.sh analysis "$RESOURCE_GROUP"
+
+  # ── 6. Deploy Daily Timer Function ───────────────────────────────────────────
+  deploy-timer:
+    name: Deploy Daily Timer
+    runs-on: ubuntu-latest
+    needs: [detect-changes, test]
+    if: >-
+      github.ref == 'refs/heads/main' &&
+      github.event_name != 'pull_request' &&
+      (
+        github.event.inputs.deploy_target == 'all' ||
+        github.event.inputs.deploy_target == 'daily-timer' ||
+        (github.event.inputs.deploy_target != 'none' && needs.detect-changes.outputs.timer == 'true')
+      )
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Setup Python ${{ env.PYTHON_VERSION }}
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+
+      - name: Setup Azure Functions Core Tools
+        run: |
+          if ! command -v func &> /dev/null; then
+            npm install -g azure-functions-core-tools@4 --unsafe-perm true
+          fi
+
+      - name: Azure Login
+        uses: azure/login@v2
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+      - name: Deploy Daily Timer Function App
+        run: |
+          chmod +x scripts/publish_component.sh
+          ./scripts/publish_component.sh timer "$RESOURCE_GROUP"
