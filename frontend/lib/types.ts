@@ -53,6 +53,8 @@ export interface Trade {
   // Close-specific: set when position === "flat" to describe what was closed
   closedDirection?: "long" | "short";
   closedLeverage?:  number;
+  realizedPnl?:     number;
+  partial?:         boolean;
 }
 
 export interface PortfolioHistoryPoint {

@@ -962,6 +962,7 @@ For each decision, choose:
 
 CRITICAL INSTRUCTIONS:
 - **Holding is implicit.** If you want to keep an existing position exactly as it is, DO NOT include it in your output at all.
+- **One active position per ticker.** You can hold only one position per ticker (either spot OR leveraged, long OR short). To add to or reduce an existing position, output the new total `cash_amount` with the SAME `position` and `leverage`. If you output a different `position` or `leverage` for an already-held ticker, the existing position is closed first and replaced.
 - **List closes first.** If you are closing or reducing an existing position AND opening a new one in the same batch, always output the close (cash_amount: 0) before the open. This ensures freed-up margin is available for the new trade.
 - You can allocate up to your current `freeCash`. When you close a position, its `marginUsed` is returned to your free cash pool and becomes available for subsequent trades in the same batch.
 
@@ -1118,6 +1119,339 @@ def _liquidate_margin_calls(portfolio: dict) -> list:
     return liquidations
 
 
+def _build_trade_record(
+    *,
+    bot_name: str,
+    llm_provider: str,
+    llm_model: str,
+    ticker: str,
+    asset_type: str,
+    action: str,
+    position: str,
+    leverage: float,
+    shares: float,
+    price: float,
+    reasoning: str,
+    session: str,
+    session_id: str,
+    nav_after: float,
+    cash_after: float,
+    closed_direction: str | None = None,
+    closed_leverage: float | None = None,
+    realized_pnl: float | None = None,
+    partial: bool = False,
+) -> dict:
+    """Construct a Trades container record for an open, add, reduce, or close."""
+    record = {
+        "id": str(uuid.uuid4()),
+        "botName": bot_name,
+        "llmProvider": llm_provider,
+        "llmModel": llm_model,
+        "ticker": ticker,
+        "assetType": asset_type or None,
+        "action": action,
+        "position": position,
+        "leverage": leverage,
+        "shares": shares,
+        "price": price,
+        "reasoning": reasoning,
+        "trigger": f"session-{session}",
+        "sessionId": session_id,
+        "timestamp": datetime.datetime.now(datetime.timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"),
+        "totalValue": round(nav_after, 2),
+        "cash": round(float(cash_after), 2),
+    }
+    if position == "flat" and closed_direction is not None:
+        record["closedDirection"] = closed_direction
+        record["closedLeverage"] = closed_leverage
+        if realized_pnl is not None:
+            record["realizedPnl"] = realized_pnl
+        if partial:
+            record["partial"] = True
+    return record
+
+
+def _execute_ticker_decision(
+    *,
+    portfolio: dict,
+    ticker: str,
+    asset_type: str,
+    position: str,
+    leverage: float,
+    cash_amount: float,
+    price: float,
+    reasoning: str,
+    session: str,
+    session_id: str,
+    nav_cache: dict,
+    fallback_nav: float,
+) -> tuple[list[dict], float]:
+    """Apply one portfolio decision in-place and return (trade_records, realized_pnl_delta).
+
+    Rules (single active position per ticker):
+    - Same direction & same leverage:
+      * Target == current shares (or within 2% notional): implicit hold -> no-op.
+      * Target > current shares: add incremental shares with weighted-average
+        entryPrice without realizing phantom P&L on existing shares.
+      * 0 < Target < current shares: partially close the delta, realizing
+        proportional P&L and keeping remaining shares at their original entryPrice.
+    - Close (cash_amount == 0 / target_shares == 0), direction flip, or leverage change:
+      * Close and settle the existing position first (emitting an explicit close
+        record with realizedPnl), then open the new target position (emitting an
+        open record).
+    """
+    records: list[dict] = []
+    realized_total = 0.0
+
+    def _snap_nav() -> float:
+        try:
+            return compute_nav(portfolio, nav_cache)
+        except Exception:
+            return float(fallback_nav)
+
+    if cash_amount == 0.0:
+        position = "flat"
+
+    existing_pos = portfolio.get("positions", {}).get(ticker)
+    ex_margin = float(existing_pos.get("marginUsed", 0) or 0) if existing_pos else 0.0
+    if existing_pos is not None and ex_margin <= 0:
+        # Clean up stale zero-margin entries before deciding.
+        portfolio.get("positions", {}).pop(ticker, None)
+        existing_pos = None
+
+    # Implicit-hold guard: only discard when direction AND leverage match.
+    if existing_pos is not None and position == existing_pos.get("direction"):
+        ex_leverage = float(existing_pos.get("leverage", 1.0) or 1.0)
+        ex_notional = float(existing_pos.get("notional", ex_margin * ex_leverage))
+        if abs(leverage - ex_leverage) <= 1e-6:
+            target_notional = cash_amount * leverage
+            if ex_notional > 0 and abs(target_notional - ex_notional) / ex_notional < 0.02:
+                logging.info(f"[{BOT_NAME}] Discarding duplicate trade for {ticker} (implicit hold).")
+                return records, realized_total
+
+    is_fractional = "/" in ticker or "-USD" in ticker
+    if price > 0 and position in ("long", "short"):
+        target_notional = cash_amount * leverage
+        raw_target = target_notional / price
+        target_shares = (
+            round(raw_target, 6) if is_fractional else int(raw_target)
+        ) * (1 if position == "long" else -1)
+        if target_shares == 0:
+            position = "flat"
+    else:
+        target_shares = 0
+
+    current_shares = existing_pos.get("shares", 0) if existing_pos else 0
+    ex_leverage = float(existing_pos.get("leverage", 1.0) or 1.0) if existing_pos else 1.0
+    same_side_and_leverage = (
+        existing_pos is not None
+        and current_shares != 0
+        and position in ("long", "short")
+        and target_shares != 0
+        and position == existing_pos.get("direction")
+        and abs(leverage - ex_leverage) <= 1e-6
+    )
+
+    # ── Branch 1: Same direction & same leverage (add or partial reduce) ─────
+    if same_side_and_leverage:
+        cur_abs = abs(current_shares)
+        tgt_abs = abs(target_shares)
+        if tgt_abs == cur_abs:
+            return records, realized_total
+
+        pos_dir = 1 if position == "long" else -1
+        ex_entry = float(existing_pos.get("entryPrice", price) or price)
+        ex_notional = float(existing_pos.get("notional", ex_margin * ex_leverage))
+
+        if tgt_abs > cur_abs:
+            added_abs = round(tgt_abs - cur_abs, 6) if is_fractional else (tgt_abs - cur_abs)
+            if added_abs <= 0:
+                return records, realized_total
+            added_notional = added_abs * price
+            added_margin = added_notional / leverage
+            free_cash = max(0.0, float(portfolio["cash"]))
+            if added_margin > free_cash:
+                affordable = free_cash * leverage
+                added_abs = (
+                    round(affordable / price, 6) if is_fractional else int(affordable / price)
+                )
+                if added_abs <= 0:
+                    logging.info(f"[{BOT_NAME}] Insufficient free cash (${free_cash:.2f}) to add to {ticker}.")
+                    return records, realized_total
+                added_notional = added_abs * price
+                added_margin = added_notional / leverage
+
+            portfolio["cash"] -= added_margin
+            new_abs = round(cur_abs + added_abs, 6) if is_fractional else (cur_abs + added_abs)
+            new_notional = ex_notional + added_notional
+            new_margin = ex_margin + added_margin
+            weighted_entry = new_notional / new_abs if new_abs > 0 else price
+
+            portfolio["positions"][ticker] = {
+                "direction": position,
+                "shares": new_abs * pos_dir,
+                "entryPrice": round(weighted_entry, 4),
+                "leverage": leverage,
+                "notional": round(new_notional, 2),
+                "marginUsed": round(new_margin, 2),
+                "assetType": asset_type or existing_pos.get("assetType") or None,
+            }
+            records.append(_build_trade_record(
+                bot_name=BOT_NAME,
+                llm_provider=BOT_LLM_PROVIDER,
+                llm_model=BOT_LLM_MODEL,
+                ticker=ticker,
+                asset_type=asset_type or existing_pos.get("assetType") or "",
+                action="buy" if pos_dir == 1 else "sell",
+                position=position,
+                leverage=leverage,
+                shares=added_abs,
+                price=price,
+                reasoning=reasoning,
+                session=session,
+                session_id=session_id,
+                nav_after=_snap_nav(),
+                cash_after=portfolio["cash"],
+            ))
+            return records, realized_total
+
+        # Partial reduce: realize P&L only on the closed slice.
+        reduced_abs = round(cur_abs - tgt_abs, 6) if is_fractional else (cur_abs - tgt_abs)
+        if reduced_abs <= 0:
+            return records, realized_total
+        frac = reduced_abs / cur_abs
+        closed_margin = ex_margin * frac
+        closed_notional = ex_notional * frac
+        realized = pos_dir * closed_notional * ((price / ex_entry) - 1) if ex_entry > 0 else 0.0
+        returned_cash = max(0.0, closed_margin + realized)
+        realized_pnl = round(returned_cash - closed_margin, 2)
+        realized_total += realized_pnl
+        portfolio["cash"] += returned_cash
+
+        rem_abs = round(tgt_abs, 6) if is_fractional else tgt_abs
+        portfolio["positions"][ticker] = {
+            "direction": position,
+            "shares": rem_abs * pos_dir,
+            "entryPrice": ex_entry,
+            "leverage": leverage,
+            "notional": round(max(0.0, ex_notional - closed_notional), 2),
+            "marginUsed": round(max(0.0, ex_margin - closed_margin), 2),
+            "assetType": asset_type or existing_pos.get("assetType") or None,
+        }
+        records.append(_build_trade_record(
+            bot_name=BOT_NAME,
+            llm_provider=BOT_LLM_PROVIDER,
+            llm_model=BOT_LLM_MODEL,
+            ticker=ticker,
+            asset_type=asset_type or existing_pos.get("assetType") or "",
+            action="sell" if pos_dir == 1 else "buy",
+            position="flat",
+            leverage=leverage,
+            shares=reduced_abs,
+            price=price,
+            reasoning=reasoning,
+            session=session,
+            session_id=session_id,
+            nav_after=_snap_nav(),
+            cash_after=portfolio["cash"],
+            closed_direction=position,
+            closed_leverage=leverage,
+            realized_pnl=realized_pnl,
+            partial=True,
+        ))
+        return records, realized_total
+
+    # ── Branch 2: Full close, fresh open, or replace (direction/leverage change) ─
+    will_reopen = target_shares != 0 and price > 0 and position in ("long", "short")
+    if existing_pos is not None:
+        closed_direction = existing_pos.get("direction")
+        closed_leverage = ex_leverage
+        ex_entry = float(existing_pos.get("entryPrice", price) or price)
+        ex_notional = float(existing_pos.get("notional", ex_margin))
+        ex_dir = 1 if closed_direction == "long" else -1
+        realized = ex_dir * ex_notional * ((price / ex_entry) - 1) if ex_entry > 0 else 0.0
+        returned_cash = max(0.0, ex_margin + realized)
+        realized_pnl = round(returned_cash - ex_margin, 2)
+        realized_total += realized_pnl
+        portfolio["cash"] += returned_cash
+        portfolio.get("positions", {}).pop(ticker, None)
+
+        close_shares = abs(current_shares)
+        if close_shares == 0 and ex_entry > 0 and ex_notional > 0:
+            raw_s = ex_notional / ex_entry
+            close_shares = round(raw_s, 6) if is_fractional else int(raw_s)
+
+        close_reason = (
+            f"Closed prior {closed_leverage:g}x {closed_direction} before opening "
+            f"{leverage:g}x {position}: {reasoning}"
+            if will_reopen
+            else reasoning
+        )
+        records.append(_build_trade_record(
+            bot_name=BOT_NAME,
+            llm_provider=BOT_LLM_PROVIDER,
+            llm_model=BOT_LLM_MODEL,
+            ticker=ticker,
+            asset_type=asset_type or existing_pos.get("assetType") or "",
+            action="sell" if ex_dir == 1 else "buy",
+            position="flat",
+            leverage=closed_leverage,
+            shares=close_shares,
+            price=price,
+            reasoning=close_reason,
+            session=session,
+            session_id=session_id,
+            nav_after=_snap_nav(),
+            cash_after=portfolio["cash"],
+            closed_direction=closed_direction,
+            closed_leverage=closed_leverage,
+            realized_pnl=realized_pnl,
+        ))
+
+    if will_reopen:
+        new_notional = abs(target_shares) * price
+        new_margin = new_notional / leverage
+        free_cash = max(0.0, float(portfolio["cash"]))
+        if new_margin > free_cash:
+            affordable = free_cash * leverage
+            target_shares = (
+                round(affordable / price, 6) if is_fractional else int(affordable / price)
+            ) * (1 if position == "long" else -1)
+            new_notional = abs(target_shares) * price
+            new_margin = new_notional / leverage
+
+        if target_shares != 0:
+            portfolio["cash"] -= new_margin
+            portfolio.setdefault("positions", {})[ticker] = {
+                "direction": position,
+                "shares": target_shares,
+                "entryPrice": round(price, 4),
+                "leverage": leverage,
+                "notional": round(new_notional, 2),
+                "marginUsed": round(new_margin, 2),
+                "assetType": asset_type or None,
+            }
+            records.append(_build_trade_record(
+                bot_name=BOT_NAME,
+                llm_provider=BOT_LLM_PROVIDER,
+                llm_model=BOT_LLM_MODEL,
+                ticker=ticker,
+                asset_type=asset_type,
+                action="buy" if position == "long" else "sell",
+                position=position,
+                leverage=leverage,
+                shares=abs(target_shares),
+                price=price,
+                reasoning=reasoning,
+                session=session,
+                session_id=session_id,
+                nav_after=_snap_nav(),
+                cash_after=portfolio["cash"],
+            ))
+
+    return records, realized_total
+
+
 def decide_and_trade(session: str) -> None:
     global CURRENT_TAVILY_KEY
     if os.environ.get("TAVILY_API_KEY"):
@@ -1247,155 +1581,27 @@ def decide_and_trade(session: str) -> None:
             cash_amount = 0.0
         cash_amount = max(0.0, cash_amount)
 
-        if cash_amount == 0.0:
-            position = "flat"
-
         reasoning = str(decision.get("reasoning", ""))
         price = float(quote.get("c") or 0)
+        nav_cache[ticker] = price
 
-        # Catch LLM hallucinating a repeat of the exact same position it already has
-        # and treat it as an implicit hold (discard trade) to prevent price-shift spam.
-        existing_check = portfolio.get("positions", {}).get(ticker)
-        if existing_check is not None and position == existing_check.get("direction"):
-            ex_margin = existing_check.get("marginUsed", 0)
-            ex_leverage = existing_check.get("leverage", 1.0)
-            
-            target_notional = cash_amount * leverage
-            ex_notional = ex_margin * ex_leverage
-            
-            # If the total target position size (notional) is within 2% of the existing position size,
-            # it's almost certainly an accidental "hold" hallucination.
-            if ex_notional > 0 and abs(target_notional - ex_notional) / ex_notional < 0.02:
-                logging.info(f"[{BOT_NAME}] Discarding duplicate trade for {ticker} (implicit hold).")
-                continue
-
-        # current_shares comes from positions (the sole source of truth)
-        existing_pos = portfolio.get("positions", {}).get(ticker)
-        current_shares = existing_pos.get("shares", 0) if existing_pos else 0
-        is_fractional = "/" in ticker or "-USD" in ticker
-
-        # ── Target share count ────────────────────────────────────────────────
-        if price > 0 and position in ("long", "short"):
-            # cash_amount is the margin the bot wants to post; notional = margin × leverage
-            target_notional = cash_amount * leverage
-            raw_target = target_notional / price
-            target_shares = (
-                round(raw_target, 6) if is_fractional else int(raw_target)
-            ) * (1 if position == "long" else -1)
-            if target_shares == 0:
-                position = "flat"
-        else:  # flat
-            target_shares = 0
-
-        # ── Proper margin model ───────────────────────────────────────────────
-        # Step 1: Settle any existing position in this ticker.
-        # Guard on marginUsed > 0, NOT on current_shares != 0.
-        # If a legacy position is missing its `shares` field, current_shares would
-        # be 0 and the old guard would silently skip settlement — popping the
-        # position from the dict without returning the margin to cash (Bug: cash
-        # evaporation). Using marginUsed as the canonical "capital is deployed" flag
-        # is robust to any data-shape variation.
-        closed_direction: str | None = None
-        closed_leverage: float | None = None
-        realized_pnl: float | None = None
-        ex_margin = existing_pos.get("marginUsed", 0) if existing_pos else 0
-        if existing_pos is not None and ex_margin > 0:
-            closed_direction = existing_pos.get("direction")
-            closed_leverage  = existing_pos.get("leverage", 1.0)
-            ex_entry    = existing_pos.get("entryPrice", price)
-            ex_notional = existing_pos.get("notional", ex_margin)  # notional ≥ margin always
-            ex_dir      = 1 if existing_pos.get("direction") == "long" else -1
-            realized    = ex_dir * ex_notional * ((price / ex_entry) - 1) if ex_entry > 0 else 0
-            returned_cash = max(0.0, ex_margin + realized)
-            actual_realized = returned_cash - ex_margin
-            realized_pnl = round(actual_realized, 2)
-            session_realized_pnl += realized_pnl
-            # Return margin + P&L; floor at 0 (can't recover more than the posted margin)
-            portfolio["cash"] += returned_cash
-            portfolio.get("positions", {}).pop(ticker, None)
-        elif existing_pos is not None:
-            # Position record exists but has zero margin (stale / already-closed entry).
-            # Clean it up without touching cash — there's nothing to return.
-            portfolio.get("positions", {}).pop(ticker, None)
-
-        # Step 2: Open new position if not flat.
-        if target_shares != 0 and price > 0:
-            new_notional = abs(target_shares) * price
-            new_margin   = new_notional / leverage
-            # Cap to available free cash — can't post more margin than you have
-            free_cash = float(portfolio["cash"])
-            if new_margin > free_cash:
-                affordable = free_cash * leverage
-                target_shares = (
-                    round(affordable / price, 6) if is_fractional else int(affordable / price)
-                ) * (1 if position == "long" else -1)
-                new_notional = abs(target_shares) * price
-                new_margin   = new_notional / leverage
-            portfolio["cash"] -= new_margin
-            portfolio.setdefault("positions", {})[ticker] = {
-                "direction":  position,
-                "shares":     target_shares,
-                "entryPrice": round(price, 4),
-                "leverage":   leverage,
-                "notional":   round(new_notional, 2),
-                "marginUsed": round(new_margin, 2),
-                "assetType":  asset_type or None,
-            }
-        elif position == "flat":
-            portfolio.get("positions", {}).pop(ticker, None)
-
-        # ── Action / shares delta for trade record ────────────────────────────
-        net_delta = target_shares - current_shares
-        if net_delta > 0:
-            action = "buy"
-            shares = abs(net_delta)
-        elif net_delta < 0:
-            action = "sell"
-            shares = abs(net_delta)
-        else:
-            action = "hold"
-            shares = 0
-
-        # Implicit holds produce no real event — skip saving and broadcasting.
-        if action == "hold":
-            continue
-
-        # Per-decision NAV: marked to the portfolio right after this decision.
-        try:
-            nav_after_decision = compute_nav(portfolio, nav_cache)
-        except Exception:
-            nav_after_decision = float(portfolio_value)
-
-        trade_record = {
-            "id": str(uuid.uuid4()),
-            "botName": BOT_NAME,
-            "llmProvider": BOT_LLM_PROVIDER,
-            "llmModel": BOT_LLM_MODEL,
-            "ticker": ticker,
-            "assetType": asset_type or None,
-            "action": action,
-            "position": position,
-            "leverage": leverage,
-            "shares": shares,
-            "price": price,
-            "reasoning": reasoning,
-            "trigger": f"session-{session}",
-            "sessionId": session_id,
-            "timestamp": datetime.datetime.now(datetime.timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"),
-            "totalValue": round(nav_after_decision, 2),
-            "cash": round(float(portfolio["cash"]), 2),
-        }
-
-        # Enrich closes with what was closed so the frontend can render
-        # "SPOT SELL", "CLOSE 3× LONG", "COVER SHORT", etc.
-        if position == "flat" and closed_direction is not None:
-            trade_record["closedDirection"] = closed_direction
-            trade_record["closedLeverage"]  = closed_leverage
-            if realized_pnl is not None:
-                trade_record["realizedPnl"] = realized_pnl
-
-        trade_records_to_save.append(trade_record)
-        trade_records_to_broadcast.append(trade_record)
+        emitted_records, realized_delta = _execute_ticker_decision(
+            portfolio=portfolio,
+            ticker=ticker,
+            asset_type=asset_type,
+            position=position,
+            leverage=leverage,
+            cash_amount=cash_amount,
+            price=price,
+            reasoning=reasoning,
+            session=session,
+            session_id=session_id,
+            nav_cache=nav_cache,
+            fallback_nav=portfolio_value,
+        )
+        session_realized_pnl += realized_delta
+        trade_records_to_save.extend(emitted_records)
+        trade_records_to_broadcast.extend(emitted_records)
 
     # ── Final Cleanup ─────────────────────────────────────────────────────────
     # Wipe any position whose shares landed at 0 (e.g. affordable rounding).
@@ -1497,13 +1703,13 @@ def decide_and_trade(session: str) -> None:
         except Exception as e:
             logging.error(f"[{BOT_NAME}] Failed to broadcast trade: {e}")
 
-    try:
-        logging.info(
-            f"[{BOT_NAME}/{BOT_LLM_PROVIDER}/{BOT_LLM_MODEL}] "
-            f"{action} {shares} {ticker} @ {price} -- {reasoning} "
-            f"(Target position: {position} {leverage}x)"
-        )
-    except NameError:
-        # No per-decision variables if the model returned zero decisions.
+    if trade_records_to_save:
+        for rec in trade_records_to_save:
+            logging.info(
+                f"[{BOT_NAME}/{BOT_LLM_PROVIDER}/{BOT_LLM_MODEL}] "
+                f"{rec['action']} {rec['shares']} {rec['ticker']} @ {rec['price']} -- {rec['reasoning']} "
+                f"(Position: {rec['position']} {rec['leverage']}x)"
+            )
+    else:
         logging.info(f"[{BOT_NAME}/{BOT_LLM_PROVIDER}/{BOT_LLM_MODEL}] Review complete -- no decisions to execute.")
 

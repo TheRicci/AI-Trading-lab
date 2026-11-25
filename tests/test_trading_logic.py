@@ -223,5 +223,220 @@ class TestAssetRouting(unittest.TestCase):
         self.assertEqual(classify_asset_type("SPY"), "stock")
 
 
+def _load_bot_module():
+    """Import functions/bot/function_app.py with Azure SDK dependencies stubbed."""
+    import importlib.util
+    import sys
+    from pathlib import Path
+    from unittest.mock import MagicMock, patch
+
+    stubs = {
+        "azure": MagicMock(),
+        "azure.functions": MagicMock(),
+        "azure.cosmos": MagicMock(),
+        "azure.messaging": MagicMock(),
+        "azure.messaging.webpubsubservice": MagicMock(),
+        "requests": MagicMock(),
+    }
+    stubs["azure.functions"].EventGridEvent = object
+    stubs["requests"].RequestException = Exception
+
+    bot_path = Path(__file__).resolve().parent.parent / "functions" / "bot" / "function_app.py"
+    with patch.dict(sys.modules, stubs):
+        spec = importlib.util.spec_from_file_location("bot_function_app", bot_path)
+        mod = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(mod)
+    return mod
+
+
+class TestExecuteTickerDecision(unittest.TestCase):
+    @classmethod
+    def setUpClass(cls):
+        cls.bot = _load_bot_module()
+
+    def test_leverage_change_emits_close_then_open(self):
+        # Holds 2x LONG NVDA @ 125.53 (398 shares -> notional 49960.94, margin 24980.47)
+        portfolio = {
+            "cash": 35000.0,
+            "positions": {
+                "NVDA": {
+                    "direction": "long",
+                    "shares": 398,
+                    "entryPrice": 125.53,
+                    "leverage": 2.0,
+                    "notional": 49960.94,
+                    "marginUsed": 24980.47,
+                    "assetType": "stock",
+                }
+            },
+        }
+        price = 165.05
+        nav_before = self.bot.compute_nav(portfolio, {"NVDA": price})
+
+        records, realized_delta = self.bot._execute_ticker_decision(
+            portfolio=portfolio,
+            ticker="NVDA",
+            asset_type="stock",
+            position="long",
+            leverage=1.0,
+            cash_amount=40000.0,
+            price=price,
+            reasoning="Switching to spot exposure",
+            session="open",
+            session_id="open-2026-11-24",
+            nav_cache={"NVDA": price},
+            fallback_nav=nav_before,
+        )
+
+        self.assertEqual(len(records), 2)
+        close_rec, open_rec = records
+        self.assertEqual(close_rec["position"], "flat")
+        self.assertEqual(close_rec["action"], "sell")
+        self.assertEqual(close_rec["closedDirection"], "long")
+        self.assertEqual(close_rec["closedLeverage"], 2.0)
+        self.assertGreater(close_rec["realizedPnl"], 15000.0)
+        self.assertAlmostEqual(realized_delta, close_rec["realizedPnl"], places=2)
+
+        self.assertEqual(open_rec["position"], "long")
+        self.assertEqual(open_rec["action"], "buy")
+        self.assertEqual(open_rec["leverage"], 1.0)
+        self.assertEqual(open_rec["shares"], 242)
+
+        nav_after = self.bot.compute_nav(portfolio, {"NVDA": price})
+        self.assertAlmostEqual(nav_after, nav_before, delta=0.05)
+
+    def test_same_side_add_blends_entry_without_realized_pnl(self):
+        # Holds 40 shares SPOT GLD @ 322.87 -> notional 12914.80, margin 12914.80
+        portfolio = {
+            "cash": 50000.0,
+            "positions": {
+                "GLD": {
+                    "direction": "long",
+                    "shares": 40,
+                    "entryPrice": 322.87,
+                    "leverage": 1.0,
+                    "notional": 12914.80,
+                    "marginUsed": 12914.80,
+                    "assetType": "etf",
+                }
+            },
+        }
+        price = 333.02
+        nav_before = self.bot.compute_nav(portfolio, {"GLD": price})
+
+        records, realized_delta = self.bot._execute_ticker_decision(
+            portfolio=portfolio,
+            ticker="GLD",
+            asset_type="etf",
+            position="long",
+            leverage=1.0,
+            cash_amount=20000.0,
+            price=price,
+            reasoning="Increase position for diversification",
+            session="open",
+            session_id="open-2026-11-24",
+            nav_cache={"GLD": price},
+            fallback_nav=nav_before,
+        )
+
+        self.assertEqual(realized_delta, 0.0)
+        self.assertEqual(len(records), 1)
+        self.assertEqual(records[0]["position"], "long")
+        self.assertEqual(records[0]["action"], "buy")
+        self.assertEqual(records[0]["shares"], 20)  # 60 target - 40 existing
+
+        pos = portfolio["positions"]["GLD"]
+        self.assertEqual(pos["shares"], 60)
+        expected_entry = round((12914.80 + 20 * 333.02) / 60, 4)
+        self.assertAlmostEqual(pos["entryPrice"], expected_entry, places=4)
+
+        nav_after = self.bot.compute_nav(portfolio, {"GLD": price})
+        self.assertAlmostEqual(nav_after, nav_before, delta=0.05)
+
+    def test_same_side_partial_reduce_preserves_entry_and_realizes_slice(self):
+        # Holds 200 shares 2x LONG SPY @ 100.00 -> notional 20000, margin 10000
+        portfolio = {
+            "cash": 50000.0,
+            "positions": {
+                "SPY": {
+                    "direction": "long",
+                    "shares": 200,
+                    "entryPrice": 100.0,
+                    "leverage": 2.0,
+                    "notional": 20000.0,
+                    "marginUsed": 10000.0,
+                    "assetType": "etf",
+                }
+            },
+        }
+        price = 120.0
+        nav_before = self.bot.compute_nav(portfolio, {"SPY": price})
+
+        # Resize down to 6000 margin at 2x = 12000 notional = 100 shares (half closed)
+        records, realized_delta = self.bot._execute_ticker_decision(
+            portfolio=portfolio,
+            ticker="SPY",
+            asset_type="etf",
+            position="long",
+            leverage=2.0,
+            cash_amount=6000.0,
+            price=price,
+            reasoning="Trimming half to lock in gains",
+            session="open",
+            session_id="open-2026-11-24",
+            nav_cache={"SPY": price},
+            fallback_nav=nav_before,
+        )
+
+        self.assertEqual(len(records), 1)
+        rec = records[0]
+        self.assertEqual(rec["position"], "flat")
+        self.assertEqual(rec["action"], "sell")
+        self.assertTrue(rec.get("partial"))
+        self.assertEqual(rec["shares"], 100)
+        self.assertAlmostEqual(rec["realizedPnl"], 2000.0, places=2)
+        self.assertAlmostEqual(realized_delta, 2000.0, places=2)
+
+        pos = portfolio["positions"]["SPY"]
+        self.assertEqual(pos["shares"], 100)
+        self.assertEqual(pos["entryPrice"], 100.0)
+        self.assertAlmostEqual(pos["marginUsed"], 5000.0, places=2)
+
+        nav_after = self.bot.compute_nav(portfolio, {"SPY": price})
+        self.assertAlmostEqual(nav_after, nav_before, delta=0.05)
+
+    def test_duplicate_hold_guard_respects_leverage_change(self):
+        # 2x LONG with 20k notional -> switching to 1x LONG with 20k notional must NOT be discarded
+        portfolio = {
+            "cash": 50000.0,
+            "positions": {
+                "AAPL": {
+                    "direction": "long",
+                    "shares": 100,
+                    "entryPrice": 200.0,
+                    "leverage": 2.0,
+                    "notional": 20000.0,
+                    "marginUsed": 10000.0,
+                    "assetType": "stock",
+                }
+            },
+        }
+        records, _ = self.bot._execute_ticker_decision(
+            portfolio=portfolio,
+            ticker="AAPL",
+            asset_type="stock",
+            position="long",
+            leverage=1.0,
+            cash_amount=20000.0,
+            price=200.0,
+            reasoning="De-leveraging to spot",
+            session="open",
+            session_id="open-2026-11-24",
+            nav_cache={"AAPL": 200.0},
+            fallback_nav=60000.0,
+        )
+        self.assertEqual(len(records), 2)
+
+
 if __name__ == "__main__":
     unittest.main()

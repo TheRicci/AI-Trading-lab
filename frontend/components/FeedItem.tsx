@@ -43,10 +43,14 @@ export function FeedItem({ trade, fresh }: { trade: Trade; fresh?: boolean }) {
     const closedLevStr = closedLev > 1 ? `${closedLev}×` : "";
 
     if (closedDir === "long") {
-      posLabel = closedIsSpot ? "SPOT SELL" : `CLOSE ${closedLevStr} LONG`;
+      posLabel = trade.partial
+        ? (closedIsSpot ? "REDUCE SPOT" : `REDUCE ${closedLevStr} LONG`)
+        : (closedIsSpot ? "SPOT SELL" : `CLOSE ${closedLevStr} LONG`);
       posCls   = "text-down";
     } else {
-      posLabel = closedIsSpot ? "COVER SHORT" : `CLOSE ${closedLevStr} SHORT`;
+      posLabel = trade.partial
+        ? (closedIsSpot ? "REDUCE SHORT" : `REDUCE ${closedLevStr} SHORT`)
+        : (closedIsSpot ? "COVER SHORT" : `CLOSE ${closedLevStr} SHORT`);
       posCls   = "text-up";
     }
   } else if (isSpot && trade.position === "long") {
@@ -79,9 +83,6 @@ export function FeedItem({ trade, fresh }: { trade: Trade; fresh?: boolean }) {
           {timeAgo(trade.timestamp)}
         </span>
         <span className="font-mono text-[11px] text-secondary font-medium">{trade.botName}</span>
-        {levStr && (
-          <span className="font-mono text-[10px] text-amber font-semibold">{levStr}</span>
-        )}
         <span className={`font-mono text-[11px] font-semibold ${posCls}`}>{posLabel}</span>
         <span className="font-mono text-[12px] text-ink font-semibold">{trade.ticker}</span>
         {trade.price > 0 && (
