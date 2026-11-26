@@ -28,5 +28,8 @@ obj/
 # Local Backtest State
 scripts/backtest_state/
 
+# AWS Lambda build artifacts
+build-aws/
+
 terraform/recover_state.ps1
 scripts/backfill_price_history.py

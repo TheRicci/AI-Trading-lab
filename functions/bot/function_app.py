@@ -1452,7 +1452,71 @@ def _execute_ticker_decision(
     return records, realized_total
 
 
+def _nyse_holidays(year: int) -> set:
+    """Return NYSE market holidays for *year* as a set of 'YYYY-MM-DD' strings.
+    Uses observed-day rules (Mon when holiday falls on Sun, Fri when Sat).
+    No external packages required."""
+    import calendar as _cal
+
+    def observed(d):
+        if d.weekday() == 5:
+            return datetime.date(d.year, d.month, d.day - 1)
+        if d.weekday() == 6:
+            return datetime.date(d.year, d.month, d.day + 1)
+        return d
+
+    def nth_weekday(y, m, wd, n):
+        first = datetime.date(y, m, 1)
+        delta = (wd - first.weekday()) % 7
+        return datetime.date(y, m, 1 + delta + (n - 1) * 7)
+
+    def last_weekday(y, m, wd):
+        last_day = _cal.monthrange(y, m)[1]
+        last = datetime.date(y, m, last_day)
+        return datetime.date(y, m, last_day - (last.weekday() - wd) % 7)
+
+    holidays = {
+        observed(datetime.date(year, 1, 1)),    # New Year's Day
+        observed(datetime.date(year, 6, 19)),   # Juneteenth
+        observed(datetime.date(year, 7, 4)),    # Independence Day
+        observed(datetime.date(year, 12, 25)),  # Christmas Day
+        nth_weekday(year, 1, 0, 3),             # MLK Day (3rd Mon Jan)
+        nth_weekday(year, 2, 0, 3),             # Presidents' Day (3rd Mon Feb)
+        last_weekday(year, 5, 0),               # Memorial Day (last Mon May)
+        nth_weekday(year, 9, 0, 1),             # Labor Day (1st Mon Sep)
+        nth_weekday(year, 11, 3, 4),            # Thanksgiving (4th Thu Nov)
+    }
+    # Good Friday (Easter - 2) via Butcher-Meeus algorithm
+    a = year % 19
+    b, c = divmod(year, 100)
+    d_v, e = divmod(b, 4)
+    f = (b + 8) // 25
+    g = (b - f + 1) // 3
+    h = (19 * a + b - d_v - g + 15) % 30
+    i, k = divmod(c, 4)
+    l = (32 + 2 * e + 2 * i - h - k) % 7
+    m_v = (a + 11 * h + 22 * l) // 451
+    e_month = (h + l - 7 * m_v + 114) // 31
+    e_day = ((h + l - 7 * m_v + 114) % 31) + 1
+    easter = datetime.date(year, e_month, e_day)
+    holidays.add(easter - datetime.timedelta(days=2))
+    return {d.strftime("%Y-%m-%d") for d in holidays}
+
+
+def is_nyse_holiday(d=None) -> bool:
+    """Return True if *d* (default: today UTC) is a NYSE market holiday."""
+    if d is None:
+        d = datetime.datetime.now(datetime.timezone.utc).date()
+    return d.strftime("%Y-%m-%d") in _nyse_holidays(d.year)
+
+
 def decide_and_trade(session: str) -> None:
+    # ── Holiday guard ────────────────────────────────────────────────────────
+    if is_nyse_holiday():
+        today = datetime.datetime.now(datetime.timezone.utc).strftime("%Y-%m-%d")
+        logging.info(f"[{BOT_NAME}] {today} is a NYSE holiday — skipping {session} session.")
+        return
+
     global CURRENT_TAVILY_KEY
     if os.environ.get("TAVILY_API_KEY"):
         CURRENT_TAVILY_KEY = os.environ.get("TAVILY_API_KEY")
