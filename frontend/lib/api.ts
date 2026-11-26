@@ -45,11 +45,14 @@ export function getLeaderboard(): Promise<Bot[]> {
   return IS_MOCK ? loadMock<Bot[]>("leaderboard.json") : getJson<Bot[]>("/api/leaderboard");
 }
 
-export function getTrades(bot?: string): Promise<Trade[]> {
+export function getTrades(bot?: string, limit: number = 250): Promise<Trade[]> {
   if (IS_MOCK) {
     return loadMock<Trade[]>("trades.json").then((t) => bot ? t.filter((x) => x.botName === bot) : t);
   }
-  const qs = bot ? `?bot=${encodeURIComponent(bot)}` : "";
+  const params = new URLSearchParams();
+  if (bot) params.set("bot", bot);
+  if (limit) params.set("limit", limit.toString());
+  const qs = params.toString() ? `?${params.toString()}` : "";
   return getJson<Trade[]>(`/api/trades${qs}`);
 }
 

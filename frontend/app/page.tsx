@@ -7,6 +7,7 @@ import { StatusDot } from "@/components/StatusDot";
 import { Leaderboard } from "@/components/Leaderboard";
 import { PortfolioChart } from "@/components/PortfolioChart";
 import { LiveFeed } from "@/components/LiveFeed";
+import { botDisplayName } from "@/lib/types";
 import type { Bot, LiveTradeMessage, PortfolioHistoryByBot, Trade } from "@/lib/types";
 
 export default function TradingFloorPage() {
@@ -67,7 +68,7 @@ export default function TradingFloorPage() {
       <div className="card mb-8 overflow-hidden">
         <div className="data-ribbon">
           <div className="ribbon-item">
-            <span className="ribbon-label">Total capital</span>
+            <span className="ribbon-label">‎ Total capital</span>
             <span className="ribbon-value num">
               ${totalCapital.toLocaleString("en-US", { maximumFractionDigits: 0 })}
             </span>
@@ -79,7 +80,7 @@ export default function TradingFloorPage() {
           {leader && (
             <div className="ribbon-item">
               <span className="ribbon-label">Leader</span>
-              <span className="ribbon-value num">{leader.botName}</span>
+              <span className="ribbon-value num">{botDisplayName(leader.botName)}</span>
               <span className={`num text-[11px] ml-1 ${leaderPnl >= 0 ? "text-up" : "text-down"}`}>
                 {leaderPnl >= 0 ? "▲" : "▼"}&nbsp;{Math.abs(leaderPnl).toFixed(2)}%
               </span>
@@ -93,7 +94,7 @@ export default function TradingFloorPage() {
       </div>
 
       {/* ── Main grid ─────────────────────────────────────────────────────── */}
-      <div className="grid grid-cols-1 gap-8 lg:grid-cols-[360px_1fr] lg:items-start">
+      <div className="grid grid-cols-1 gap-8 lg:grid-cols-[360px_1fr] lg:items-stretch">
 
         {/* Left — Leaderboard */}
         <section>
@@ -104,20 +105,20 @@ export default function TradingFloorPage() {
         </section>
 
         {/* Right — Chart + Feed */}
-        <section className="space-y-8">
+        <section className="flex flex-col gap-8 min-h-0">
           <div>
             <div className="section-head mb-4">
               <span className="overline">Portfolio Performance</span>
             </div>
-            <PortfolioChart history={history} />
+            <PortfolioChart history={history} bots={bots} />
           </div>
 
-          <div>
-            <div className="flex items-center justify-between mb-4">
+          <div className="flex flex-col flex-1 min-h-0">
+            <div className="flex items-center justify-between mb-4 flex-shrink-0">
               <div className="section-head mb-0">
                 <span className="overline">Live Reasoning Feed</span>
               </div>
-              <span className="num text-[10px] text-dim">{trades.length} decisions</span>
+              <span className="num text-[12px] text-dim">{trades.length} decisions</span>
             </div>
             <LiveFeed trades={trades} freshIds={freshIds} />
           </div>

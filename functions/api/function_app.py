@@ -212,11 +212,16 @@ def leaderboard(req: func.HttpRequest) -> func.HttpResponse:
 @app.route(route="trades", methods=["GET"])
 def recent_trades(req: func.HttpRequest) -> func.HttpResponse:
     bot = req.params.get("bot")
+    try:
+        limit = min(max(1, int(req.params.get("limit", 250))), 500)
+    except (ValueError, TypeError):
+        limit = 250
+
     if bot:
-        query = "SELECT * FROM c WHERE c.botName = @bot ORDER BY c.timestamp DESC OFFSET 0 LIMIT 50"
+        query = f"SELECT * FROM c WHERE c.botName = @bot ORDER BY c.timestamp DESC OFFSET 0 LIMIT {limit}"
         params = [{"name": "@bot", "value": bot}]
     else:
-        query = "SELECT * FROM c ORDER BY c.timestamp DESC OFFSET 0 LIMIT 50"
+        query = f"SELECT * FROM c ORDER BY c.timestamp DESC OFFSET 0 LIMIT {limit}"
         params = []
     items = list(trades.query_items(query=query, parameters=params, enable_cross_partition_query=True))
     return func.HttpResponse(json.dumps(items), mimetype="application/json")

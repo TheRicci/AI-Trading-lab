@@ -11,12 +11,9 @@ export interface Bot {
   strategyPrompt: string;
   llmProvider: LlmProvider;
   llmModel: string;
-  dailyPnL?: number;
-  dailyPnLPct?: number;
-  sessionPnL?: number;
-  sessionPnLPct?: number;
-  totalRealizedPnlCumulative?: number;
 }
+
+export type AssetType = "stock" | "etf" | "crypto" | "forex" | "brazil" | string;
 
 export interface Position {
   direction: "long" | "short";
@@ -25,11 +22,10 @@ export interface Position {
   leverage: number;
   notional: number;              // abs(shares) × entryPrice
   marginUsed: number;            // notional / leverage
+  assetType?: AssetType;         // declared by LLM at open time
   currentPrice?: number;         // enriched by API at read time
-  markPrice?: number;            // marked price from snapshot
   unrealizedPnl?: number;        // direction × notional × (current/entry − 1)
-  unrealizedPct?: number;        // unrealizedPnl as % of marginUsed
-  positionEquity?: number;       // marginUsed + unrealizedPnl
+  unrealizedPct?: number;        // unrealizedPnl as % of startingCash
 }
 
 export type TradeAction   = "buy" | "sell" | "hold";
@@ -41,6 +37,7 @@ export interface Trade {
   llmProvider: LlmProvider;
   llmModel?: string;
   ticker: string;
+  assetType?: AssetType;         // declared by LLM: "stock" | "etf" | "crypto" | "forex" | "brazil"
   action: TradeAction;
   position: TradePosition;       // bot's intent (long/short/flat/none)
   leverage: number;              // 1.0–10.0
@@ -165,7 +162,6 @@ export const MODEL_LABELS: Record<string, string> = {
   "gemini-3.6-flash":            "Gemini 3.6 Flash",
   "gemini-2.5-pro":              "Gemini 3.6 Flash",
   "gemini-2.5-flash":            "Gemini 2.5 Flash",
-  "gemini-2.0-flash":            "Gemini 2.0 Flash",
   "gemini-3.1-flash-lite":       "Gemini 3.1 Flash-Lite",
   "openai/gpt-oss-120b":         "GPT-OSS 120B (Groq + Tavily)",
   "qwen/qwen3.8-27b":            "Qwen 3.8 27B (Groq + Tavily)",
@@ -175,10 +171,37 @@ export const MODEL_LABELS: Record<string, string> = {
   "groq/compound":               "Groq Compound",
 };
 
+/** Short model name without the provider suffix — for the card headline. */
+export const MODEL_SHORT: Record<string, string> = {
+  "gemini-3.6-flash":        "Gemini 3.6 Flash",
+  "gemini-2.5-pro":          "Gemini 3.6 Flash",
+  "gemini-2.5-flash":        "Gemini 2.5 Flash",
+  "gemini-3.1-flash-lite":   "Gemini 3.1 Flash-Lite",
+  "openai/gpt-oss-120b":     "GPT-OSS 120B",
+  "qwen/qwen3.8-27b":        "Qwen 3.8 27B",
+  "qwen/qwen3.6-27b":        "Qwen 3.6 27B",
+  "llama-3.3-70b-versatile": "Llama 3.3 70B",
+  "groq/compound-mini":      "Groq Compound Mini",
+  "groq/compound":           "Groq Compound",
+};
+
+/** Provider sub-label shown below the model name, e.g. "Groq + Tavily". */
+export const MODEL_PROVIDER_LABEL: Record<string, string> = {
+  "gemini-3.6-flash":        "Google Gemini",
+  "gemini-2.5-pro":          "Google Gemini",
+  "gemini-2.5-flash":        "Google Gemini",
+  "gemini-3.1-flash-lite":   "Google Gemini",
+  "openai/gpt-oss-120b":     "Groq + Tavily",
+  "qwen/qwen3.8-27b":        "Groq + Tavily",
+  "qwen/qwen3.6-27b":        "Groq + Tavily",
+  "llama-3.3-70b-versatile": "Groq + Tavily",
+  "groq/compound-mini":      "Groq",
+  "groq/compound":           "Groq",
+};
+
 export const MODEL_HEX: Record<string, string> = {
   "gemini-3.6-flash":            "#818cf8",
   "gemini-2.5-flash":            "#818cf8",
-  "gemini-2.0-flash":            "#818cf8",
   "gemini-3.1-flash-lite":       "#818cf8",
   "openai/gpt-oss-120b":         "#38bdf8",
   "qwen/qwen3.8-27b":            "#34d399",

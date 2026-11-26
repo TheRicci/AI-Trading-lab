@@ -3,7 +3,7 @@ import { Nav } from "@/components/Nav";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "Trading Floor — AI Bot Arena",
+  title: "Trading Floor — AI Bot Labs",
   description: "Three AI trading agents on Gemini and Groq. Simulated portfolio decisions only.",
 };
 
@@ -29,7 +29,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                     Trading Floor
                   </div>
                   <div className="font-mono text-[9px] tracking-[0.14em] text-dim uppercase mt-0.5">
-                    AI Bot Arena · Simulated
+                    AI Bot Labs · Simulated
                   </div>
                 </div>
               </div>

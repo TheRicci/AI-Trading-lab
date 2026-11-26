@@ -1,4 +1,5 @@
 import type { Trade } from "@/lib/types";
+import { botColorFor, botDisplayName } from "@/lib/types";
 
 function timeAgo(iso: string): string {
   const s = Math.floor((Date.now() - new Date(iso).getTime()) / 1000);
@@ -13,7 +14,6 @@ function triggerLabel(trigger: string): string {
   if (trigger === "session-close") return "before close";
   return trigger;
 }
-
 
 const BORDER: Record<string, string> = {
   long:       "border-l-up",
@@ -35,24 +35,21 @@ export function FeedItem({ trade, fresh }: { trade: Trade; fresh?: boolean }) {
   const levStr = trade.leverage > 1 ? `${trade.leverage}×` : "";
 
   if (trade.position === "flat") {
-    // Determine what was closed. Use closedDirection if present (post-migration
-    // records), otherwise infer from action: sell = was long, buy = was short.
+    // Determine what was closed.
     const closedDir = trade.closedDirection ?? (trade.action === "sell" ? "long" : "short");
     const closedLev = trade.closedLeverage ?? trade.leverage;
     const closedIsSpot = closedLev <= 1.0;
     const closedLevStr = closedLev > 1 ? `${closedLev}×` : "";
 
-    if (closedDir === "long") {
-      posLabel = trade.partial
-        ? (closedIsSpot ? "REDUCE SPOT" : `REDUCE ${closedLevStr} LONG`)
-        : (closedIsSpot ? "SPOT SELL" : `CLOSE ${closedLevStr} LONG`);
-      posCls   = "text-down";
-    } else {
-      posLabel = trade.partial
-        ? (closedIsSpot ? "REDUCE SHORT" : `REDUCE ${closedLevStr} SHORT`)
-        : (closedIsSpot ? "COVER SHORT" : `CLOSE ${closedLevStr} SHORT`);
-      posCls   = "text-up";
-    }
+    posLabel = trade.partial
+      ? (closedIsSpot
+        ? (closedDir === "long" ? "REDUCE SPOT" : "REDUCE SHORT")
+        : `REDUCE ${closedLevStr} ${closedDir.toUpperCase()}`)
+      : (closedIsSpot
+        ? (closedDir === "long" ? "SPOT SELL" : "COVER SHORT")
+        : `CLOSE ${closedLevStr} ${closedDir.toUpperCase()}`);
+      
+    posCls = "text-dim"; // Display closed trades in neutral grey
   } else if (isSpot && trade.position === "long") {
     // 1x long = true spot buy
     posLabel = "SPOT BUY";
@@ -67,11 +64,10 @@ export function FeedItem({ trade, fresh }: { trade: Trade; fresh?: boolean }) {
     posCls = "text-down";
   }
 
-  // Border color: for closes, derived from what was closed, not the position field
+  // Border color: for closes, use a neutral grey border
   let borderKey: string = trade.position;
   if (trade.position === "flat") {
-    const closedDir = trade.closedDirection ?? (trade.action === "sell" ? "long" : "short");
-    borderKey = closedDir === "long" ? "flat_long" : "flat_short";
+    borderKey = "flat";
   }
   const border = BORDER[borderKey] ?? BORDER.flat;
 
@@ -82,7 +78,7 @@ export function FeedItem({ trade, fresh }: { trade: Trade; fresh?: boolean }) {
         <span className="num text-[10px] text-dim tabular-nums w-[20px]">
           {timeAgo(trade.timestamp)}
         </span>
-        <span className="font-mono text-[11px] text-secondary font-medium">{trade.botName}</span>
+        <span className="font-mono text-[11px] font-semibold" style={{ color: botColorFor(trade.botName) }}>{botDisplayName(trade.botName)}</span>
         <span className={`font-mono text-[11px] font-semibold ${posCls}`}>{posLabel}</span>
         <span className="font-mono text-[12px] text-ink font-semibold">{trade.ticker}</span>
         {trade.price > 0 && (
@@ -93,6 +89,11 @@ export function FeedItem({ trade, fresh }: { trade: Trade; fresh?: boolean }) {
         <span className="font-mono text-[9px] tracking-widest text-dim uppercase">
           {triggerLabel(trade.trigger)}
         </span>
+        {trade.realizedPnl !== undefined && (
+          <span className={`num text-[11px] font-semibold ml-auto ${trade.realizedPnl >= 0 ? "text-up" : "text-down"}`}>
+            {trade.realizedPnl >= 0 ? "+" : "-"}${Math.abs(trade.realizedPnl).toFixed(2)}
+          </span>
+        )}
       </div>
 
       {/* Line 2: reasoning */}
