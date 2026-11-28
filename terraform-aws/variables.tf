@@ -108,7 +108,7 @@ variable "bots" {
       EOT
       starting_cash    = 100000
       llm_provider     = "gemini"
-      llm_model        = "gemini-2.5-flash"
+      llm_model        = "gemini-3.8-flash"
       allowed_sessions = ["close"]
     }
     fed_gptoss = {
@@ -197,7 +197,7 @@ variable "bots" {
       EOT
       starting_cash    = 100000
       llm_provider     = "gemini"
-      llm_model        = "gemini-2.5-flash"
+      llm_model        = "gemini-3.8-flash"
       allowed_sessions = ["close"]
     }
     flow_qwen = {
@@ -284,7 +284,7 @@ variable "bots" {
       EOT
       starting_cash    = 100000
       llm_provider     = "gemini"
-      llm_model        = "gemini-2.5-flash"
+      llm_model        = "gemini-3.8-flash"
       allowed_sessions = ["close"]
     }
     conf_gptoss = {

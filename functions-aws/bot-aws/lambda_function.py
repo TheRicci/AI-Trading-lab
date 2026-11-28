@@ -31,7 +31,7 @@ BOT_NAME = os.environ.get("BOT_NAME", "unnamed-bot")
 BOT_STRATEGY_PROMPT = os.environ.get("BOT_STRATEGY_PROMPT", "You are a trading bot.")
 BOT_STARTING_CASH = float(os.environ.get("BOT_STARTING_CASH", "100000"))
 BOT_LLM_PROVIDER = os.environ.get("BOT_LLM_PROVIDER", "gemini")
-BOT_LLM_MODEL = os.environ.get("BOT_LLM_MODEL", "gemini-2.5-flash")
+BOT_LLM_MODEL = os.environ.get("BOT_LLM_MODEL", "gemini-3.8-flash")
 
 FINNHUB_API_KEY = os.environ.get("FINNHUB_API_KEY")
 GEMINI_API_KEY = os.environ.get("GEMINI_API_KEY")
@@ -285,10 +285,10 @@ def search_tavily(query):
 
 def call_gemini(prompt):
     key = (GEMINI_API_KEY or "").strip().strip('"').strip("'")
-    primary_model = (BOT_LLM_MODEL or "gemini-2.5-flash").strip().strip('"').strip("'")
+    primary_model = (BOT_LLM_MODEL or "gemini-3.8-flash").strip().strip('"').strip("'")
 
     candidate_models = [primary_model]
-    for alt in ["gemini-2.5-flash", "gemini-2.0-flash", "gemini-1.5-flash"]:
+    for alt in ["gemini-3.8-flash", "gemini-2.5-flash", "gemini-2.0-flash"]:
         if alt not in candidate_models:
             candidate_models.append(alt)
 
